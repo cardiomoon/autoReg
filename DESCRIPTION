@@ -1,0 +1,27 @@
+Package: autoReg
+Type: Package
+Title: Automatic Linear and Logistic Regression Analysis
+Version: 0.1.0
+Authors@R: person("Keon-Woong","Moon", email="cardiomoon@gmail.com",
+    role=c("aut", "cre"))
+Description: Make a summary table for decriptive statistics and perform automatic regression analysis.
+License: GPL-3
+LazyData: true
+Encoding: UTF-8
+Imports:
+   moonBook,
+   nortest,
+   magrittr,
+   dplyr,
+   stringr,
+   tidyselect,
+   tidyr,
+   purrr,
+   survival,
+   mice,
+   miceadds,
+   officer,
+   flextable,
+   rrtable,
+   rlang
+RoxygenNote: 7.1.2
