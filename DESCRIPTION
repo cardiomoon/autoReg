@@ -24,4 +24,7 @@ Imports:
    flextable,
    rrtable,
    rlang
+Suggests:
+   finalfit,
+   lme4
 RoxygenNote: 7.1.2

@@ -1,5 +1,6 @@
 #' Make a list of univariable model with multivariable regression model
 #' @param fit An object of class lm or glm
+#' @param data A data.frame or NULL
 #' @importFrom purrr map
 #' @export
 #' @examples
@@ -9,9 +10,19 @@
 #' fit2list(fit)
 #' fit=lm(mpg~wt*hp+am,data=mtcars)
 #' fit2list(fit)
-fit2list=function(fit){
+fit2list=function(fit,data=NULL){
      # method = "likelihood"; vanilla = TRUE; threshold = 0.2; digits = NULL
-     data=fit$model
+
+     if(is.null(data)){
+         if("glm" %in% class(fit)) {
+                 data=fit$data %>% dplyr::select(names(fit$model))
+         } else if("lm" %in% class(fit)){
+             data=fit$model
+         } else if("glmerMod" %in% class(fit)){
+             data=fit@frame
+         }
+
+     }
 
      mode=1
      if("glm" %in% attr(fit,"class")) {
@@ -127,13 +138,28 @@ fit2summary=function(fit,...){
 #' fit=lm(mpg~wt*hp+am,data=mtcars)
 #' fit2stats(fit)
 fit2stats=function(fit,method="likelihood",digits=2){
-     mode=1
+    # method="likelihood";digits=2
+    mode=1
      if("glm" %in% attr(fit,"class")) {
           mode=2
           family = fit$family$family
+     } else if("glmerMod" %in% class(fit)){
+         mode=3
+     } else if("coxph" %in% class(fit)){
+         mode=4
      }
+     mode
      fmt=paste0("%.",digits,"f")
-     if(mode==2){
+     if(mode==4){
+         result=extractHR2(fit)
+         names(result)[2:3]=c("lower","upper")
+         result$id=rownames(result)
+         result$stats=paste0(sprintf(fmt,result$HR)," (",
+                             sprintf(fmt,result$lower),"-",
+                             sprintf(fmt,result$upper),", ",p2character2(result$p),")")
+         df=result
+         df
+     } else if(mode>1){
           result=extractOR2(fit, method = method,digits=digits)
           names(result)[2:3]=c("lower","upper")
           result$id=rownames(result)
@@ -141,6 +167,7 @@ fit2stats=function(fit,method="likelihood",digits=2){
                     sprintf(fmt,result$lower),"-",
                     sprintf(fmt,result$upper),", ",p2character2(result$p),")")
           df=result
+          df
      } else if(mode==1){
           result=base::cbind(summary(fit)$coefficients,confint(fit))
           temp=round(result[,c(1,5,6)],digits)
@@ -158,6 +185,7 @@ fit2stats=function(fit,method="likelihood",digits=2){
 #'@param x a numeric
 #'@param digits interger indicating decimal place
 #'@param add.p logical
+#'@export
 p2character2=function(x,digits=3,add.p=TRUE){
      cut = 1/(10^digits)
      temp = sprintf(paste0("%.", digits, "f"), x)
@@ -197,40 +225,50 @@ p2character2=function(x,digits=3,add.p=TRUE){
 #'@export
 extractOR2=function (x, method = "likelihood", digits = 4)
 {
-    if (method == "likelihood") {
-        suppressMessages(a <- confint(x))
+    if("glmerMod" %in% class(x)) {
+        a <- confint(x)
+        OR=exp(summary(x)$coefficient[,1])
+        result=data.frame(OR=OR,exp(a[-1,]),p=summary(x)$coefficient[,4])
+        names(result)=c("OR","lcl","ucl","p")
+        result
+    } else {
+        if (method == "likelihood") {
+            suppressMessages(a <- confint(x))
+        } else {
+            a <- confint.default(x)
+        }
+
+        if (length(x$coef) == 1) {
+            result = c(exp(coef(x)), exp(a))
+            result = round(result, digits)
+            result = c(result, round(summary(x)$coefficient[, 4],
+                                     4))
+            temp = names(result)[1]
+            res = data.frame(result)
+            result = t(res)
+            result = data.frame(result)
+            rownames(result)[1] = temp
+        }
+        else {
+            result = data.frame(exp(coef(x)), exp(a))
+            result = round(result, digits)
+            result = cbind(result, round(summary(x)$coefficient[,
+                                                                4], 4))
+        }
+        colnames(result) = c("OR", "lcl", "ucl", "p")
     }
-    else {
-        a <- confint.default(x)
-    }
-    if (length(x$coef) == 1) {
-        result = c(exp(coef(x)), exp(a))
-        result = round(result, digits)
-        result = c(result, round(summary(x)$coefficient[, 4],
-                                 4))
-        temp = names(result)[1]
-        res = data.frame(result)
-        result = t(res)
-        result = data.frame(result)
-        rownames(result)[1] = temp
-    }
-    else {
-        result = data.frame(exp(coef(x)), exp(a))
-        result = round(result, digits)
-        result = cbind(result, round(summary(x)$coefficient[,
-                                                            4], 4))
-    }
-    colnames(result) = c("OR", "lcl", "ucl", "p")
     result
 }
 
 #'Perform univariable and multivariable regression and stepwise backward regression automatically
 #'@param fit An object of class lm or glm
+#'@param data A data.frame or NULL
 #'@param threshold numeric
 #'@param uni logical whether or not perform univariate regression
 #'@param multi logical whether or not perform multivariate regression
 #'@param final logical whether or not perform stepwise backward elimination
 #'@param imputed logical whether or not include imputed model
+#'@param saveid logical whether or not save id column
 #'@examples
 #' library(survival)
 #' data(cancer)
@@ -246,14 +284,26 @@ extractOR2=function (x, method = "likelihood", digits = 4)
 #' @importFrom dplyr left_join
 #' @importFrom rlang .data
 #' @export
-autoReg=function(fit,threshold=0.2,uni=TRUE,multi=TRUE,final=FALSE,imputed=FALSE){
+autoReg=function(fit,data=NULL,threshold=0.2,uni=TRUE,multi=TRUE,final=FALSE,imputed=FALSE,saveid=FALSE){
          # fit=lm(mpg~wt*hp+am,data=mtcars)
           #threshold=0.2;uni=TRUE;multi=TRUE;final=TRUE;imputed=TRUE
      xvars = attr(fit$terms, "term.labels")
      yvar = as.character(attr(fit$terms, "variables"))[2]
-     fit$model
 
-     data=fit$model
+     if(is.null(data)){
+         if("glm" %in% class(fit)) {
+             if(uni==TRUE) {
+                 data=fit$data %>% dplyr::select(names(fit$model))
+             }else{
+                 data=fit$model
+             }
+         } else if("lm" %in% class(fit)){
+             data=fit$model
+         } else if("glmerMod" %in% class(fit)){
+             data=fit@frame
+         }
+
+     }
      mode=1
      if("glm" %in% attr(fit,"class")) {
           mode=2
@@ -335,11 +385,10 @@ autoReg=function(fit,threshold=0.2,uni=TRUE,multi=TRUE,final=FALSE,imputed=FALSE
      }
 
      Final=reduce(dflist,left_join)
-     Final$id=NULL
      names(Final)[1]=paste0("Dependent: ",yvar)
      names(Final)[2]=" "
+     if(!saveid) Final$id=NULL
      Final
-     Final %>%  myft()
 }
 
 

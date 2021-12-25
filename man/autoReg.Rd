@@ -6,15 +6,19 @@
 \usage{
 autoReg(
   fit,
+  data = NULL,
   threshold = 0.2,
   uni = TRUE,
   multi = TRUE,
   final = FALSE,
-  imputed = FALSE
+  imputed = FALSE,
+  saveid = FALSE
 )
 }
 \arguments{
 \item{fit}{An object of class lm or glm}
+
+\item{data}{A data.frame or NULL}
 
 \item{threshold}{numeric}
 
@@ -25,6 +29,8 @@ autoReg(
 \item{final}{logical whether or not perform stepwise backward elimination}
 
 \item{imputed}{logical whether or not include imputed model}
+
+\item{saveid}{logical whether or not save id column}
 }
 \description{
 Perform univariable and multivariable regression and stepwise backward regression automatically
