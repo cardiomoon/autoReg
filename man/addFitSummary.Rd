@@ -4,25 +4,26 @@
 \alias{addFitSummary}
 \title{Add model summary to an object of class mySummary}
 \usage{
-addFitSummary(df, fit, statsname = "", saveid = FALSE)
+addFitSummary(df, fit, statsname = "", keepid = FALSE)
 }
 \arguments{
-\item{df}{AN object of class mySummary}
+\item{df}{An object of class mySummary}
 
 \item{fit}{An object of class glm or lm}
 
 \item{statsname}{character Name of statistics}
 
-\item{saveid}{logical whether or not save id}
+\item{keepid}{logical whether or not save id}
 }
 \description{
 Add model summary to an object of class mySummary
 }
 \examples{
-require(lme4)
-data(colon_s,package="finalfit")
-fit=glm(mort_5yr~age.factor+sex.factor+obstruct.factor+perfor.factor,data=colon_s,family="binomial")
-df=autoReg(fit,uni=TRUE,multi=TRUE,threshold=1,saveid=TRUE)
-fit2=lme4::glmer(mort_5yr~age.factor+obstruct.factor+(1|hospital),data=colon_s,family="binomial")
-df \%>\% addFitSummary(fit2,statsname="OR (multilevel)") \%>\% myft()
+require(survival)
+require(magrittr)
+data(cancer,package="survival")
+fit=coxph(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
+df=autoRegCox(fit,data=colon,uni=FALSE,keepid=TRUE)
+final=fit2final(fit)
+df \%>\% addFitSummary(final,statsname="HR (final)",keepid=FALSE) \%>\% myft()
 }

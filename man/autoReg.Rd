@@ -12,7 +12,8 @@ autoReg(
   multi = TRUE,
   final = FALSE,
   imputed = FALSE,
-  saveid = FALSE
+  keepid = FALSE,
+  keepstats = FALSE
 )
 }
 \arguments{
@@ -30,7 +31,9 @@ autoReg(
 
 \item{imputed}{logical whether or not include imputed model}
 
-\item{saveid}{logical whether or not save id column}
+\item{keepid}{logical whether or not keep id column}
+
+\item{keepstats}{logical whether or not keep statistics}
 }
 \description{
 Perform univariable and multivariable regression and stepwise backward regression automatically

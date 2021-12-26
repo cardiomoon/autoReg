@@ -67,6 +67,9 @@ mySummary.formula_sub=function(x,data,keepid=FALSE,...){
       # x=sex+Dx+DM~HBP
       # data=acs
      # #cat("mySummary.formula_sub\n")
+     #x=~hp*wt+am;data=mtcars;keepid=FALSE
+     #x=sumY~Base+Age+Trt;data=breslow.dat
+
      f=x
 
      myt=terms(f,data=data)

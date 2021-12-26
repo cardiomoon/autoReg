@@ -91,7 +91,7 @@ mySummaryCont=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n
      if(is.null(y)){
           temp=descNum(method)
           df=data.frame(name=xname,desc=temp,stats=num2stat(x,digits=digits,method=method))
-          df
+          if(show.n) df$n=sum(!is.na(x))
      } else{
           y= data[[y]]
           if(is.numeric(y) & (length(unique(y))>max.ylev)){
@@ -188,7 +188,10 @@ mySummaryCont=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n
 #' @export
 mySummaryCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE,show.missing=FALSE,show.stats=TRUE,origData=NULL,show.p=FALSE,method=1,catMethod=2,...){
 
-     # data=acs[acs$Dx=="Unstable Angina",];x="Dx";y="sex";max.ylev=5;digits=2;origData=NULL;show.total=FALSE;show.p=TRUE;catMethod=2
+     # data=acs[acs$Dx=="Unstable Angina",];x="Dx";y="sex";
+        # data=iris;x="Species";y="Sepal.Length"
+        # max.ylev=5;digits=2;origData=NULL;show.total=FALSE;show.p=TRUE;catMethod=2
+        # show.n=FALSE;show.missing=FALSE;show.stats=TRUE;origData=NULL;show.p=FALSE;method=1;catMethod=2
      #  origData=acs
      # cat("nrow(data)=",nrow(data),"\n")
      # cat("nrow(origData)=",nrow(origData),"\n")
@@ -208,7 +211,10 @@ mySummaryCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=
           rename(desc=.data$x) ->res
      res$name[1]=xname
      res$id=paste0(xname,res$desc)
-     res
+     if(show.n) {
+             res1=as.data.frame(table(x))
+             res$n=res1$Freq
+     }
      } else{
           yname=y
           y= data[[y]]
@@ -229,6 +235,7 @@ mySummaryCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=
                res=df
                res$id=paste0(xname,res$desc)
                res
+               if(is.factor(x)) x=as.character(x)
                df1<-data.frame(x) %>% count(x) %>%
                  mutate(N=paste0(str_pad(x,max(nchar(x)),"right")," (N=",n,")"))
                df1
@@ -309,6 +316,7 @@ mySummaryCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=
 #' mySummary_sub(acs,"sex","EF")
 #' mySummary_sub(acs,"age","Dx")
 #' mySummary_sub(acs,"sex","Dx")
+#' mySummary_sub(iris,"Species","Sepal.Length")
 #' @export
 mySummary_sub=function(data,x,y=NULL,max.ylev=5,...){
 

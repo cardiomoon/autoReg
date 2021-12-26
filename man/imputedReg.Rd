@@ -22,3 +22,8 @@ imputedReg(fit, data = NULL, m = 20, seed = 1234, digits = 2, ...)
 \description{
 Make a multiple imputed model
 }
+\examples{
+data(cancer,package="survival")
+fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
+imputedReg(fit)
+}

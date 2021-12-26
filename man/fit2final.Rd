@@ -17,5 +17,5 @@ require(survival)
 data(cancer)
 fit=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon)
 final=fit2final(fit)
-fit2summary(fit)
+fit2summary(final)
 }

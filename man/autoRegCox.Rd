@@ -11,7 +11,7 @@ autoRegCox(
   uni = FALSE,
   multi = TRUE,
   final = FALSE,
-  saveid = FALSE
+  keepid = FALSE
 )
 }
 \arguments{
@@ -27,7 +27,7 @@ autoRegCox(
 
 \item{final}{logical whether or not perform stepwise backward elimination}
 
-\item{saveid}{logical whether or not save id column}
+\item{keepid}{logical whether or not save id column}
 }
 \description{
 Perform univariable and multivariable regression and stepwise backward regression automatically

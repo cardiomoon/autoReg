@@ -23,7 +23,9 @@ Imports:
    officer,
    flextable,
    rrtable,
-   rlang
+   rlang,
+   patchwork,
+   ggplot2
 Suggests:
    finalfit,
    lme4

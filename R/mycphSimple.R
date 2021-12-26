@@ -72,9 +72,10 @@ mycphSimple=function (fit, threshold = 0.2,digits=2)
 #' data(cancer)
 #' fit=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon)
 #' final=fit2final(fit)
-#' fit2summary(fit)
+#' fit2summary(final)
 #' @export
 fit2final=function(fit){
+
      temp = as.character(fit$call)
      f = fit$formula
      y = as.character(f)[2]
@@ -92,7 +93,6 @@ fit2final=function(fit){
                     ",data=data1)")
      temp4
      multiple2 = eval(parse(text = temp4))
-     multiple2
      final = step(multiple2, direction = "backward", trace = 0)
      final
 }
@@ -104,7 +104,7 @@ fit2final=function(fit){
 #'@param uni logical whether or not perform univariate regression
 #'@param multi logical whether or not perform multivariate regression
 #'@param final logical whether or not perform stepwise backward elimination
-#'@param saveid logical whether or not save id column
+#'@param keepid logical whether or not save id column
 #'@examples
 #' require(survival)
 #' require(magrittr)
@@ -118,8 +118,8 @@ fit2final=function(fit){
 #' autoRegCox(fit,data=colon_s,uni=TRUE,threshold=1) %>% myft()
 #' autoRegCox(fit,data=colon_s,uni=TRUE,threshold=0.2) %>% myft()
 #'@export
-autoRegCox=function(fit,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,saveid=FALSE){
-        # data=colon_s;threshold=0.2;uni=TRUE;multi=TRUE;final=FALSE;saveid=FALSE
+autoRegCox=function(fit,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,keepid=FALSE){
+        # data=colon_s;threshold=0.2;uni=TRUE;multi=TRUE;final=FALSE;keepid=FALSE
      timevar=attr(fit$y,"dimnames")[[2]][1]
      statusvar=attr(fit$y,"dimnames")[[2]][2]
      xvars = attr(fit$terms, "term.labels")
@@ -161,7 +161,7 @@ autoRegCox=function(fit,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,save
                select(.data$id,.data$stats) %>% rename("HR (final)"=.data$stats)
      }
      result=reduce(mylist,left_join)
-     if(!saveid) result$id=NULL
+     if(!keepid) result$id=NULL
      result
 }
 
@@ -190,25 +190,26 @@ extractHR2=function (x, digits = 4)
 }
 
 #' Add model summary to an object of class mySummary
-#' @param df AN object of class mySummary
+#' @param df An object of class mySummary
 #' @param fit An object of class glm or lm
 #' @param statsname character Name of statistics
-#' @param saveid logical whether or not save id
+#' @param keepid logical whether or not save id
 #' @export
 #' @examples
-#' require(lme4)
-#' data(colon_s,package="finalfit")
-#' fit=glm(mort_5yr~age.factor+sex.factor+obstruct.factor+perfor.factor,data=colon_s,family="binomial")
-#' df=autoReg(fit,uni=TRUE,multi=TRUE,threshold=1,saveid=TRUE)
-#' fit2=lme4::glmer(mort_5yr~age.factor+obstruct.factor+(1|hospital),data=colon_s,family="binomial")
-#' df %>% addFitSummary(fit2,statsname="OR (multilevel)") %>% myft()
-addFitSummary=function(df,fit,statsname="",saveid=FALSE){
+#' require(survival)
+#' require(magrittr)
+#' data(cancer,package="survival")
+#' fit=coxph(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
+#' df=autoRegCox(fit,data=colon,uni=FALSE,keepid=TRUE)
+#' final=fit2final(fit)
+#' df %>% addFitSummary(final,statsname="HR (final)",keepid=FALSE) %>% myft()
+addFitSummary=function(df,fit,statsname="",keepid=FALSE){
      result=fit2summary(fit)
      if(statsname!="") {
           names(result)[names(result)=="stats"]= statsname
      }
      df <-df %>% left_join(result)
-     if(!saveid) df$id=NULL
+     if(!keepid) df$id=NULL
      df
 }
 

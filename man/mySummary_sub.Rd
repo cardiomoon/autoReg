@@ -29,4 +29,5 @@ mySummary_sub(acs,"age","EF")
 mySummary_sub(acs,"sex","EF")
 mySummary_sub(acs,"age","Dx")
 mySummary_sub(acs,"sex","Dx")
+mySummary_sub(iris,"Species","Sepal.Length")
 }

@@ -268,7 +268,8 @@ extractOR2=function (x, method = "likelihood", digits = 4)
 #'@param multi logical whether or not perform multivariate regression
 #'@param final logical whether or not perform stepwise backward elimination
 #'@param imputed logical whether or not include imputed model
-#'@param saveid logical whether or not save id column
+#'@param keepid logical whether or not keep id column
+#'@param keepstats logical whether or not keep statistics
 #'@examples
 #' library(survival)
 #' data(cancer)
@@ -281,12 +282,12 @@ extractOR2=function (x, method = "likelihood", digits = 4)
 #' autoReg(fit,imputed=TRUE)
 #' @importFrom stringr str_detect fixed
 #' @importFrom purrr reduce map_dfr
-#' @importFrom dplyr left_join
+#' @importFrom dplyr left_join bind_rows all_of
 #' @importFrom rlang .data
 #' @export
-autoReg=function(fit,data=NULL,threshold=0.2,uni=TRUE,multi=TRUE,final=FALSE,imputed=FALSE,saveid=FALSE){
-         # fit=lm(mpg~wt*hp+am,data=mtcars)
-          #threshold=0.2;uni=TRUE;multi=TRUE;final=TRUE;imputed=TRUE
+autoReg=function(fit,data=NULL,threshold=0.2,uni=TRUE,multi=TRUE,final=FALSE,imputed=FALSE,keepid=FALSE,keepstats=FALSE){
+          #fit=lm(mpg~wt*hp+I(wt^2)+am,data=mtcars)
+          #data=NULL;threshold=0.2;uni=TRUE;multi=TRUE;final=TRUE;imputed=TRUE;keepid=FALSE;keepstats=TRUE
      xvars = attr(fit$terms, "term.labels")
      yvar = as.character(attr(fit$terms, "variables"))[2]
 
@@ -315,9 +316,9 @@ autoReg=function(fit,data=NULL,threshold=0.2,uni=TRUE,multi=TRUE,final=FALSE,imp
      formula=paste0(yvar,"~.")
      if(any(str_detect(names(data),fixed("I(")))){
          temp=names(data)[str_detect(names(data),fixed("I("))]
-         data<-data %>% select(-temp)
+         data<-data %>% select(-all_of(temp))
      }
-     df=mySummary(x=as.formula(formula),data=data,keepid=TRUE)
+     df=mySummary(x=as.formula(formula),data=data,keepid=TRUE,show.n=keepstats)
      df=as.data.frame(df)
      df
      others=setdiff(xvars,names(data))
@@ -344,10 +345,15 @@ autoReg=function(fit,data=NULL,threshold=0.2,uni=TRUE,multi=TRUE,final=FALSE,imp
      if(uni){
           fit
           fitlist=fit2list(fit)
-          df1=fit2summary(fitlist)
-          df1
-          names(df1)[2]=paste(stat,"(univariable)")
-          df1
+          if(keepstats){
+              df1=map_dfr(fitlist,fit2stats) %>%
+                  filter(.data$id!="(Intercept)")
+              df1$mode="univariate"
+          } else{
+            df1=fit2summary(fitlist)
+            names(df1)[2]=paste(stat,"(univariable)")
+          }
+
           dflist[["uni"]]=df1
      }
      if(multi){
@@ -357,13 +363,28 @@ autoReg=function(fit,data=NULL,threshold=0.2,uni=TRUE,multi=TRUE,final=FALSE,imp
           } else if(mode==2){
                fit2=glm(as.formula(formula2),data=data,family=family)
           }
-          df2=fit2summary(fit2)
-          names(df2)[2]=paste(stat,"(multivariable)")
+          if(keepstats){
+              df2=fit2stats(fit2)
+              df2$mode="multivariate"
+          } else{
+             df2=fit2summary(fit2)
+             names(df2)[2]=paste(stat,"(multivariable)")
+          }
           dflist[["multi"]]=df2
           if(imputed & (!final)){
-             temp=paste0(ifelse(mode==1,"Coefficients ","OR "),"(imputed)")
-             dflist[["imputed"]]= imputedReg(fit2)%>% select(.data$id,.data$stats)
-             names(dflist[["imputed"]])[2]=temp
+             df4=imputedReg(fit2)
+             if(keepstats) {
+                 df4=df4 %>%
+                     select(.data$OR,.data$lower,.data$upper,
+                                    .data$p.value,.data$id,.data$stats) %>%
+                     mutate(mode="imputed") %>%
+                     rename(p=.data$p.value)
+             } else{
+                 df4 = df4 %>% select(.data$id,.data$stats)
+                 temp=paste0(ifelse(mode==1,"Coefficients ","OR "),"(imputed)")
+                 names(df4)[2]=temp
+             }
+             dflist[["imputed"]]=df4
           }
      }
      if(final) {
@@ -373,22 +394,46 @@ autoReg=function(fit,data=NULL,threshold=0.2,uni=TRUE,multi=TRUE,final=FALSE,imp
           } else if(mode==2){
                fit3=glm(as.formula(formula3),data=data,family=family)
           }
-          df3=fit2summary(fit3)
-          names(df3)[2]=paste(stat,"(final)")
+          if(keepstats){
+              df3=fit2stats(fit3)
+              df3$mode="final"
+          } else{
+              df3=fit2summary(fit3)
+              names(df3)[2]=paste(stat,"(final)")
+          }
+
 
           dflist[["final"]]=df3
           if(imputed){
-             temp=paste0(ifelse(mode==1,"Coefficients ","OR "),"(imputed)")
-             dflist[["imputed"]]=imputedReg(fit3) %>% select(.data$id,.data$stats)
-             names(dflist[["imputed"]])[2]=temp
+
+             df4=imputedReg(fit3)
+             if(keepstats) {
+                 df4=df4 %>%
+                     select(.data$OR,.data$lower,.data$upper,
+                            .data$p.value,.data$id,.data$stats) %>%
+                     mutate(mode="imputed") %>%
+                     rename(p=.data$p.value)
+             } else{
+                df4 = df4 %>% select(.data$id,.data$stats)
+                temp=paste0(ifelse(mode==1,"Coefficients ","OR "),"(imputed)")
+                names(df4)[2]=temp
+             }
+             dflist[["imputed"]]=df4
           }
      }
+     if(keepstats){
 
-     Final=reduce(dflist,left_join)
-     names(Final)[1]=paste0("Dependent: ",yvar)
-     names(Final)[2]=" "
-     if(!saveid) Final$id=NULL
-     Final
+         Final=reduce(dflist[-1],bind_rows)
+         Final
+
+     } else{
+        Final=reduce(dflist,left_join)
+        names(Final)[1]=paste0("Dependent: ",yvar)
+        names(Final)[2]=" "
+        if(!keepid) Final$id=NULL
+        Final
+     }
+
 }
 
 
@@ -401,6 +446,11 @@ autoReg=function(fit,data=NULL,threshold=0.2,uni=TRUE,multi=TRUE,final=FALSE,imp
 #' @param ... Further argument to be passed to mice
 #' @importFrom mice mice pool
 #' @importFrom stats as.formula confint glm step
+#' @examples
+#' data(cancer,package="survival")
+#' fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
+#' imputedReg(fit)
+#' @export
 imputedReg=function(fit,data=NULL,m=20,seed=1234,digits=2,...){
 
      #fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
