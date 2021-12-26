@@ -9,7 +9,7 @@ License: GPL-3
 LazyData: true
 Encoding: UTF-8
 Imports:
-   moonBook,
+   moonBook(>= 0.3.0),
    nortest,
    magrittr,
    dplyr,

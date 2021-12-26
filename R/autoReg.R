@@ -129,6 +129,7 @@ fit2summary=function(fit,...){
 #' @param fit An object of class lm or glm
 #' @param method character choices are one of the c("likelihood","wald")
 #' @param digits integer indicating the number of decimal places
+#' @importFrom moonBook extractOR extractHR
 #' @export
 #' @examples
 #' library(survival)
@@ -151,7 +152,7 @@ fit2stats=function(fit,method="likelihood",digits=2){
      mode
      fmt=paste0("%.",digits,"f")
      if(mode==4){
-         result=extractHR2(fit)
+         result=extractHR(fit)
          names(result)[2:3]=c("lower","upper")
          result$id=rownames(result)
          result$stats=paste0(sprintf(fmt,result$HR)," (",
@@ -160,7 +161,7 @@ fit2stats=function(fit,method="likelihood",digits=2){
          df=result
          df
      } else if(mode>1){
-          result=extractOR2(fit, method = method,digits=digits)
+          result=extractOR(fit, method = method,digits=digits)
           names(result)[2:3]=c("lower","upper")
           result$id=rownames(result)
           result$stats=paste0(sprintf(fmt,result$OR)," (",
@@ -213,52 +214,6 @@ p2character2=function(x,digits=3,add.p=TRUE){
      temp
 }
 
-#'Extract Odds Ratio
-#'@param x	An object of class glm
-#'@param method	character choices are one of the c("likelihood","wald")
-#'@param digits	integer indicating the number of decimal places
-#'@importFrom stats coef confint.default
-#'@examples
-#'data(cancer,package="survival")
-#'x=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
-#'extractOR2(x)
-#'@export
-extractOR2=function (x, method = "likelihood", digits = 4)
-{
-    if("glmerMod" %in% class(x)) {
-        a <- confint(x)
-        OR=exp(summary(x)$coefficient[,1])
-        result=data.frame(OR=OR,exp(a[-1,]),p=summary(x)$coefficient[,4])
-        names(result)=c("OR","lcl","ucl","p")
-        result
-    } else {
-        if (method == "likelihood") {
-            suppressMessages(a <- confint(x))
-        } else {
-            a <- confint.default(x)
-        }
-
-        if (length(x$coef) == 1) {
-            result = c(exp(coef(x)), exp(a))
-            result = round(result, digits)
-            result = c(result, round(summary(x)$coefficient[, 4],
-                                     4))
-            temp = names(result)[1]
-            res = data.frame(result)
-            result = t(res)
-            result = data.frame(result)
-            rownames(result)[1] = temp
-        }
-        else {
-            result = data.frame(exp(coef(x)), exp(a))
-            result = round(result, digits)
-            result = cbind(result, round(summary(x)$coefficient[,
-                                                                4], 4))
-        }
-        colnames(result) = c("OR", "lcl", "ucl", "p")
-    }
-    result
-}
 
 #'Perform univariable and multivariable regression and stepwise backward regression automatically
 #'@param fit An object of class lm or glm

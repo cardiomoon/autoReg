@@ -165,29 +165,6 @@ autoRegCox=function(fit,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,keep
      result
 }
 
-#'Extract Harzard Ratio
-#'
-#'Extract Harzard Ratio
-#'@param x An object of class coxph
-#'@param digits integer indicating the number of decimal places
-#'@examples
-#' require(survival)
-#' data(cancer)
-#' fit=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon)
-#' extractHR2(fit)
-#'@export
-extractHR2=function (x, digits = 4)
-{
-     out = summary(x)
-     a = out$conf.int
-     b = out$coef
-     res = data.frame(a[, 1], a[, 3], a[, 4])
-     res = round(res, 2)
-     res = cbind(res, round(b[, 5], max(3, digits)))
-     colnames(res) = c("HR", "lcl", "ucl", "p")
-     rownames(res) = rownames(a)
-     res
-}
 
 #' Add model summary to an object of class mySummary
 #' @param df An object of class mySummary
