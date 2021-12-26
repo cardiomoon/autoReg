@@ -13,7 +13,7 @@
 #'mySummary(acs)
 #'mySummary(~age+sex,data=acs)
 #'mySummary(sex~.,data=acs,digits=1,method=1,show.p=TRUE) %>% myft()
-#'mySummary(sex~.,data=acs)
+#'\donttest{
 #'mySummary(sex~age+Dx,data=acs)
 #'mySummary(EF~.,data=acs) %>% myft()
 #'mySummary(sex+Dx~.,data=acs,show.p=TRUE) %>% myft()
@@ -25,6 +25,7 @@
 #'mySummary(cyl~.,data=mtcars,show.p=TRUE)
 #'mySummary(hp~.,data=mtcars)
 #'mySummary(cyl+am~.,data=mtcars)
+#'}
 #'@export
 mySummary=function(x,...)  UseMethod("mySummary")
 
