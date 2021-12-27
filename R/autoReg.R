@@ -273,7 +273,7 @@ autoReg=function(fit,data=NULL,threshold=0.2,uni=TRUE,multi=TRUE,final=FALSE,imp
          temp=names(data)[str_detect(names(data),fixed("I("))]
          data<-data %>% select(-all_of(temp))
      }
-     df=mySummary(x=as.formula(formula),data=data,keepid=TRUE,show.n=keepstats)
+     df=gaze(x=as.formula(formula),data=data,keepid=TRUE,show.n=keepstats)
      df=as.data.frame(df)
      df
      others=setdiff(xvars,names(data))

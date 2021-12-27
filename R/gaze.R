@@ -4,42 +4,42 @@
 #' Depending on  the nature of these variables, different descriptive statistical
 #' methods were used(t-test, ANOVA,Kruskal-Wallis, chisq, Fisher,...)
 #' @param x An R object, formula or data.frame
-#' @param ... arguments to be passed to mySummary.data.frame or mySummary.formula
+#' @param ... arguments to be passed to gaze.data.frame or gaze.formula
 #' @importFrom magrittr `%>%`
 #' @export
 #' @examples
 #' library(moonBook)
 #' library(magrittr)
-#'mySummary(acs)
-#'mySummary(~age+sex,data=acs)
-#'mySummary(sex~.,data=acs,digits=1,method=1,show.p=TRUE) %>% myft()
+#'gaze(acs)
+#'gaze(~age+sex,data=acs)
+#'gaze(sex~.,data=acs,digits=1,method=1,show.p=TRUE) %>% myft()
 #'\donttest{
-#'mySummary(sex~age+Dx,data=acs)
-#'mySummary(EF~.,data=acs) %>% myft()
-#'mySummary(sex+Dx~.,data=acs,show.p=TRUE) %>% myft()
-#'mySummary(sex+Dx~.,data=acs)
-#'mySummary(Dx+sex~cardiogenicShock,data=acs,show.p=TRUE) %>% myft()
-#'mySummary(Dx+sex+HBP~cardiogenicShock,data=acs,show.p=TRUE)
-#'mySummary(~mpg+cyl,data=mtcars)
-#'mySummary(~.,data=mtcars)
-#'mySummary(cyl~.,data=mtcars,show.p=TRUE)
-#'mySummary(hp~.,data=mtcars)
-#'mySummary(cyl+am~.,data=mtcars)
+#'gaze(sex~age+Dx,data=acs)
+#'gaze(EF~.,data=acs) %>% myft()
+#'gaze(sex+Dx~.,data=acs,show.p=TRUE) %>% myft()
+#'gaze(sex+Dx~.,data=acs)
+#'gaze(Dx+sex~cardiogenicShock,data=acs,show.p=TRUE) %>% myft()
+#'gaze(Dx+sex+HBP~cardiogenicShock,data=acs,show.p=TRUE)
+#'gaze(~mpg+cyl,data=mtcars)
+#'gaze(~.,data=mtcars)
+#'gaze(cyl~.,data=mtcars,show.p=TRUE)
+#'gaze(hp~.,data=mtcars)
+#'gaze(cyl+am~.,data=mtcars)
 #'}
 #'@export
-mySummary=function(x,...)  UseMethod("mySummary")
+gaze=function(x,...)  UseMethod("gaze")
 
 
-#'@describeIn mySummary S3 method for formula
+#'@describeIn gaze S3 method for formula
 #'@export
-mySummary.formula=function(x,...) {
-     mySummary.formula_sub(x,...)
+gaze.formula=function(x,...) {
+     gaze.formula_sub(x,...)
 }
 
-#'@describeIn mySummary default S3 method
+#'@describeIn gaze default S3 method
 #'@export
-mySummary.data.frame=function(x,...){
-  mySummary(~.,x,...)
+gaze.data.frame=function(x,...){
+  gaze(~.,x,...)
 }
 
 
@@ -56,18 +56,18 @@ mySummary.data.frame=function(x,...){
 #'                variables in an additive way.
 #'@param data A data.frame
 #'@param keepid logical Whether or not keep id column
-#'@param ... Further arguments to be passed to mySummary()
+#'@param ... Further arguments to be passed to gaze()
 #'@importFrom dplyr group_split
-#'@importFrom purrr map_dfc map_dfr map2_dfc
+#'@importFrom purrr map_dfc map_dfr map2_dfc walk
 #'@importFrom stats terms
 #'@export
-mySummary.formula_sub=function(x,data,keepid=FALSE,...){
+gaze.formula_sub=function(x,data,keepid=FALSE,...){
 
       #x=sex+Dx~.;data=acs;keepid=FALSE
 
       # x=sex+Dx+DM~HBP
       # data=acs
-     # #cat("mySummary.formula_sub\n")
+     # #cat("gaze.formula_sub\n")
      #x=~hp*wt+am;data=mtcars;keepid=FALSE
      #x=sumY~Base+Age+Trt;data=breslow.dat
 
@@ -84,10 +84,10 @@ mySummary.formula_sub=function(x,data,keepid=FALSE,...){
      # cat("yvars=",yvars,"\n")
      # cat("xvars=",xvars,"\n")
      if(length(yvars)==0){
-         df=map_dfr(xvars, function(x){mySummary_sub(data,x,origData=data,...)})%>%select(-.data$type)
+         df=map_dfr(xvars, function(x){gaze_sub(data,x,origData=data,...)})%>%select(-.data$type)
          if(!keepid) df = select(df,-.data$id)
      } else if(length(yvars)==1){
-         df=map_dfr(xvars, function(x){mySummary_sub(data,x,yvars,origData=data,...)}) %>%select(-.data$type)
+         df=map_dfr(xvars, function(x){gaze_sub(data,x,yvars,origData=data,...)}) %>%select(-.data$type)
          if(!keepid) df = select(df,-.data$id)
          attr(df,"groups")=getGroupNames(data,yvars[1])
 
@@ -97,14 +97,19 @@ mySummary.formula_sub=function(x,data,keepid=FALSE,...){
          dflist <- data %>% group_by_at(yvars[-length(yvars)]) %>% group_split()
 
          df=map2_dfc(dflist,1:length(dflist),function(df,i){
-              result=map_dfr(xvars,function(x){mySummary_sub(df,x,yvars[length(yvars)],origData=data,...)}) %>% select(-.data$type)
+              result=map_dfr(xvars,function(x){gaze_sub(df,x,yvars[length(yvars)],origData=data,...)}) %>% select(-.data$type)
               if(!keepid) result = select(result,-.data$id)
               if(i>1) {
                    result=result %>% select(-.data$name,-.data$desc)
-                   #if(!keepid) result = select(result,-.data$id)
-                   if("p" %in% names(result)) {
-                        names(result)[names(result)=="p"]=str_pad("p",width=i+1,"right")
+
+                   what=c("p","N","Missing")
+                   for(j in seq_along(what)){
+                        x=what[j]
+                        if(x %in% names(result)) {
+                             names(result)[names(result)==x]=str_pad(x,width=nchar(x)+i,"right")
+                        }
                    }
+
               }
               result
          })
@@ -112,7 +117,7 @@ mySummary.formula_sub=function(x,data,keepid=FALSE,...){
 
      }
      attr(df,"yvars")=yvars
-     class(df)=c("mySummary","data.frame","tibble")
+     class(df)=c("gaze","data.frame","tibble")
      df
 }
 
@@ -145,18 +150,19 @@ getGroupNames=function(data,yvars){
 #' @examples
 #' data(acs,package="moonBook")
 #' library(magrittr)
-#' mySummary(acs) %>% myft()
-#' mySummary(sex~.,acs) %>% myft()
-#' mySummary(sex+Dx~.,data=acs,show.p=TRUE) %>% myft()
-#' mySummary(Dx+sex~cardiogenicShock,data=acs,show.p=TRUE) %>% myft()
-#' mySummary(Dx+sex+HBP~cardiogenicShock,data=acs,show.p=TRUE) %>% myft()
+#' gaze(acs) %>% myft()
+#' gaze(sex~.,acs) %>% myft()
+#' gaze(sex+Dx~.,data=acs,show.p=TRUE,show.total=TRUE,show.n=TRUE,shiw.missing=TRUE) %>% myft()
+#' gaze(Dx+sex~cardiogenicShock,data=acs,show.p=TRUE) %>% myft()
+#' gaze(Dx+sex+HBP~cardiogenicShock,data=acs,show.p=TRUE) %>% myft()
 #' @export
 myft=function(x,vanilla=TRUE){
 
      names(x)[2]="levels"
      yvars=attr(x,"yvars")
+     yvars
      if(length(yvars)>0){
-          names(x)[1]=paste0("Dependent:",yvars[length(yvars)])
+          names(x)[1]=paste0("Dependent:",yvars[length(yvars)]," (N)")
      }
      vanilla=TRUE
      ft<-x %>% rrtable::df2flextable(vanilla=vanilla,fontsize=10)
@@ -165,8 +171,13 @@ myft=function(x,vanilla=TRUE){
      if(length(yvars)>1){
           small_border = fp_border(color="gray", width = 1)
           df=attr(x,"groups")
-          groupvar=paste0(yvars[-length(yvars)],collapse="\n")
-          header=c(groupvar,map_chr(1:nrow(df),function(i){paste0(df[i,],collapse="\n")}))
+          if(length(yvars)==2) {
+               collapse=" "
+          } else {
+               collapse="\n"
+          }
+          groupvar=paste0(c(yvars[-length(yvars)],"(N)"),collapse=collapse)
+          header=c(groupvar,map_chr(1:nrow(df),function(i){paste0(df[i,],collapse=collapse)}))
           length=nrow(df)
           no=(ncol(x)-2)%/%length
           widths=c(2,rep(no,length))

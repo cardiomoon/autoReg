@@ -73,15 +73,15 @@ descNum=function(method=1,p=NULL){
 #' @param ... Further arguments
 #' @importFrom stats addmargins fivenum sd
 #' @examples
-#' mySummaryCont(mtcars,"hp")
-#' mySummaryCont(mtcars,"hp","mpg")
+#' gazeCont(mtcars,"hp")
+#' gazeCont(mtcars,"hp","mpg")
 #' require(moonBook)
-#' mySummaryCont(acs,"age",method=2)
-#' mySummaryCont(acs,"age","EF",method=2)
-#' mySummaryCont(acs,"age","Dx",method=1)
-#' mySummaryCont(acs,"age","Dx",show.p=TRUE,method=3)
+#' gazeCont(acs,"age",method=2)
+#' gazeCont(acs,"age","EF",method=2)
+#' gazeCont(acs,"age","Dx",method=1)
+#' gazeCont(acs,"age","Dx",show.p=TRUE,method=3)
 #' @export
-mySummaryCont=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE,show.missing=FALSE,show.stats=TRUE,show.p=FALSE,method=1,origData,...){
+gazeCont=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE,show.missing=FALSE,show.stats=TRUE,show.p=FALSE,method=1,origData,...){
 
      #data=acs;x="age";y="Dx";max.ylev=5;digits=2;show.total=FALSE;show.p=TRUE;method=3;show.n=TRUE;show.missing=TRUE
      plusminus="\u00b1"
@@ -136,9 +136,9 @@ mySummaryCont=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n
      df$type="continuous"
      df$id=df$name
      df<- df %>% select(.data$name,.data$desc,.data$N,.data$Missing,everything())
-     if(show.n==FALSE) df<-df %>%select(-.data$N)
-     if(show.missing==FALSE) df<-df %>%select(-.data$Missing)
-     if(show.stats==FALSE) df<-df %>%select(-.data$stats)
+     if(show.n==FALSE) df$N=NULL
+     if(show.missing==FALSE) df$Missing=NULL
+     if(show.stats==FALSE) df$stats=NULL
      df
 }
 
@@ -173,20 +173,20 @@ mySummaryCont=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n
 #' @param ... Further arguments
 #' @examples
 #' require(moonBook)
-#' mySummaryCat(acs,"Dx")
-#' mySummaryCat(acs,"Dx","smoking")
-#' mySummaryCat(acs,"sex","Dx",show.p=TRUE)
-#' mySummaryCat(acs,"Dx","sex",show.p=TRUE)
-#' mySummaryCat(acs,"Dx","EF")
-#' mySummaryCat(acs,"sex","EF",method=2)
-#' mySummaryCat(mtcars,"cyl","hp")
+#' gazeCat(acs,"Dx")
+#' gazeCat(acs,"Dx","smoking")
+#' gazeCat(acs,"sex","Dx",show.p=TRUE)
+#' gazeCat(acs,"Dx","sex",show.p=TRUE)
+#' gazeCat(acs,"Dx","EF")
+#' gazeCat(acs,"sex","EF",method=2)
+#' gazeCat(mtcars,"cyl","hp")
 #' @importFrom dplyr select group_by rename summarise mutate bind_cols count
 #' @importFrom magrittr `%>%`
 #' @importFrom stringr str_pad
 #' @importFrom tidyr pivot_wider
 #' @importFrom tidyselect everything
 #' @export
-mySummaryCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE,show.missing=FALSE,show.stats=TRUE,origData=NULL,show.p=FALSE,method=1,catMethod=2,...){
+gazeCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE,show.missing=FALSE,show.stats=TRUE,origData=NULL,show.p=FALSE,method=1,catMethod=2,...){
 
      # data=acs[acs$Dx=="Unstable Angina",];x="Dx";y="sex";
         # data=iris;x="Species";y="Sepal.Length"
@@ -294,9 +294,9 @@ mySummaryCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=
      df$Missing=""
      df$Missing[1]=paste0(sum(is.na(x)),"(",sprintf(fmt,sum(is.na(x))*100/length(x)),"%)")
      df<- df %>% select(.data$name,.data$desc,.data$N,.data$Missing,everything())
-     if(show.n==FALSE) df<-df %>%select(-.data$N)
-     if(show.missing==FALSE) df<-df %>%select(-.data$Missing)
-     if(show.stats==FALSE) df<-df %>%select(-.data$stats)
+     if(show.n==FALSE) df$N=NULL
+     if(show.missing==FALSE) df$Missing=NULL
+     if(show.stats==FALSE) df$stats=NULL
      df
 }
 
@@ -307,27 +307,27 @@ mySummaryCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=
 #' @param y A name of vector, either continuous or categorical
 #' @param max.ylev max.ylev An integer indicating the maximum number of levels of grouping variable ('y').
 #'  If a column have unique values less than max.ylev it is treated as a categorical variable. Default value is 5.
-#' @param ... Further arguments to be passed to mySummaryCont() or mySummaryCat()
+#' @param ... Further arguments to be passed to gazeCont() or gazeCat()
 #' @examples
 #' require(moonBook)
-#' mySummary_sub(acs,"age")
-#' mySummary_sub(acs,"sex")
-#' mySummary_sub(acs,"age","EF")
-#' mySummary_sub(acs,"sex","EF")
-#' mySummary_sub(acs,"age","Dx")
-#' mySummary_sub(acs,"sex","Dx")
-#' mySummary_sub(iris,"Species","Sepal.Length")
+#' gaze_sub(acs,"age")
+#' gaze_sub(acs,"sex")
+#' gaze_sub(acs,"age","EF")
+#' gaze_sub(acs,"sex","EF")
+#' gaze_sub(acs,"age","Dx")
+#' gaze_sub(acs,"sex","Dx")
+#' gaze_sub(iris,"Species","Sepal.Length")
 #' @export
-mySummary_sub=function(data,x,y=NULL,max.ylev=5,...){
+gaze_sub=function(data,x,y=NULL,max.ylev=5,...){
 
      if(!is.null(y)) {
           if(identical(x,y)) return(NULL)
      }
      myx=data[[x]]
      if(is.numeric(myx)) {
-          mySummaryCont(data,x,y,max.ylev,...)
+          gazeCont(data,x,y,max.ylev,...)
      } else{
-          mySummaryCat(data,x,y,max.ylev,...)
+          gazeCat(data,x,y,max.ylev,...)
      }
 
 }

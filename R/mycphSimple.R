@@ -125,7 +125,7 @@ autoRegCox=function(fit,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,keep
      xvars = attr(fit$terms, "term.labels")
      myformula=paste0("~",paste0(xvars,collapse="+"))
      mylist=list()
-     mylist[[1]]=mySummary(as.formula(myformula),data=data,keepid=TRUE)
+     mylist[[1]]=gaze(as.formula(myformula),data=data,keepid=TRUE)
      names(mylist[[1]])[1:3]=c(paste0("Dependent: Surv(",timevar,",",statusvar,")")," ","all")
      names(mylist[[1]])[1:3]
      no=2
@@ -166,8 +166,8 @@ autoRegCox=function(fit,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,keep
 }
 
 
-#' Add model summary to an object of class mySummary
-#' @param df An object of class mySummary
+#' Add model summary to an object of class gaze
+#' @param df An object of class gaze
 #' @param fit An object of class glm or lm
 #' @param statsname character Name of statistics
 #' @param keepid logical whether or not save id

@@ -47,12 +47,12 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE){
          dataname = as.character(fit$call)[3]
          data=eval(parse(text=dataname))
          myformula=paste0("~",paste0(xvars,collapse="+"))
-         df1=mySummary(as.formula(myformula),data=data,show.n=TRUE,keepid=TRUE)
+         df1=gaze(as.formula(myformula),data=data,show.n=TRUE,keepid=TRUE)
      } else{
           data=fit$model[-1]
           data
 
-          df1=mySummary(~.,data=data,show.n=TRUE,keepid=TRUE)
+          df1=gaze(~.,data=data,show.n=TRUE,keepid=TRUE)
      }
      df1
      plusminus="\u00b1"

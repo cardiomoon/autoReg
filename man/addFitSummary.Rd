@@ -2,12 +2,12 @@
 % Please edit documentation in R/mycphSimple.R
 \name{addFitSummary}
 \alias{addFitSummary}
-\title{Add model summary to an object of class mySummary}
+\title{Add model summary to an object of class gaze}
 \usage{
 addFitSummary(df, fit, statsname = "", keepid = FALSE)
 }
 \arguments{
-\item{df}{An object of class mySummary}
+\item{df}{An object of class gaze}
 
 \item{fit}{An object of class glm or lm}
 
@@ -16,7 +16,7 @@ addFitSummary(df, fit, statsname = "", keepid = FALSE)
 \item{keepid}{logical whether or not save id}
 }
 \description{
-Add model summary to an object of class mySummary
+Add model summary to an object of class gaze
 }
 \examples{
 require(survival)
