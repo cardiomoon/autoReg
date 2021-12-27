@@ -3,6 +3,7 @@
 S3method(gaze,data.frame)
 S3method(gaze,formula)
 S3method(gaze,formula_sub)
+S3method(print,autoReg)
 S3method(print,gaze)
 export(addFitSummary)
 export(autoReg)

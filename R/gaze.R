@@ -143,6 +143,9 @@ getGroupNames=function(data,yvars){
 #' Convert data.frame into flextable
 #' @param x A data.frame
 #' @param vanilla logical
+#' @param  fontsize Numeric
+#' @param digits integer indicating the position of decimal place
+#' @param ... Further arguments to be passed to df2flextable()
 #' @importFrom rrtable df2flextable
 #' @importFrom flextable align autofit hline hline_top
 #' @importFrom officer fp_border
@@ -156,16 +159,21 @@ getGroupNames=function(data,yvars){
 #' gaze(Dx+sex~cardiogenicShock,data=acs,show.p=TRUE) %>% myft()
 #' gaze(Dx+sex+HBP~cardiogenicShock,data=acs,show.p=TRUE) %>% myft()
 #' @export
-myft=function(x,vanilla=TRUE){
+myft=function(x,vanilla=TRUE,fontsize=10,digits,...){
 
-     names(x)[2]="levels"
+     if("imputedReg" %in% class(x)){
+        if(missing(digits)) digits=c(1,4,4,4,2,4,4,4,4,4,4,1)
+     } else{
+       names(x)[2]="levels"
+       if(missing(digits)) digits=2
+     }
      yvars=attr(x,"yvars")
      yvars
      if(length(yvars)>0){
           names(x)[1]=paste0("Dependent:",yvars[length(yvars)]," (N)")
      }
      vanilla=TRUE
-     ft<-x %>% rrtable::df2flextable(vanilla=vanilla,fontsize=10)
+     ft<-x %>% rrtable::df2flextable(vanilla=vanilla,fontsize=fontsize,digits=digits,...)
 
 
      if(length(yvars)>1){

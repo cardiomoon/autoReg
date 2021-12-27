@@ -4,12 +4,18 @@
 \alias{myft}
 \title{Convert data.frame into flextable}
 \usage{
-myft(x, vanilla = TRUE)
+myft(x, vanilla = TRUE, fontsize = 10, digits, ...)
 }
 \arguments{
 \item{x}{A data.frame}
 
 \item{vanilla}{logical}
+
+\item{fontsize}{Numeric}
+
+\item{digits}{integer indicating the position of decimal place}
+
+\item{...}{Further arguments to be passed to df2flextable()}
 }
 \description{
 Convert data.frame into flextable

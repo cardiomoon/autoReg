@@ -226,8 +226,7 @@ p2character2=function(x,digits=3,add.p=TRUE){
 #'@param keepid logical whether or not keep id column
 #'@param keepstats logical whether or not keep statistics
 #'@examples
-#' library(survival)
-#' data(cancer)
+#' data(cancer,package="survival")
 #' fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
 #' autoReg(fit)
 #' autoReg(fit,uni=FALSE,final=TRUE)
@@ -382,13 +381,54 @@ autoReg=function(fit,data=NULL,threshold=0.2,uni=TRUE,multi=TRUE,final=FALSE,imp
          Final
 
      } else{
-        Final=reduce(dflist,left_join)
+        Final=reduce(dflist,left_join,by="id")
         names(Final)[1]=paste0("Dependent: ",yvar)
         names(Final)[2]=" "
         if(!keepid) Final$id=NULL
         Final
      }
+     class(Final)=c("autoReg","data.frame")
+     Final[is.na(Final)]=""
+     Final
 
+}
+
+#' S3 method print for an object of class autoReg
+#' @param x An object of class autoReg
+#' @param ... Further arguments
+#' @examples
+#' data(cancer,package="survival")
+#' fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
+#' autoReg(fit)
+#' @export
+print.autoReg=function(x,...){
+    printdf(x)
+}
+
+
+#'Print function for data.frame
+#'@param x A data.frame
+printdf=function(x){
+    lengths1=map_int(x,~(max(nchar(.,allowNA=TRUE))))
+    lengths2=map_int(names(x),~(max(nchar(.,allowNA=TRUE))))
+    lengths=pmax(lengths1,lengths2)+2
+    lineno=sum(lengths)
+    no=ncol(x)
+    side=rep("both",no)
+    list(names(x),lengths,side) %>% pmap_chr(str_pad) -> header
+    drawline(lineno);cat("\n")
+    cat(paste0(header,collapse=""),"\n")
+    drawline(lineno);cat("\n")
+    if("imputedReg" %in% class(x)) {
+        side=c(rep("right",1),rep("left",no-1))
+    } else {
+        side=c(rep("right",2),rep("left",no-2))
+    }
+    list(x,lengths,side) %>% pmap_dfc(str_pad) ->x1
+    for(i in 1:nrow(x)){
+        cat(paste0(x1[i,],collapse=""),"\n")
+    }
+    drawline(lineno);cat("\n")
 }
 
 
@@ -409,7 +449,7 @@ autoReg=function(fit,data=NULL,threshold=0.2,uni=TRUE,multi=TRUE,final=FALSE,imp
 imputedReg=function(fit,data=NULL,m=20,seed=1234,digits=2,...){
 
      #fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
-     #m=20; seed=1234; digits=2
+      # data=NULL;m=20; seed=1234; digits=2
      #xvars = attr(fit$terms, "term.labels")
      xvars=names(fit$model)[-1]
      yvar = as.character(attr(fit$terms, "variables"))[2]
@@ -454,8 +494,11 @@ imputedReg=function(fit,data=NULL,m=20,seed=1234,digits=2,...){
                                  p2character2(.data$p.value),")")
                ) -> df
      }
-     df %>%rename(id=.data$term)
+     df<-df %>%rename(id=.data$term)
+     class(df)=c("imputedReg","data.frame")
+     df
 }
+
 
 
 #

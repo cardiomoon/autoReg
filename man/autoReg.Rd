@@ -39,8 +39,7 @@ autoReg(
 Perform univariable and multivariable regression and stepwise backward regression automatically
 }
 \examples{
-library(survival)
-data(cancer)
+data(cancer,package="survival")
 fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
 autoReg(fit)
 autoReg(fit,uni=FALSE,final=TRUE)
