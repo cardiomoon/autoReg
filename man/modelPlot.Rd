@@ -32,6 +32,7 @@ fit=glm(status~rx+age+sex+nodes+obstruct+perfor,data=colon,family="binomial")
 modelPlot(fit)
 modelPlot(fit,uni=TRUE,multi=TRUE,threshold=1)
 modelPlot(fit,multi=TRUE,imputed=TRUE,change.pointsize=FALSE)
+\donttest{
 data(colon_s,package="finalfit")
 fit=glm(mort_5yr~age.factor+sex.factor+obstruct.factor+perfor.factor,data=colon_s,family="binomial")
 modelPlot(fit)
@@ -45,4 +46,5 @@ fit=coxph(Surv(time,status)~age.factor+sex.factor+obstruct.factor+perfor.factor,
 modelPlot(fit)
 modelPlot(fit,uni=TRUE,threshold=1)
 modelPlot(fit,imputed=TRUE)
+}
 }

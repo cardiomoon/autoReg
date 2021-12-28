@@ -53,15 +53,15 @@ removeDup=function(x,replacement=""){
      x
 }
 
-#'Fill vector with lead value
+#'filldown vector with lead value
 #'@param x a vector
 #'@param what Values to be filled
 #'@examples
 #'x=rep(1:5,each=3)
 #'x=removeDup(x,NA)
-#'fill(x)
+#'filldown(x)
 #'@export
-fill=function(x,what=c("",NA)){
+filldown=function(x,what=c("",NA)){
      temp=x[1]
      for(i in 2:length(x)){
           if(x[i] %in% what){
@@ -83,7 +83,7 @@ fill=function(x,what=c("",NA)){
 #'compress(x)
 #'@export
 compress=function(x,xname="name",ref=1){
-     x[[xname]]=fill(x[[xname]])
+     x[[xname]]=filldown(x[[xname]])
      pos=which(find1stDup(x[[xname]]))
      if(ref==2) pos=pos+1
      x=x[-pos,]

@@ -425,6 +425,7 @@ my.t.test2=function(y,x,method=1,all=FALSE){
 #'               Default value is 2.
 #' @param all A logical
 #' @importFrom stats chisq.test fisher.test xtabs prop.trend.test
+#' @importFrom moonBook cat.test
 #' @examples
 #' library(moonBook)
 #' x=acs$sex
@@ -484,21 +485,4 @@ my.chisq.test2=function(x,y,catMethod=2,all=FALSE)
      if(is.nan(p[1])) p[1]=1
 
      ifelse(all,p,p[1])
-}
-
-#' Perform chisq.test or fisher test
-#' @param x a numeric vector or matrix. x and y can also both be factors.
-#' @param mode An integer. If 1(default), perform chisq.test first, If 2, perform fisher.test first
-#' @param ... Further arguments to be passed to chisq.test or fisher.test
-#' @export
-cat.test=function(x,mode=1,...){
-
-     result=tryCatch(chisq.test(x,...),warning=function(w) return("warning present"))
-     if((mode==1) & ("htest" %in% class(result))) return(result)
-
-     result2=tryCatch(fisher.test(x,...),
-                      warning=function(w) return("warning present"),
-                      error=function(e) return("error present"))
-     if("htest" %in% class(result2)) result=result2
-     result
 }
