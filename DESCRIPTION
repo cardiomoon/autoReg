@@ -25,8 +25,11 @@ Imports:
    rrtable,
    rlang,
    patchwork,
-   ggplot2
+   ggplot2,
+   boot,
+   broom
 Suggests:
    finalfit,
-   lme4
+   lme4,
+   TH.data
 RoxygenNote: 7.1.2

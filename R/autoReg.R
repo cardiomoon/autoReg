@@ -261,7 +261,8 @@ autoReg.glm=function(x,...){
 autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepid=FALSE,keepstats=FALSE){
           #fit=lm(mpg~wt*hp+I(wt^2)+am,data=mtcars)
          # fit=lm(Sepal.Width~Species*Sepal.Length,data=iris)
-         #  data=NULL;threshold=0.2;uni=TRUE;multi=TRUE;final=TRUE;imputed=TRUE;keepid=TRUE;keepstats=TRUE
+      # fit=glm(cens~horTh*progrec+pnodes,data=GBSG2,family="binomial")
+            # data=NULL;threshold=0.2;uni=FALSE;multi=TRUE;final=FALSE;imputed=FALSE;keepid=FALSE;keepstats=FALSE
      xvars = attr(fit$terms, "term.labels")
      yvar = as.character(attr(fit$terms, "variables"))[2]
 
@@ -298,6 +299,7 @@ autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALS
      others=setdiff(xvars,names(data))
      others
      if(length(others)>0){
+
           for(i in 1:length(others)){
 
                name=others[i]
@@ -307,16 +309,9 @@ autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALS
                } else if(str_detect(name,fixed("I("))){
                     desc="interpretation"
                }
-               if(keepstats){
-                    temp=data.frame(name=name,desc=desc,N="",unit="",value="",id=name)
-               } else{
-
-                 temp=data.frame(name=name,desc=desc,unit="",value="",id=name)
-               }
-               df
-               temp
-               df=rbind(df,temp)
-
+               temp=data.frame(name=name,desc=desc,id=name)
+               class(df)="data.frame"
+               df=bind_rows(df,temp)
           }
      }
 
@@ -353,6 +348,7 @@ autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALS
              names(df2)[2]=paste(stat,"(multivariable)")
           }
           dflist[["multi"]]=df2
+          df2
           if(imputed & (!final)){
              df4=imputedReg(fit2)
              if(keepstats) {
