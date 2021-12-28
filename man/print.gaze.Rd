@@ -16,7 +16,7 @@ S3 method print for an object of class gaze
 }
 \examples{
 data(acs,package="moonBook")
-gaze(acs,show.n=TRUE,show.missing=TRUE)
+x=gaze(acs,show.n=TRUE,show.missing=TRUE)
 gaze(sex~.,acs,show.p=TRUE,show.n=TRUE,show.missing=TRUE,show.total=TRUE)
 gaze(Dx+sex~.,acs,show.p=TRUE)
 gaze(sex+Dx+HBP~.,acs,show.p=TRUE)

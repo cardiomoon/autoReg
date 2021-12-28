@@ -63,8 +63,39 @@ mycphSimple=function (fit, threshold = 0.2,digits=2)
 }
 
 
-#' Make final model using stepwise backward elimination
+#' Make multivariate regression model by selecting univariate models with p.value below threshold
 #' @param fit An abject of class coxph
+#' @param threshold Numeric
+#' @examples
+#' require(survival)
+#' data(cancer)
+#' fit=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon)
+#' fit2multi(fit)
+#' @export
+fit2multi=function(fit,threshold=0.2){
+     if(threshold>=1){
+          fit
+     } else{
+          uni=mycphSimple(fit,threshold=threshold)
+          xvars=attr(uni,"sigVars")
+          if(length(xvars>0)){
+               temp = as.character(fit$call)
+               dataname = as.character(fit$call)[3]
+               f = fit$formula
+               y = as.character(f)[2]
+               temp4 = paste0(temp[1], "(", y, "~", paste0(xvars, collapse = "+"),
+                              ",data=",dataname,")")
+               multiModel=eval(parse(text=temp4))
+          }
+          fit=multiModel
+     }
+     fit
+}
+
+
+#' Make final model using stepwise backward elimination
+#' @param fit An object of class coxph
+#' @param threshold Numeric
 #' @importFrom survival coxph Surv
 #' @importFrom stats na.omit
 #' @examples
@@ -74,8 +105,9 @@ mycphSimple=function (fit, threshold = 0.2,digits=2)
 #' final=fit2final(fit)
 #' fit2summary(final)
 #' @export
-fit2final=function(fit){
+fit2final=function(fit,threshold=0.2){
 
+     fit=fit2multi(fit,threshold=threshold)
      temp = as.character(fit$call)
      f = fit$formula
      y = as.character(f)[2]
@@ -97,29 +129,45 @@ fit2final=function(fit){
      final
 }
 
-#'Perform univariable and multivariable regression and stepwise backward regression automatically
-#'@param fit An object of class coxph
+
+#'@describeIn autoReg S3 method for a class coxph
+#'@export
+autoReg.coxph=function(x,...){
+     autoRegCox(x,...)
+}
+
+#' perform automatc regression for a class of coxph
+#'@param x An object of class coxph
 #'@param data A data.frame
 #'@param threshold numeric
 #'@param uni logical whether or not perform univariate regression
 #'@param multi logical whether or not perform multivariate regression
 #'@param final logical whether or not perform stepwise backward elimination
+#'@param imputed logical whether or not perform multiple imputation
 #'@param keepid logical whether or not save id column
+#'@param keepstats logical whether or not keep statistic
 #'@examples
 #' require(survival)
 #' require(magrittr)
 #' data(cancer)
 #' fit=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon)
-#' autoRegCox(fit,data=colon) %>% myft()
-#' autoRegCox(fit,data=colon,uni=TRUE,threshold=1) %>% myft()
-#' autoRegCox(fit,data=colon,uni=TRUE,final=TRUE) %>% myft()
+#' autoReg(fit,data=colon)
+#' autoReg(fit,data=colon,uni=TRUE,threshold=1)
+#' autoReg(fit,data=colon,uni=TRUE,final=TRUE) %>% myft()
 #' data(colon_s,package="finalfit")
 #' fit=coxph(Surv(time,status)~age.factor+sex.factor+obstruct.factor+perfor.factor,data=colon_s)
-#' autoRegCox(fit,data=colon_s,uni=TRUE,threshold=1) %>% myft()
-#' autoRegCox(fit,data=colon_s,uni=TRUE,threshold=0.2) %>% myft()
+#' autoReg(fit,data=colon_s,uni=TRUE,threshold=1)
+#' autoReg(fit,data=colon_s,uni=TRUE,imputed=TRUE)
 #'@export
-autoRegCox=function(fit,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,keepid=FALSE){
-        # data=colon_s;threshold=0.2;uni=TRUE;multi=TRUE;final=FALSE;keepid=FALSE
+autoRegCox=function(x,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepid=FALSE,keepstats=FALSE){
+         # x=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon)
+         # data=colon_s;threshold=0.2;uni=FALSE;multi=TRUE;final=FALSE;imputed=TRUE;keepid=TRUE;keepstats=TRUE
+     if(uni==FALSE) threshold=1
+     fit=x
+     dataname = as.character(fit$call)[3]
+     if(missing(data)) {
+          data=eval(parse(text=dataname))
+     }
      timevar=attr(fit$y,"dimnames")[[2]][1]
      statusvar=attr(fit$y,"dimnames")[[2]][2]
      xvars = attr(fit$terms, "term.labels")
@@ -130,39 +178,71 @@ autoRegCox=function(fit,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,keep
      names(mylist[[1]])[1:3]
      no=2
      if(uni){
-          mylist[[no]]=mycphSimple(fit,threshold=threshold) %>%
-               select(.data$id,.data$stats) %>%
-               rename("HR (univariate)"=.data$stats)
-          no=no+1
-          if(threshold<1){
-               xvars=attr(mylist[[2]],"sigVars")
-               if(length(xvars>0)){
-               temp = as.character(fit$call)
-               dataname = as.character(fit$call)[3]
-               f = fit$formula
-               y = as.character(f)[2]
-               temp4 = paste0(temp[1], "(", y, "~", paste0(xvars, collapse = "+"),
-                              ",data=",dataname,")")
-               multiModel=eval(parse(text=temp4))
-               fit=multiModel
-               }
+          df=mycphSimple(fit,threshold=threshold)
+          if(keepstats){
+               df=df[c(2:4,7:9)]
+               df$mode="univariate"
+          } else{
+               df=df[c(8:9)] %>%
+                    rename("HR (univariate)"=.data$stats)
           }
+          mylist[[no]]=df
+          no=no+1
      }
      if(multi){
-          mylist[[no]]=fit2summary(fit) %>%
-               select(.data$id,.data$stats) %>%
-               rename("HR (multivariate)"=.data$stats)
+          fit=fit2multi(fit,threshold=threshold)
+          if(keepstats){
+               df=fit2stats(fit)
+               df$mode="multivariate"
+          } else{
+               df=fit2summary(fit) %>%
+                    rename("HR (multivariate)"=.data$stats)
+          }
+          mylist[[no]]=df
           no=no+1
      }
      if(final){
-          final=fit2final(fit)
-          mylist[[no]]=fit2final(fit) %>%
-               fit2summary() %>%
-               select(.data$id,.data$stats) %>% rename("HR (final)"=.data$stats)
+          final=fit2final(fit,threshold=threshold)
+          if(keepstats){
+               df=fit2stats(fit)
+               df$mode="final"
+          } else{
+               df=fit2summary(fit) %>%
+                    rename("HR (final)"=.data$stats)
+          }
+          mylist[[no]]=df
+          no=no+1
      }
-     result=reduce(mylist,left_join)
-     if(!keepid) result$id=NULL
-     result
+     if(imputed){
+          imputed=imputedReg(fit)
+
+          if(keepstats){
+               df=imputed[c("HR","lower","upper","p.value","id","stats")] %>%
+                    rename("p"=.data$p.value)
+               df$mode="imputed"
+          } else{
+               df=imputed[c("id","stats")] %>%
+                    rename("HR (imputed)"=.data$stats)
+          }
+          mylist[[no]]=df
+
+     }
+     if(keepstats){
+
+          Final=reduce(mylist[-1],bind_rows)
+          Final
+
+     } else{
+          Final=reduce(mylist,left_join,by="id")
+          names(Final)[1]=paste0("Dependent: Suv(",timevar,",",statusvar,")")
+          names(Final)[2]=" "
+          if(!keepid) Final$id=NULL
+          Final
+     }
+     class(Final)=c("autoReg","data.frame")
+     Final[is.na(Final)]=""
+     Final
+
 }
 
 
@@ -177,7 +257,7 @@ autoRegCox=function(fit,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,keep
 #' require(magrittr)
 #' data(cancer,package="survival")
 #' fit=coxph(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
-#' df=autoRegCox(fit,data=colon,uni=FALSE,keepid=TRUE)
+#' df=autoReg(fit,data=colon,uni=FALSE,keepid=TRUE)
 #' final=fit2final(fit)
 #' df %>% addFitSummary(final,statsname="HR (final)",keepid=FALSE) %>% myft()
 addFitSummary=function(df,fit,statsname="",keepid=FALSE){

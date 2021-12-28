@@ -216,15 +216,8 @@ p2character2=function(x,digits=3,add.p=TRUE){
 
 
 #'Perform univariable and multivariable regression and stepwise backward regression automatically
-#'@param fit An object of class lm or glm
-#'@param data A data.frame or NULL
-#'@param threshold numeric
-#'@param uni logical whether or not perform univariate regression
-#'@param multi logical whether or not perform multivariate regression
-#'@param final logical whether or not perform stepwise backward elimination
-#'@param imputed logical whether or not include imputed model
-#'@param keepid logical whether or not keep id column
-#'@param keepstats logical whether or not keep statistics
+#'@param x An object of class lm, glm or coxph
+#'@param ... Further arguments
 #'@examples
 #' data(cancer,package="survival")
 #' fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
@@ -234,14 +227,41 @@ p2character2=function(x,digits=3,add.p=TRUE){
 #' fit=lm(mpg~wt*hp+am+I(wt^2),data=mtcars)
 #' autoReg(fit,final=TRUE)
 #' autoReg(fit,imputed=TRUE)
+#'@export
+autoReg=function(x,...)  UseMethod("autoReg")
+
+
+#'@describeIn autoReg S3 method for a class lm
+#'@export
+autoReg.lm=function(x,...){
+     autoReg_sub(fit=x,...)
+}
+
+#'@describeIn autoReg S3 method for a class glm
+#'@export
+autoReg.glm=function(x,...){
+     autoReg_sub(fit=x,...)
+}
+
+#'Perform univariable and multivariable regression and stepwise backward regression automatically
+#'@param fit An object of class lm or glm
+#'@param data A data.frame or NULL
+#'@param threshold numeric
+#'@param uni logical whether or not perform univariate regression
+#'@param multi logical whether or not perform multivariate regression
+#'@param final logical whether or not perform stepwise backward elimination
+#'@param imputed logical whether or not include imputed model
+#'@param keepid logical whether or not keep id column
+#'@param keepstats logical whether or not keep statistics
 #' @importFrom stringr str_detect fixed
 #' @importFrom purrr reduce map_dfr
 #' @importFrom dplyr left_join bind_rows all_of
 #' @importFrom rlang .data
 #' @export
-autoReg=function(fit,data=NULL,threshold=0.2,uni=TRUE,multi=TRUE,final=FALSE,imputed=FALSE,keepid=FALSE,keepstats=FALSE){
+autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepid=FALSE,keepstats=FALSE){
           #fit=lm(mpg~wt*hp+I(wt^2)+am,data=mtcars)
-          #data=NULL;threshold=0.2;uni=TRUE;multi=TRUE;final=TRUE;imputed=TRUE;keepid=FALSE;keepstats=TRUE
+         # fit=lm(Sepal.Width~Species*Sepal.Length,data=iris)
+         #  data=NULL;threshold=0.2;uni=TRUE;multi=TRUE;final=TRUE;imputed=TRUE;keepid=TRUE;keepstats=TRUE
      xvars = attr(fit$terms, "term.labels")
      yvar = as.character(attr(fit$terms, "variables"))[2]
 
@@ -287,8 +307,16 @@ autoReg=function(fit,data=NULL,threshold=0.2,uni=TRUE,multi=TRUE,final=FALSE,imp
                } else if(str_detect(name,fixed("I("))){
                     desc="interpretation"
                }
-               temp=data.frame(name=name,desc=desc,unit="",value="",id=name)
+               if(keepstats){
+                    temp=data.frame(name=name,desc=desc,N="",unit="",value="",id=name)
+               } else{
+
+                 temp=data.frame(name=name,desc=desc,unit="",value="",id=name)
+               }
+               df
+               temp
                df=rbind(df,temp)
+
           }
      }
 
@@ -409,8 +437,8 @@ print.autoReg=function(x,...){
 #'Print function for data.frame
 #'@param x A data.frame
 printdf=function(x){
-    lengths1=map_int(x,~(max(nchar(.,allowNA=TRUE))))
-    lengths2=map_int(names(x),~(max(nchar(.,allowNA=TRUE))))
+    lengths1=map_int(x,maxnchar)
+    lengths2=map_int(names(x),maxnchar)
     lengths=pmax(lengths1,lengths2)+2
     lineno=sum(lengths)
     no=ncol(x)
@@ -442,32 +470,66 @@ printdf=function(x){
 #' @importFrom mice mice pool
 #' @importFrom stats as.formula confint glm step
 #' @examples
+#' library(survival)
 #' data(cancer,package="survival")
 #' fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
+#' imputedReg(fit)
+#' fit=coxph(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
 #' imputedReg(fit)
 #' @export
 imputedReg=function(fit,data=NULL,m=20,seed=1234,digits=2,...){
 
      #fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
-      # data=NULL;m=20; seed=1234; digits=2
+        # data=NULL;m=20; seed=1234; digits=2
      #xvars = attr(fit$terms, "term.labels")
-     xvars=names(fit$model)[-1]
-     yvar = as.character(attr(fit$terms, "variables"))[2]
+        # data(cancer,package="survival")
+        # fit=coxph(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
+        # data=NULL
 
-     mode=1
-     if("glm" %in% attr(fit,"class")) {
-          mode=2
-          if(is.null(data)) data=fit$data
+
+     if("coxph" %in% class(fit)) {
+          mode=3
+          dataname = as.character(fit$call)[3]
+          if(is.null(data)) {
+               data=eval(parse(text=dataname))
+          }
+          timevar=attr(fit$y,"dimnames")[[2]][1]
+          statusvar=attr(fit$y,"dimnames")[[2]][2]
+          xvars = attr(fit$terms, "term.labels")
+          formstring=paste0("Surv(",timevar,",",statusvar,")~",paste0(xvars,collapse="+"))
+          mydata=data[c(timevar,statusvar,xvars)]
+          mydata
      } else{
-          if(is.null(data)) data=fit$model
+          if("glm" %in% class(fit)) {
+               mode=2
+               if(is.null(data)) data=fit$data
+
+          } else {
+               mode=1
+               if(is.null(data)) data=fit$model
+
+          }
+          xvars=names(fit$model)[-1]
+          yvar = as.character(attr(fit$terms, "variables"))[2]
+          mydata=data[c(xvars,yvar)]
+          formstring=paste0(yvar,"~",paste0(attr(fit$terms, "term.labels"),collapse="+"))
      }
-
-     mydata=data[c(xvars,yvar)]
-     mydata
      fmt=paste0("%.",digits,"f")
-     formstring=paste0(yvar,"~",paste0(attr(fit$terms, "term.labels"),collapse="+"))
-
-     if(mode==2){
+     if(mode==3){
+          mice(mydata,m=m,seed=seed,printFlag=FALSE,...) %>%
+               with(coxph(as.formula(formstring))) %>%
+               pool() %>%
+               summary(conf.int=TRUE) %>%
+               mutate(
+                    HR=exp(.data$estimate),
+                    lower=exp(.data$`2.5 %`),
+                    upper=exp(.data$`97.5 %`),
+                    stats=paste0(sprintf(fmt,.data$HR)," (",
+                                 sprintf(fmt,.data$lower),"-",
+                                 sprintf(fmt,.data$upper),", ",
+                                 p2character2(.data$p.value),")")
+               ) ->df
+     } else if(mode==2){
           mice(mydata,m=m,seed=seed,printFlag=FALSE,...) %>%
                with(glm(as.formula(formstring),family=fit$family$family)) %>%
                pool() %>%
@@ -478,7 +540,7 @@ imputedReg=function(fit,data=NULL,m=20,seed=1234,digits=2,...){
                     upper=exp(.data$`97.5 %`),
                     stats=paste0(sprintf(fmt,.data$OR)," (",
                                  sprintf(fmt,.data$lower),"-",
-                                 sprintf(fmt,.data$upper),",",
+                                 sprintf(fmt,.data$upper),", ",
                                  p2character2(.data$p.value),")")
                ) ->df
      } else{
@@ -490,7 +552,7 @@ imputedReg=function(fit,data=NULL,m=20,seed=1234,digits=2,...){
                     upper=.data$`97.5 %`,
                     stats=paste0(sprintf(fmt,.data$estimate)," (",
                                  sprintf(fmt,.data$lower),"-",
-                                 sprintf(fmt,.data$upper),",",
+                                 sprintf(fmt,.data$upper),", ",
                                  p2character2(.data$p.value),")")
                ) -> df
      }
@@ -500,47 +562,3 @@ imputedReg=function(fit,data=NULL,m=20,seed=1234,digits=2,...){
 }
 
 
-
-#
-# fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
-# df=fit2stats(fit) %>%
-#      select(id,OR:upper) %>%
-#      mutate(type="original")
-# imputedReg(fit) %>%
-#      select(term,OR:upper) %>%
-#      rename(id=term) %>%
-#      mutate(type="imputed") %>%
-#      bind_rows(df) %>%
-#      ggplot(aes(x=OR,y=id,color=type))+
-#      geom_point(position=position_dodge(width=0.3))+
-#      geom_errorbar(aes(xmin=lower,xmax=upper),
-#                    width=0.3,position=position_dodge(width=0.3))+
-#      labs(x="Odds Ratio",y="")+
-#      theme_bw()
-#
-# fit=lm(mpg~hp*wt+am,data=mtcars)
-#
-# df=fit2stats(fit)  %>%
-#      select(id,Estimate:upper) %>%
-#      mutate(type="original")
-# df
-# imputedReg(fit,data=mydata) %>%
-#      select(term,estimate,lower,upper) %>%
-#      rename(id=term,
-#             Estimate=estimate) %>%
-#      mutate(type="imputed") %>%
-#      bind_rows(df) %>%
-#      filter(id!="(Intercept)") %>%
-#      ggplot(aes(x=Estimate,y=id,color=type))+
-#      geom_point(position=position_dodge(width=0.3))+
-#      geom_errorbar(aes(xmin=lower,xmax=upper),
-#                    width=0.3,position=position_dodge(width=0.3))+
-#      labs(x="Estimated coefficients",y="")+
-#      theme_bw()
-#
-# mydata = read_csv("./Rcode/data/anes2008_example.csv") %>%
-#      select(FT_mccain,female,ageyr,race3,educ,hhinc,readyBP,economy,environ,iraqwar)
-# mydata %>%
-#      mutate_at(vars(female,race3,readyBP), ~factor(.)) ->mydata
-# mydata
-# fit=lm(FT_mccain~female+ageyr+race3+educ+hhinc+readyBP+economy+environ+iraqwar,mydata)

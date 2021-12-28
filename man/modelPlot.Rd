@@ -4,7 +4,7 @@
 \alias{modelPlot}
 \title{Draw coefficients/odds ratio/hazard ratio plot}
 \usage{
-modelPlot(fit, widths = NULL, change.pointsize = TRUE)
+modelPlot(fit, widths = NULL, change.pointsize = TRUE, show.OR = TRUE, ...)
 }
 \arguments{
 \item{fit}{An object of calss glm}
@@ -12,6 +12,10 @@ modelPlot(fit, widths = NULL, change.pointsize = TRUE)
 \item{widths}{Numeric vector}
 
 \item{change.pointsize}{logical Whether or not change point size}
+
+\item{show.OR}{logical Whether or not show odds ratio}
+
+\item{...}{Further arguments to be passed to autoReg()}
 }
 \description{
 Draw coefficients/odds ratio/hazard ratio plot
@@ -19,17 +23,26 @@ Draw coefficients/odds ratio/hazard ratio plot
 \examples{
 fit=lm(mpg~wt*hp+am,data=mtcars)
 modelPlot(fit,width=c(1,0,2,3))
+modelPlot(fit,uni=TRUE,threshold=1,width=c(1,0,2,3))
 fit=lm(Sepal.Width~Species*Sepal.Length,data=iris)
 modelPlot(fit)
+modelPlot(fit,uni=TRUE,change.pointsize=FALSE)
 data(cancer,package="survival")
 fit=glm(status~rx+age+sex+nodes+obstruct+perfor,data=colon,family="binomial")
 modelPlot(fit)
+modelPlot(fit,uni=TRUE,multi=TRUE,threshold=1)
+modelPlot(fit,multi=TRUE,imputed=TRUE,change.pointsize=FALSE)
 data(colon_s,package="finalfit")
 fit=glm(mort_5yr~age.factor+sex.factor+obstruct.factor+perfor.factor,data=colon_s,family="binomial")
 modelPlot(fit)
+modelPlot(fit,uni=TRUE,multi=TRUE,threshold=1)
+modelPlot(fit,uni=TRUE,multi=TRUE)
 library(survival)
 fit=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon)
 modelPlot(fit)
+modelPlot(fit,uni=TRUE,threshold=1)
 fit=coxph(Surv(time,status)~age.factor+sex.factor+obstruct.factor+perfor.factor,data=colon_s)
 modelPlot(fit)
+modelPlot(fit,uni=TRUE,threshold=1)
+modelPlot(fit,imputed=TRUE)
 }

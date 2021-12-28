@@ -237,7 +237,7 @@ gazeCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE
                res
                if(is.factor(x)) x=as.character(x)
                df1<-data.frame(x) %>% count(x) %>%
-                 mutate(N=paste0(str_pad(x,max(nchar(x)),"right")," (N=",n,")"))
+                 mutate(N=paste0(str_pad(x,maxnchar(x),"right")," (N=",n,")"))
                df1
                res$desc=df1$N
                res

@@ -1,3 +1,16 @@
+#'Retur maximum character number except NA
+#'@param x a vector
+#'@examples
+#'x=c(1,2,"sadf",NA)
+#'maxnchar(x)
+#'data(acs,package="moonBook")
+#'lapply(acs,maxnchar)
+#'@export
+maxnchar=function(x){
+    x[is.na(x)]=""
+    max(nchar(x))
+}
+
 #' S3 method print for an object of class gaze
 #' @param x An object of class gaze
 #' @param ... Further arguments
@@ -5,13 +18,22 @@
 #' @importFrom stringr str_split str_trim
 #' @examples
 #' data(acs,package="moonBook")
-#' gaze(acs,show.n=TRUE,show.missing=TRUE)
+#' x=gaze(acs,show.n=TRUE,show.missing=TRUE)
 #' gaze(sex~.,acs,show.p=TRUE,show.n=TRUE,show.missing=TRUE,show.total=TRUE)
 #' gaze(Dx+sex~.,acs,show.p=TRUE)
 #' gaze(sex+Dx+HBP~.,acs,show.p=TRUE)
 #' @export
 print.gaze=function(x,...){
 
+     # x1=map_dfc(x,function(y){
+     #      if(is.numeric(y)) {
+     #           y=sprintf("%.3f",y)
+     #      }
+     #      y
+     # })
+     # attr(x1, "yvars")=attr(x, "yvars")
+     # x=x1
+     x[is.na(x)]=""
      names(x)[2]="levels"
      yvars=attr(x,"yvars")
      yvars
@@ -24,7 +46,10 @@ print.gaze=function(x,...){
      temp=str_split(names(x),fixed("("),simplify=TRUE)
      title1=str_trim(temp[,1],"both")
      groupno=nrow(attr(x,"groups"))
-     lengths=map_int(x,~max(nchar(.)))+2
+     lengths1=map_int(names(x),maxnchar)
+     lengths2=map_int(x,maxnchar)
+     lengths=pmax(lengths1,lengths2)+2
+     lengths
      mode
      if(mode>2){
           drawline(sum(lengths));cat("\n")

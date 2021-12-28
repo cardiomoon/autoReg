@@ -2,20 +2,22 @@
 % Please edit documentation in R/mycphSimple.R
 \name{autoRegCox}
 \alias{autoRegCox}
-\title{Perform univariable and multivariable regression and stepwise backward regression automatically}
+\title{perform automatc regression for a class of coxph}
 \usage{
 autoRegCox(
-  fit,
+  x,
   data,
   threshold = 0.2,
   uni = FALSE,
   multi = TRUE,
   final = FALSE,
-  keepid = FALSE
+  imputed = FALSE,
+  keepid = FALSE,
+  keepstats = FALSE
 )
 }
 \arguments{
-\item{fit}{An object of class coxph}
+\item{x}{An object of class coxph}
 
 \item{data}{A data.frame}
 
@@ -27,21 +29,25 @@ autoRegCox(
 
 \item{final}{logical whether or not perform stepwise backward elimination}
 
+\item{imputed}{logical whether or not perform multiple imputation}
+
 \item{keepid}{logical whether or not save id column}
+
+\item{keepstats}{logical whether or not keep statistic}
 }
 \description{
-Perform univariable and multivariable regression and stepwise backward regression automatically
+perform automatc regression for a class of coxph
 }
 \examples{
 require(survival)
 require(magrittr)
 data(cancer)
 fit=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon)
-autoRegCox(fit,data=colon) \%>\% myft()
-autoRegCox(fit,data=colon,uni=TRUE,threshold=1) \%>\% myft()
-autoRegCox(fit,data=colon,uni=TRUE,final=TRUE) \%>\% myft()
+autoReg(fit,data=colon)
+autoReg(fit,data=colon,uni=TRUE,threshold=1)
+autoReg(fit,data=colon,uni=TRUE,final=TRUE) \%>\% myft()
 data(colon_s,package="finalfit")
 fit=coxph(Surv(time,status)~age.factor+sex.factor+obstruct.factor+perfor.factor,data=colon_s)
-autoRegCox(fit,data=colon_s,uni=TRUE,threshold=1) \%>\% myft()
-autoRegCox(fit,data=colon_s,uni=TRUE,threshold=0.2) \%>\% myft()
+autoReg(fit,data=colon_s,uni=TRUE,threshold=1)
+autoReg(fit,data=colon_s,uni=TRUE,imputed=TRUE)
 }

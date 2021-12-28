@@ -2,7 +2,9 @@
 #' @param fit An object of calss glm
 #' @param widths Numeric vector
 #' @param change.pointsize logical Whether or not change point size
-#' @importFrom ggplot2 ggplot geom_vline geom_point geom_errorbar labs scale_y_discrete
+#' @param show.OR logical Whether or not show odds ratio
+#' @param ... Further arguments to be passed to autoReg()
+#' @importFrom ggplot2 ggplot geom_vline geom_point geom_errorbar labs scale_y_discrete position_dodge
 #' guides theme_bw theme element_text element_blank geom_text ggtitle aes xlab ylab aes_string
 #' @importFrom patchwork plot_layout
 #' @importFrom stats reorder
@@ -10,23 +12,32 @@
 #' @examples
 #' fit=lm(mpg~wt*hp+am,data=mtcars)
 #' modelPlot(fit,width=c(1,0,2,3))
+#' modelPlot(fit,uni=TRUE,threshold=1,width=c(1,0,2,3))
 #' fit=lm(Sepal.Width~Species*Sepal.Length,data=iris)
 #' modelPlot(fit)
+#' modelPlot(fit,uni=TRUE,change.pointsize=FALSE)
 #' data(cancer,package="survival")
 #' fit=glm(status~rx+age+sex+nodes+obstruct+perfor,data=colon,family="binomial")
 #' modelPlot(fit)
+#' modelPlot(fit,uni=TRUE,multi=TRUE,threshold=1)
+#' modelPlot(fit,multi=TRUE,imputed=TRUE,change.pointsize=FALSE)
 #' data(colon_s,package="finalfit")
 #' fit=glm(mort_5yr~age.factor+sex.factor+obstruct.factor+perfor.factor,data=colon_s,family="binomial")
 #' modelPlot(fit)
+#' modelPlot(fit,uni=TRUE,multi=TRUE,threshold=1)
+#' modelPlot(fit,uni=TRUE,multi=TRUE)
 #' library(survival)
 #' fit=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon)
 #' modelPlot(fit)
+#' modelPlot(fit,uni=TRUE,threshold=1)
 #' fit=coxph(Surv(time,status)~age.factor+sex.factor+obstruct.factor+perfor.factor,data=colon_s)
 #' modelPlot(fit)
+#' modelPlot(fit,uni=TRUE,threshold=1)
+#' modelPlot(fit,imputed=TRUE)
 #' @export
-modelPlot=function(fit,widths=NULL,change.pointsize=TRUE){
+modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,...){
 
-
+          # widths=NULL;change.pointsize=TRUE;uni=TRUE;multi=TRUE;imputed=TRUE;show.OR=TRUE
      if(is.null(widths)) widths=c(1.2,1,2,3.5)
 
      mode=1
@@ -48,18 +59,19 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE){
          data=eval(parse(text=dataname))
          myformula=paste0("~",paste0(xvars,collapse="+"))
          df1=gaze(as.formula(myformula),data=data,show.n=TRUE,keepid=TRUE)
+
      } else{
           data=fit$model[-1]
           data
 
           df1=gaze(~.,data=data,show.n=TRUE,keepid=TRUE)
      }
-     df1
+
      plusminus="\u00b1"
      df1$desc[df1$desc==paste0("Mean ",plusminus," SD")]=""
      others=setdiff(xvars,names(data))
      others
-     if(length(others)>0){
+     if(length(others)>0){   ## interactions or interpretations
           for(i in 1:length(others)){
                 # i=1
                name=others[i]
@@ -115,12 +127,17 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE){
      df1$stats=NULL
      df1
      fit
+     df2=autoReg(fit,keepid=TRUE,keepstats=TRUE,...)
+      # df2=autoReg(fit,keepid=TRUE,keepstats=TRUE,uni=TRUE,multi=TRUE,imputed=TRUE)
 
-     df2=fit2stats(fit) %>% filter(.data$id!="(Intercept)")
+     df2=df2%>% dplyr::filter(.data$id!="(Intercept)")
 
      df2
-     df=full_join(df1,df2,by="id")
+     df=dplyr::full_join(df1,df2,by="id")
+     df
+     df$mode[is.na(df$stats)]="Reference"
      df$stats[is.na(df$stats)]="Reference"
+
      df
      if(mode==1) {
           df$Estimate[is.na(df$Estimate)]=0
@@ -132,22 +149,42 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE){
              df$HR[is.na(df$HR)]=1
              xintercept=1
      }
+     dodge=length(setdiff(unique(df$mode),c(NA,"Reference")))>1
+     dodge
+
+
      p <-ggplot(df,aes_string(x=xname))+
           geom_vline(xintercept=xintercept,color="red",lty=2)
+
+     if(dodge){
+          p=p+   geom_errorbar(aes(y=reorder(.data$id,.data$no),xmin=.data$lower,xmax=.data$upper,color=mode),
+                               position=position_dodge(width=0.4),width=0.1)
+          if(change.pointsize){
+               p=p+geom_point(aes(y=reorder(.data$id,.data$no),fill=mode,size=.data$n),
+                              position=position_dodge(width=0.4),pch=22)
+          } else {
+               p=p+geom_point(aes(y=reorder(.data$id,.data$no),fill=mode),
+                              position=position_dodge(width=0.4),pch=22)
+          }
+
+     } else{
+          p=p+   geom_errorbar(aes(y=reorder(.data$id,.data$no),xmin=.data$lower,xmax=.data$upper),width=0.1)
      if(change.pointsize){
              p=p+geom_point(aes(y=reorder(.data$id,.data$no),size=.data$n),pch=15)
      } else {
              p=p+geom_point(aes(y=reorder(.data$id,.data$no)),pch=15)
      }
-     p=p+   geom_errorbar(aes(y=reorder(.data$id,.data$no),xmin=.data$lower,xmax=.data$upper),width=0.1)+
-          labs(y="",x=xlabel)+
+
+     }
+     p
+     p=p+  labs(y="",x=xlabel)+
           scale_y_discrete(limits=rev)+
           guides(size="none")+
           theme_bw()+
           theme(axis.title.x = element_text(), axis.title.y = element_blank(),
                 axis.text.y = element_blank(),
                 axis.line.y = element_blank(),
-                axis.ticks.y = element_blank(), legend.position = "none")
+                axis.ticks.y = element_blank(), legend.position=ifelse(dodge,"top","none"))
 
      p
 
@@ -170,9 +207,21 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE){
           geom_text(aes(x=1, label=.data$desc)) +
           ggtitle("")
      tab2
+     if(dodge){
      tab3<-tab_base+
-          geom_text(aes(x=1, label=.data$stats))
+          geom_text(aes(x=1, label=.data$stats,group=mode),position=position_dodge(width=0.4))+
+          guides(color="none")
+     } else{
+          tab3<-tab_base+
+               geom_text(aes(x=1, label=.data$stats))
+     }
 
-     tab1+tab2+tab3+p+plot_layout(ncol=4,widths=widths)
+     if(show.OR){
+     tab1+tab2+tab3+p+plot_layout(ncol=4,widths=widths,guides="collect") &
+               theme(legend.position='top')
+     } else{
+          tab1+tab2+p+plot_layout(ncol=4,widths=widths[c(1,2,4)],guides="collect") &
+               theme(legend.position='top')
+     }
 
 }

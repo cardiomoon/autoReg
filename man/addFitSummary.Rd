@@ -23,7 +23,7 @@ require(survival)
 require(magrittr)
 data(cancer,package="survival")
 fit=coxph(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
-df=autoRegCox(fit,data=colon,uni=FALSE,keepid=TRUE)
+df=autoReg(fit,data=colon,uni=FALSE,keepid=TRUE)
 final=fit2final(fit)
 df \%>\% addFitSummary(final,statsname="HR (final)",keepid=FALSE) \%>\% myft()
 }

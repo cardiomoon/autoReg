@@ -4,10 +4,12 @@
 \alias{fit2final}
 \title{Make final model using stepwise backward elimination}
 \usage{
-fit2final(fit)
+fit2final(fit, threshold = 0.2)
 }
 \arguments{
-\item{fit}{An abject of class coxph}
+\item{fit}{An object of class coxph}
+
+\item{threshold}{Numeric}
 }
 \description{
 Make final model using stepwise backward elimination
