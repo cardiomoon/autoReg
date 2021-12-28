@@ -33,13 +33,22 @@ print.gaze=function(x,...){
      # })
      # attr(x1, "yvars")=attr(x, "yvars")
      # x=x1
+     if(!is.null(attr(x,"missing"))) {
+           yname=str_remove(attr(x,"yvars"),"Missing")
+           cat("Missing data analysis : '",yname,"'\n\n")
+     }
      x[is.na(x)]=""
      names(x)[2]="levels"
      yvars=attr(x,"yvars")
      yvars
      mode=1
      if(length(yvars)>0){
-          names(x)[1]=paste0("Dependent:",yvars[length(yvars)])
+          if(is.null(attr(x,"missing"))) {
+               names(x)[1]=paste0("Dependent:",yvars[length(yvars)])
+          } else{
+               names(x)[1]=paste0("Dependent:",yname)
+          }
+
           if(ncol(x)>4) mode=mode+length(yvars)
      }
 

@@ -81,7 +81,7 @@ descNum=function(method=1,p=NULL){
 #' gazeCont(acs,"age","Dx",method=1)
 #' gazeCont(acs,"age","Dx",show.p=TRUE,method=3)
 #' @export
-gazeCont=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE,show.missing=FALSE,show.stats=TRUE,show.p=FALSE,method=1,origData,...){
+gazeCont=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE,show.missing=FALSE,show.stats=TRUE,show.p=TRUE,method=1,origData,...){
 
      #data=acs;x="age";y="Dx";max.ylev=5;digits=2;show.total=FALSE;show.p=TRUE;method=3;show.n=TRUE;show.missing=TRUE
      plusminus="\u00b1"
@@ -186,7 +186,7 @@ gazeCont=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALS
 #' @importFrom tidyr pivot_wider
 #' @importFrom tidyselect everything
 #' @export
-gazeCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE,show.missing=FALSE,show.stats=TRUE,origData=NULL,show.p=FALSE,method=1,catMethod=2,...){
+gazeCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE,show.missing=FALSE,show.stats=TRUE,origData=NULL,show.p=TRUE,method=1,catMethod=2,...){
 
      # data=acs[acs$Dx=="Unstable Angina",];x="Dx";y="sex";
         # data=iris;x="Species";y="Sepal.Length"

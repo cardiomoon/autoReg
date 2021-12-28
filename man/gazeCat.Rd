@@ -15,7 +15,7 @@ gazeCat(
   show.missing = FALSE,
   show.stats = TRUE,
   origData = NULL,
-  show.p = FALSE,
+  show.p = TRUE,
   method = 1,
   catMethod = 2,
   ...

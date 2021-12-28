@@ -260,7 +260,7 @@ autoReg.glm=function(x,...){
 #' @export
 autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepid=FALSE,keepstats=FALSE){
           #fit=lm(mpg~wt*hp+I(wt^2)+am,data=mtcars)
-         # fit=lm(Sepal.Width~Species*Sepal.Length,data=iris)
+          #fit=lm(Sepal.Width~Sepal.Length*Species,data=iris)
       # fit=glm(cens~horTh*progrec+pnodes,data=GBSG2,family="binomial")
             # data=NULL;threshold=0.2;uni=FALSE;multi=TRUE;final=FALSE;imputed=FALSE;keepid=FALSE;keepstats=FALSE
      xvars = attr(fit$terms, "term.labels")
@@ -301,15 +301,20 @@ autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALS
      if(length(others)>0){
 
           for(i in 1:length(others)){
-
+               # i=1
                name=others[i]
                desc="others"
                if(str_detect(name,":")) {
                     desc="interaction"
+                    temp=getInteraction(name,data=data)
+                    temp$n=NULL
+
                } else if(str_detect(name,fixed("I("))){
                     desc="interpretation"
+                    temp=data.frame(name=name,desc=desc,id=name)
                }
-               temp=data.frame(name=name,desc=desc,id=name)
+               df
+               temp
                class(df)="data.frame"
                df=bind_rows(df,temp)
           }
@@ -466,12 +471,14 @@ printdf=function(x){
 #' @importFrom mice mice pool
 #' @importFrom stats as.formula confint glm step
 #' @examples
-#' library(survival)
 #' data(cancer,package="survival")
 #' fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
 #' imputedReg(fit)
+#' \donttest{
+#' library(survival)
 #' fit=coxph(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
 #' imputedReg(fit)
+#' }
 #' @export
 imputedReg=function(fit,data=NULL,m=20,seed=1234,digits=2,...){
 

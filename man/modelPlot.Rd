@@ -24,15 +24,15 @@ Draw coefficients/odds ratio/hazard ratio plot
 fit=lm(mpg~wt*hp+am,data=mtcars)
 modelPlot(fit,width=c(1,0,2,3))
 modelPlot(fit,uni=TRUE,threshold=1,width=c(1,0,2,3))
-fit=lm(Sepal.Width~Species*Sepal.Length,data=iris)
+fit=lm(Sepal.Width~Sepal.Length*Species,data=iris)
 modelPlot(fit)
 modelPlot(fit,uni=TRUE,change.pointsize=FALSE)
+\donttest{
 data(cancer,package="survival")
 fit=glm(status~rx+age+sex+nodes+obstruct+perfor,data=colon,family="binomial")
 modelPlot(fit)
 modelPlot(fit,uni=TRUE,multi=TRUE,threshold=1)
 modelPlot(fit,multi=TRUE,imputed=TRUE,change.pointsize=FALSE)
-\donttest{
 data(colon_s,package="finalfit")
 fit=glm(mort_5yr~age.factor+sex.factor+obstruct.factor+perfor.factor,data=colon_s,family="binomial")
 modelPlot(fit)

@@ -13,15 +13,15 @@
 #' fit=lm(mpg~wt*hp+am,data=mtcars)
 #' modelPlot(fit,width=c(1,0,2,3))
 #' modelPlot(fit,uni=TRUE,threshold=1,width=c(1,0,2,3))
-#' fit=lm(Sepal.Width~Species*Sepal.Length,data=iris)
+#' fit=lm(Sepal.Width~Sepal.Length*Species,data=iris)
 #' modelPlot(fit)
 #' modelPlot(fit,uni=TRUE,change.pointsize=FALSE)
+#' \donttest{
 #' data(cancer,package="survival")
 #' fit=glm(status~rx+age+sex+nodes+obstruct+perfor,data=colon,family="binomial")
 #' modelPlot(fit)
 #' modelPlot(fit,uni=TRUE,multi=TRUE,threshold=1)
 #' modelPlot(fit,multi=TRUE,imputed=TRUE,change.pointsize=FALSE)
-#'\donttest{
 #' data(colon_s,package="finalfit")
 #' fit=glm(mort_5yr~age.factor+sex.factor+obstruct.factor+perfor.factor,data=colon_s,family="binomial")
 #' modelPlot(fit)
@@ -38,8 +38,9 @@
 #' }
 #' @export
 modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,...){
-
-          # widths=NULL;change.pointsize=TRUE;uni=TRUE;multi=TRUE;imputed=TRUE;show.OR=TRUE
+        # fit=lm(Sepal.Width~Sepal.Length*Species,data=iris)
+        # summary(fit)
+        # widths=NULL;change.pointsize=TRUE;uni=TRUE;multi=TRUE;imputed=TRUE;show.OR=TRUE
      if(is.null(widths)) widths=c(1.2,1,2,3.5)
 
      mode=1
@@ -75,53 +76,26 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,...){
      others
      if(length(others)>0){   ## interactions or interpretations
           for(i in 1:length(others)){
-                # i=1
+                 # i=1
                name=others[i]
                desc="others"
                if(str_detect(name,":")) {
-                    temp=unlist(strsplit(name,":"))
-                    factornames=c()
-                    numericnames=c()
-                    for(j in seq_along(temp)){
-                        if(is.factor(data[[temp[j]]])|is.character(data[[temp[j]]])){
-                             factornames=c(factornames,temp[[j]])
-                        } else{
-                             numericnames=c(numericnames,temp[[j]])
-                        }
-                    }
-                    if(length(factornames)>0){
-                         formula=paste0("~",paste0(factornames,collapse = "+"))
-                         tempdf=as.data.frame(xtabs(as.formula(formula),data=data),stringsAsFactors = FALSE)
-                         tempdf
-                         n=tempdf$Freq
-                         N=n
-                         desc=apply(tempdf[-ncol(tempdf)],1,paste0,collapse=",")
-                         tempdf2=tempdf
-                         paste0(names(tempdf)[1],tempdf2[1,1])
-                         for(i in 1:nrow(tempdf)){
-                         for(j in 1:(ncol(tempdf)-1)){
-                            tempdf[i,j]=paste0(names(tempdf)[j],tempdf2[i,j])
-                            tempdf[1,1]=paste0(names(tempdf)[1],tempdf2[1,1])
-                         }
-                         }
-                         id=apply(tempdf[-ncol(tempdf)],1,paste0,collapse=":")
-                         id
-                         if(length(numericnames)>0){
-                           id=paste0(id,":",paste0(numericnames,collapse=":"))
-                         }
-                    } else{
-                        id=name
-                        n=nrow(data)
-                        N=nrow(data)
-                    }
+                    temp=getInteraction(name,data=data)
+                    temp$N=temp$n
+                    temp$stats=""
+                    temp=temp[c(1,2,5,6,4,3)]
+
 
                } else if(str_detect(name,fixed("I("))){
                     desc="interpretation"
                     id=name
                     n=nrow(data)
                     N=NA
+                    temp=data.frame(name=name,desc=desc,N=N,stats="",n=n,id=id)
                }
-               temp=data.frame(name=name,desc=desc,N=N,stats="",n=n,id=id)
+               class(df1)="data.frame"
+               df1
+               temp
                df1=rbind(df1,temp)
           }
      }

@@ -56,15 +56,16 @@ gaze.data.frame=function(x,...){
 #'                variables in an additive way.
 #'@param data A data.frame
 #'@param keepid logical Whether or not keep id column
+#'@param missing logical If true, missing value analysis performed
 #'@param ... Further arguments to be passed to gaze()
 #'@importFrom dplyr group_split
 #'@importFrom purrr map_dfc map_dfr map2_dfc walk
 #'@importFrom stats terms
 #'@export
-gaze.formula_sub=function(x,data,keepid=FALSE,...){
+gaze.formula_sub=function(x,data,keepid=FALSE,missing=FALSE,...){
 
       #x=sex+Dx~.;data=acs;keepid=FALSE
-
+     #x=sex~.;data=acs;keepid=FALSE
       # x=sex+Dx+DM~HBP
       # data=acs
      # #cat("gaze.formula_sub\n")
@@ -87,6 +88,24 @@ gaze.formula_sub=function(x,data,keepid=FALSE,...){
          df=map_dfr(xvars, function(x){gaze_sub(data,x,origData=data,...)})%>%select(-.data$type)
          if(!keepid) df = select(df,-.data$id)
      } else if(length(yvars)==1){
+
+       if(missing==TRUE){
+         if(sum(is.na(data[[yvars]]))>0){
+           data[[paste0(yvars,"Missing")]]=ifelse(is.na(data[[yvars]]),"Missing","Not missing")
+           data[[paste0(yvars,"Missing")]]=factor(data[[paste0(yvars,"Missing")]],levels=c("Not missing","Missing"))
+           s=paste0(paste0(yvars,"Missing"),"~",paste0(xvars,collapse="+"))
+           data[[yvars]]<-NULL
+
+           result=gaze(as.formula(s),data,keepid=keepid,missing=FALSE,...)
+           attr(result,"missing")=TRUE
+           return(result)
+         } else{
+           cat(paste0("There is no missing data in column '",yvars,"'\n"))
+           s=paste0("~",paste0(xvars,collapse="+"))
+           result=gaze(as.formula(s),data,keepid=keepid,missing=FALSE,show.n=TRUE,...)
+           return(result)
+         }
+       }
          df=map_dfr(xvars, function(x){gaze_sub(data,x,yvars,origData=data,...)}) %>%select(-.data$type)
          if(!keepid) df = select(df,-.data$id)
          attr(df,"groups")=getGroupNames(data,yvars[1])
@@ -170,7 +189,13 @@ myft=function(x,vanilla=TRUE,fontsize=10,digits,...){
      yvars=attr(x,"yvars")
      yvars
      if(length(yvars)>0){
-          names(x)[1]=paste0("Dependent:",yvars[length(yvars)]," (N)")
+       if(is.null(attr(x,"missing"))) {
+         names(x)[1]=paste0("Dependent:",yvars[length(yvars)])
+       } else{
+         yname=str_remove(attr(x,"yvars"),"Missing")
+         names(x)[1]=paste0("Dependent:",yname)
+       }
+
      }
      vanilla=TRUE
      ft<-x %>% rrtable::df2flextable(vanilla=vanilla,fontsize=fontsize,digits=digits,...)

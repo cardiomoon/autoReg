@@ -23,10 +23,12 @@ imputedReg(fit, data = NULL, m = 20, seed = 1234, digits = 2, ...)
 Make a multiple imputed model
 }
 \examples{
-library(survival)
 data(cancer,package="survival")
 fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
 imputedReg(fit)
+\donttest{
+library(survival)
 fit=coxph(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
 imputedReg(fit)
+}
 }

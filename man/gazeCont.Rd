@@ -14,7 +14,7 @@ gazeCont(
   show.n = FALSE,
   show.missing = FALSE,
   show.stats = TRUE,
-  show.p = FALSE,
+  show.p = TRUE,
   method = 1,
   origData,
   ...

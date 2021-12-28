@@ -73,16 +73,16 @@ filldown=function(x,what=c("",NA)){
      x
 }
 
-#'Compress an object of class gaze
+#'Shorten an object of class gaze
 #'@param x an object of class gaze
 #'@param xname A variable name
 #'@param ref Numeric Th number to be used as reference
 #'@examples
 #'data(acs,package="moonBook")
 #'x=gaze(sex~.,data=acs,keepid=TRUE)
-#'compress(x)
+#'shorten(x)
 #'@export
-compress=function(x,xname="name",ref=1){
+shorten=function(x,xname="name",ref=1){
      x[[xname]]=filldown(x[[xname]])
      pos=which(find1stDup(x[[xname]]))
      if(ref==2) pos=pos+1

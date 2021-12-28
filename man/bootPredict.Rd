@@ -26,4 +26,6 @@ data(GBSG2,package="TH.data")
 fit=glm(cens~horTh+pnodes,data=GBSG2,family="binomial")
 newdata=expand.grid(horTh=factor(c(1,2),labels=c("no","yes")),pnodes=1:51)
 bootPredict(fit,newdata)
+library(survival)
+fit=coxph(Surv(time,cens)~age+horTh+progrec+pnodes,data=GBSG2)
 }
