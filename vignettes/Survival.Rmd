@@ -1,0 +1,113 @@
+---
+title: "Survival"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Survival}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = NA
+)
+```
+
+```{r,eval=FALSE}
+library(autoReg)
+melanoma=boot::melanoma
+gaze(melanoma)
+library(dplyr)
+library(forcats)
+library(finalfit)
+melanoma = melanoma %>%
+     mutate(
+          # Overall survival
+          status_os = ifelse(status == 2, 0, # "still alive"
+                             1), # "died of melanoma" or "died of other causes"
+          
+          # Diease-specific survival
+          status_dss = case_when(
+               status == 2 ~ 0, # "still alive"
+               status == 1 ~ 1, # "died of melanoma"
+               TRUE ~  0),     # "died of other causes is censored"
+          
+          # Competing risks regression
+          status_crr = case_when(
+               status == 2 ~ 0, # "still alive"
+               status == 1 ~ 1, # "died of melanoma"
+               TRUE ~ 2),       # "died of other causes"
+          
+          # Label and recode other variables
+          age = ff_label(age, "Age (years)"), # ff_label to make table friendly var labels
+          thickness = ff_label(thickness, "Tumour thickness (mm)"), # ff_label to make table friendly var labels
+          sex = factor(sex) %>% 
+               fct_recode("Male" = "1", 
+                          "Female" = "0") %>% 
+               ff_label("Sex"),
+          ulcer = factor(ulcer) %>% 
+               fct_recode("No" = "0",
+                          "Yes" = "1") %>% 
+               ff_label("Ulcerated tumour")
+     )
+str(melanoma)
+gaze(sex~.,data=melanoma)
+melanoma$years=melanoma$time/365
+
+fit=survfit(Surv(years,status_os)~1,data=melanoma)
+fit
+summary(fit,time=c(0:5))
+
+library(survminer)
+fit=survfit(Surv(years,status_os)~ulcer,data=melanoma)
+ggsurvplot(fit,pval=TRUE,risk.table=TRUE)
+
+fit=coxph(Surv(years,status_os)~age+sex+thickness+ulcer,data=melanoma)
+summary(fit)
+
+x=autoReg(fit,uni=TRUE,threshold=1)
+x
+x %>% myft()
+
+names(x)[1]="Overall Survival"
+x[1,1]="Age(years)"
+x[2,1]="Sex"
+x[4,1]="Tumor thickness (mm)"
+x[5,1]="Ulcerated tumor"
+x
+
+final=coxph(Surv(years,status_os)~age+thickness+ulcer,data=melanoma)
+x=x %>% addFitSummary(final,statsname="HR (reduced)") 
+x
+modelPlot(fit)
+autoReg(fit)
+
+fit=coxph(Surv(years,status_os)~age+sex+thickness+ulcer+year,data=melanoma)
+result=cox.zph(fit)
+str(result)
+plot(result)
+plot(result,var=5)
+
+fit=coxph(Surv(years,status_os)~age+sex+ulcer+thickness+strata(year),data=melanoma)
+summary(fit)
+autoReg(fit)
+modelPlot(fit)
+
+melanoma$hospital_id = c(rep(1:10, 20), rep(11, 5))
+fit=coxph(Surv(years,status_os)~age+sex+thickness+ulcer+cluster(hospital_id),data=melanoma)
+summary(fit)
+
+fit=coxph(Surv(years,status_os)~age+sex+thickness+ulcer+frailty(hospital_id),data=melanoma)
+summary(fit)
+
+fit=coxph(Surv(time,status_dss)~age+sex+thickness+ulcer,data=melanoma)
+df=autoReg(fit,uni=TRUE,threshold=1)
+names(df)[5]="HR(DSS CPH univariable)"
+names(df)[6]="HR(DSS CPH multivariable)"
+df
+
+fit=crr_formula(time+status_crr~age+sex+thickness+ulcer,data=melanoma)
+
+addFitSummary(df,fit,"HR (competing risks multivariable)") %>% myft()
+```

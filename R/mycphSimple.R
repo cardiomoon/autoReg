@@ -18,6 +18,9 @@ mycphSimple=function (fit, threshold = 0.2,digits=2)
      y = as.character(f)[2]
      myvar = attr(myt, "term.labels")
      myvar
+     del=str_detect(myvar,"strata\\(|cluster\\(|frailty\\(")
+     if(any(del)) myvar=myvar[-which(del)]
+
      count = length(myvar)
      var <- HR <- lcl <- ucl <- p <- coef <- se <- z <- c()
      sigVars = c()
@@ -98,6 +101,7 @@ fit2multi=function(fit,threshold=0.2){
 #' @param threshold Numeric
 #' @importFrom survival coxph Surv
 #' @importFrom stats na.omit
+#' @importFrom stringr str_remove_all
 #' @examples
 #' require(survival)
 #' data(cancer)
@@ -111,9 +115,10 @@ fit2final=function(fit,threshold=0.2){
      temp = as.character(fit$call)
      f = fit$formula
      y = as.character(f)[2]
-
-     timevar=attr(fit$y,"dimnames")[[2]][1]
-     statusvar=attr(fit$y,"dimnames")[[2]][2]
+     temp1=str_remove_all(y,"Surv\\(|\\)| ")
+     temp1=unlist(strsplit(temp1,","))
+     timevar=temp1[1]
+     statusvar=temp1[2]
      dataname = as.character(fit$call)[3]
      xvars = attr(fit$term, "term.labels")
      xvars2 = c(xvars, timevar, statusvar)
@@ -144,7 +149,6 @@ autoReg.coxph=function(x,...){
 #'@param multi logical whether or not perform multivariate regression
 #'@param final logical whether or not perform stepwise backward elimination
 #'@param imputed logical whether or not perform multiple imputation
-#'@param keepid logical whether or not save id column
 #'@param keepstats logical whether or not keep statistic
 #'@examples
 #' require(survival)
@@ -159,18 +163,24 @@ autoReg.coxph=function(x,...){
 #' autoReg(fit,data=colon_s,uni=TRUE,threshold=1)
 #' autoReg(fit,data=colon_s,uni=TRUE,imputed=TRUE)
 #'@export
-autoRegCox=function(x,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepid=FALSE,keepstats=FALSE){
-         # x=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon)
-         # data=colon_s;threshold=0.2;uni=FALSE;multi=TRUE;final=FALSE;imputed=TRUE;keepid=TRUE;keepstats=TRUE
+autoRegCox=function(x,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepstats=FALSE){
+         # x=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon);data=colon
+         # threshold=0.2;uni=TRUE;multi=TRUE;final=FALSE;imputed=FALSE;keepid=FALSE;keepstats=FALSE
      if(uni==FALSE) threshold=1
      fit=x
      dataname = as.character(fit$call)[3]
      if(missing(data)) {
           data=eval(parse(text=dataname))
      }
-     timevar=attr(fit$y,"dimnames")[[2]][1]
-     statusvar=attr(fit$y,"dimnames")[[2]][2]
+     fit
+     f = fit$formula
+     y = as.character(f)[2]
+     temp1=str_remove_all(y,"Surv\\(|\\)| ")
+     temp1=unlist(strsplit(temp1,","))
+     timevar=temp1[1]
+     statusvar=temp1[2]
      xvars = attr(fit$terms, "term.labels")
+     xvars
      myformula=paste0("~",paste0(xvars,collapse="+"))
      mylist=list()
      mylist[[1]]=gaze(as.formula(myformula),data=data,keepid=TRUE)
@@ -236,7 +246,7 @@ autoRegCox=function(x,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,impute
           Final=reduce(mylist,left_join,by="id")
           names(Final)[1]=paste0("Dependent: Suv(",timevar,",",statusvar,")")
           names(Final)[2]=" "
-          if(!keepid) Final$id=NULL
+          #if(!keepid) Final$id=NULL
           Final
      }
      class(Final)=c("autoReg","data.frame")
@@ -248,7 +258,7 @@ autoRegCox=function(x,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,impute
 
 #' Add model summary to an object of class gaze
 #' @param df An object of class gaze
-#' @param fit An object of class glm or lm
+#' @param fit An object of class glm or lm or crr
 #' @param statsname character Name of statistics
 #' @param keepid logical whether or not save id
 #' @export
@@ -257,16 +267,22 @@ autoRegCox=function(x,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,impute
 #' require(magrittr)
 #' data(cancer,package="survival")
 #' fit=coxph(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
-#' df=autoReg(fit,data=colon,uni=FALSE,keepid=TRUE)
+#' df=autoReg(fit,data=colon,uni=FALSE)
 #' final=fit2final(fit)
 #' df %>% addFitSummary(final,statsname="HR (final)",keepid=FALSE) %>% myft()
 addFitSummary=function(df,fit,statsname="",keepid=FALSE){
-     result=fit2summary(fit)
+     if("crr" %in% class(fit)){
+          result=crr2stats(fit)
+          result=result[,c(5,6)]
+     } else{
+        result=fit2summary(fit)
+     }
      if(statsname!="") {
           names(result)[names(result)=="stats"]= statsname
      }
-     df <-df %>% left_join(result)
+     df <-df %>% left_join(result,by="id")
      if(!keepid) df$id=NULL
+     df[is.na(df)]=""
      df
 }
 

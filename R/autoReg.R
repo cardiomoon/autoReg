@@ -139,7 +139,7 @@ fit2summary=function(fit,...){
 #' fit=lm(mpg~wt*hp+am,data=mtcars)
 #' fit2stats(fit)
 fit2stats=function(fit,method="likelihood",digits=2){
-    # method="likelihood";digits=2
+     # method="likelihood";digits=2
     mode=1
      if("glm" %in% attr(fit,"class")) {
           mode=2
@@ -251,14 +251,13 @@ autoReg.glm=function(x,...){
 #'@param multi logical whether or not perform multivariate regression
 #'@param final logical whether or not perform stepwise backward elimination
 #'@param imputed logical whether or not include imputed model
-#'@param keepid logical whether or not keep id column
 #'@param keepstats logical whether or not keep statistics
 #' @importFrom stringr str_detect fixed
 #' @importFrom purrr reduce map_dfr
 #' @importFrom dplyr left_join bind_rows all_of
 #' @importFrom rlang .data
 #' @export
-autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepid=FALSE,keepstats=FALSE){
+autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepstats=FALSE){
           #fit=lm(mpg~wt*hp+I(wt^2)+am,data=mtcars)
           #fit=lm(Sepal.Width~Sepal.Length*Species,data=iris)
       # fit=glm(cens~horTh*progrec+pnodes,data=GBSG2,family="binomial")
@@ -413,7 +412,7 @@ autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALS
         Final=reduce(dflist,left_join,by="id")
         names(Final)[1]=paste0("Dependent: ",yvar)
         names(Final)[2]=" "
-        if(!keepid) Final$id=NULL
+        #if(!keepid) Final$id=NULL
         Final
      }
      class(Final)=c("autoReg","data.frame")
@@ -437,7 +436,10 @@ print.autoReg=function(x,...){
 
 #'Print function for data.frame
 #'@param x A data.frame
-printdf=function(x){
+#'@param showid logical if TRUE, show id
+printdf=function(x,showid=FALSE){
+
+     if(("autoReg" %in% class(x))&(showid==FALSE)) x$id=NULL
     lengths1=map_int(x,maxnchar)
     lengths2=map_int(names(x),maxnchar)
     lengths=pmax(lengths1,lengths2)+2

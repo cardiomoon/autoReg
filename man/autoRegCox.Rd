@@ -12,7 +12,6 @@ autoRegCox(
   multi = TRUE,
   final = FALSE,
   imputed = FALSE,
-  keepid = FALSE,
   keepstats = FALSE
 )
 }
@@ -30,8 +29,6 @@ autoRegCox(
 \item{final}{logical whether or not perform stepwise backward elimination}
 
 \item{imputed}{logical whether or not perform multiple imputation}
-
-\item{keepid}{logical whether or not save id column}
 
 \item{keepstats}{logical whether or not keep statistic}
 }

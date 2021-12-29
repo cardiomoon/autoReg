@@ -40,7 +40,7 @@
 modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,...){
         # fit=lm(Sepal.Width~Sepal.Length*Species,data=iris)
         # summary(fit)
-        # widths=NULL;change.pointsize=TRUE;uni=TRUE;multi=TRUE;imputed=TRUE;show.OR=TRUE
+         # widths=NULL;change.pointsize=TRUE;uni=FALSE;multi=TRUE;imputed=FALSE;show.OR=TRUE
      if(is.null(widths)) widths=c(1.2,1,2,3.5)
 
      mode=1
@@ -74,6 +74,9 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,...){
      df1$desc[df1$desc==paste0("Mean ",plusminus," SD")]=""
      others=setdiff(xvars,names(data))
      others
+     del=str_detect(others,"strata\\(|cluster\\(|frailty\\(")
+     if(any(del)) others=others[-which(del)]
+
      if(length(others)>0){   ## interactions or interpretations
           for(i in 1:length(others)){
                  # i=1
@@ -94,8 +97,6 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,...){
                     temp=data.frame(name=name,desc=desc,N=N,stats="",n=n,id=id)
                }
                class(df1)="data.frame"
-               df1
-               temp
                df1=rbind(df1,temp)
           }
      }
@@ -103,8 +104,8 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,...){
      df1$stats=NULL
      df1
      fit
-     df2=autoReg(fit,keepid=TRUE,keepstats=TRUE,...)
-      # df2=autoReg(fit,keepid=TRUE,keepstats=TRUE,uni=TRUE,multi=TRUE,imputed=TRUE)
+     df2=autoReg(fit,keepstats=TRUE,...)
+      # df2=autoReg(fit,keepstats=TRUE,uni=TRUE,multi=TRUE,imputed=TRUE)
 
      df2=df2%>% dplyr::filter(.data$id!="(Intercept)")
 

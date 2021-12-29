@@ -4,10 +4,12 @@
 \alias{printdf}
 \title{Print function for data.frame}
 \usage{
-printdf(x)
+printdf(x, showid = FALSE)
 }
 \arguments{
 \item{x}{A data.frame}
+
+\item{showid}{logical if TRUE, show id}
 }
 \description{
 Print function for data.frame

@@ -76,6 +76,8 @@ gaze.formula_sub=function(x,data,keepid=FALSE,missing=FALSE,...){
 
      myt=terms(f,data=data)
      xvars=attr(myt,"term.labels")
+     del=str_detect(xvars,"strata\\(|cluster\\(|frailty\\(")
+     if(any(del)) xvars=xvars[-which(del)]
 
      temp=strsplit(deparse(x),"~")[[1]][1]
      temp=gsub(" ","",temp)
@@ -164,6 +166,7 @@ getGroupNames=function(data,yvars){
 #' @param vanilla logical
 #' @param  fontsize Numeric
 #' @param digits integer indicating the position of decimal place
+#' @param showid logical if TRUE, show id
 #' @param ... Further arguments to be passed to df2flextable()
 #' @importFrom rrtable df2flextable
 #' @importFrom flextable align autofit hline hline_top
@@ -178,11 +181,12 @@ getGroupNames=function(data,yvars){
 #' gaze(Dx+sex~cardiogenicShock,data=acs,show.p=TRUE) %>% myft()
 #' gaze(Dx+sex+HBP~cardiogenicShock,data=acs,show.p=TRUE) %>% myft()
 #' @export
-myft=function(x,vanilla=TRUE,fontsize=10,digits,...){
+myft=function(x,vanilla=TRUE,fontsize=10,digits,showid=FALSE,...){
 
      if("imputedReg" %in% class(x)){
         if(missing(digits)) digits=c(1,4,4,4,2,4,4,4,4,4,4,1)
      } else{
+          if(("autoReg" %in% class(x))&(showid==FALSE)) x$id=NULL
        names(x)[2]="levels"
        if(missing(digits)) digits=2
      }

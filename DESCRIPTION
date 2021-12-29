@@ -27,9 +27,13 @@ Imports:
    patchwork,
    ggplot2,
    boot,
-   broom
+   broom,
+   cmprsk
 Suggests:
-   finalfit,
-   lme4,
-   TH.data
+    knitr,
+    finalfit,
+    lme4,
+    TH.data,
+    rmarkdown
 RoxygenNote: 7.1.2
+VignetteBuilder: knitr

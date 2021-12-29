@@ -12,7 +12,6 @@ autoReg_sub(
   multi = TRUE,
   final = FALSE,
   imputed = FALSE,
-  keepid = FALSE,
   keepstats = FALSE
 )
 }
@@ -30,8 +29,6 @@ autoReg_sub(
 \item{final}{logical whether or not perform stepwise backward elimination}
 
 \item{imputed}{logical whether or not include imputed model}
-
-\item{keepid}{logical whether or not keep id column}
 
 \item{keepstats}{logical whether or not keep statistics}
 }

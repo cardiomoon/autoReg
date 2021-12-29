@@ -9,7 +9,7 @@ addFitSummary(df, fit, statsname = "", keepid = FALSE)
 \arguments{
 \item{df}{An object of class gaze}
 
-\item{fit}{An object of class glm or lm}
+\item{fit}{An object of class glm or lm or crr}
 
 \item{statsname}{character Name of statistics}
 
@@ -23,7 +23,7 @@ require(survival)
 require(magrittr)
 data(cancer,package="survival")
 fit=coxph(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
-df=autoReg(fit,data=colon,uni=FALSE,keepid=TRUE)
+df=autoReg(fit,data=colon,uni=FALSE)
 final=fit2final(fit)
 df \%>\% addFitSummary(final,statsname="HR (final)",keepid=FALSE) \%>\% myft()
 }
