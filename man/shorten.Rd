@@ -18,6 +18,6 @@ Shorten an object of class gaze
 }
 \examples{
 data(acs,package="moonBook")
-x=gaze(sex~.,data=acs,keepid=TRUE)
+x=gaze(sex~.,data=acs)
 shorten(x)
 }

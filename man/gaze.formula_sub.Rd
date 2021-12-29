@@ -4,7 +4,7 @@
 \alias{gaze.formula_sub}
 \title{Produce table for descriptive statistics}
 \usage{
-\method{gaze}{formula_sub}(x, data, keepid = FALSE, missing = FALSE, ...)
+\method{gaze}{formula_sub}(x, data, missing = FALSE, ...)
 }
 \arguments{
 \item{x}{An object of class "formula". Left side of ~ must contain the
@@ -13,8 +13,6 @@ additive way(e.g. sex+group~), and the right side of ~ must have
 variables in an additive way.}
 
 \item{data}{A data.frame}
-
-\item{keepid}{logical Whether or not keep id column}
 
 \item{missing}{logical If true, missing value analysis performed}
 

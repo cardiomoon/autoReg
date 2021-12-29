@@ -261,7 +261,7 @@ autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALS
           #fit=lm(mpg~wt*hp+I(wt^2)+am,data=mtcars)
           #fit=lm(Sepal.Width~Sepal.Length*Species,data=iris)
       # fit=glm(cens~horTh*progrec+pnodes,data=GBSG2,family="binomial")
-            # data=NULL;threshold=0.2;uni=FALSE;multi=TRUE;final=FALSE;imputed=FALSE;keepid=FALSE;keepstats=FALSE
+            # data=NULL;threshold=0.2;uni=FALSE;multi=TRUE;final=FALSE;imputed=FALSE;keepstats=FALSE
      xvars = attr(fit$terms, "term.labels")
      yvar = as.character(attr(fit$terms, "variables"))[2]
 
@@ -292,7 +292,7 @@ autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALS
          temp=names(data)[str_detect(names(data),fixed("I("))]
          data<-data %>% select(-all_of(temp))
      }
-     df=gaze(x=as.formula(formula),data=data,keepid=TRUE,show.n=keepstats)
+     df=gaze(x=as.formula(formula),data=data,show.n=keepstats)
      df=as.data.frame(df)
      df
      others=setdiff(xvars,names(data))
@@ -412,7 +412,7 @@ autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALS
         Final=reduce(dflist,left_join,by="id")
         names(Final)[1]=paste0("Dependent: ",yvar)
         names(Final)[2]=" "
-        #if(!keepid) Final$id=NULL
+
         Final
      }
      class(Final)=c("autoReg","data.frame")
@@ -431,6 +431,7 @@ autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALS
 #' @export
 print.autoReg=function(x,...){
     printdf(x)
+    if(!is.null(attr(x,"add"))) cat(attr(x,"add"),"\n")
 }
 
 

@@ -33,6 +33,7 @@ print.gaze=function(x,...){
      # })
      # attr(x1, "yvars")=attr(x, "yvars")
      # x=x1
+      x$id=NULL
      if(!is.null(attr(x,"missing"))) {
            yname=str_remove(attr(x,"yvars"),"Missing")
            cat("Missing data analysis : '",yname,"'\n\n")

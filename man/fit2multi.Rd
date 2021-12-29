@@ -7,7 +7,7 @@
 fit2multi(fit, threshold = 0.2)
 }
 \arguments{
-\item{fit}{An abject of class coxph}
+\item{fit}{An object of class coxph}
 
 \item{threshold}{Numeric}
 }

@@ -79,7 +79,7 @@ filldown=function(x,what=c("",NA)){
 #'@param ref Numeric Th number to be used as reference
 #'@examples
 #'data(acs,package="moonBook")
-#'x=gaze(sex~.,data=acs,keepid=TRUE)
+#'x=gaze(sex~.,data=acs)
 #'shorten(x)
 #'@export
 shorten=function(x,xname="name",ref=1){

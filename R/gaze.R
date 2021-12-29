@@ -55,22 +55,22 @@ gaze.data.frame=function(x,...){
 #'                additive way(e.g. sex+group~), and the right side of ~ must have
 #'                variables in an additive way.
 #'@param data A data.frame
-#'@param keepid logical Whether or not keep id column
 #'@param missing logical If true, missing value analysis performed
 #'@param ... Further arguments to be passed to gaze()
 #'@importFrom dplyr group_split
 #'@importFrom purrr map_dfc map_dfr map2_dfc walk
 #'@importFrom stats terms
 #'@export
-gaze.formula_sub=function(x,data,keepid=FALSE,missing=FALSE,...){
+gaze.formula_sub=function(x,data,missing=FALSE,...){
 
-      #x=sex+Dx~.;data=acs;keepid=FALSE
-     #x=sex~.;data=acs;keepid=FALSE
+      #x=sex+Dx~.;data=acs;
+     #x=sex~.;data=acs;
       # x=sex+Dx+DM~HBP
       # data=acs
      # #cat("gaze.formula_sub\n")
-     #x=~hp*wt+am;data=mtcars;keepid=FALSE
+     #x=~hp*wt+am;data=mtcars;
      #x=sumY~Base+Age+Trt;data=breslow.dat
+      # x=~Sepal.Length*Species;data=iris;missing=FALSE
 
      f=x
 
@@ -78,6 +78,9 @@ gaze.formula_sub=function(x,data,keepid=FALSE,missing=FALSE,...){
      xvars=attr(myt,"term.labels")
      del=str_detect(xvars,"strata\\(|cluster\\(|frailty\\(")
      if(any(del)) xvars=xvars[-which(del)]
+      others=setdiff(xvars,names(data))
+      if(length(others)>0) xvars=setdiff(xvars,others)
+
 
      temp=strsplit(deparse(x),"~")[[1]][1]
      temp=gsub(" ","",temp)
@@ -88,7 +91,7 @@ gaze.formula_sub=function(x,data,keepid=FALSE,missing=FALSE,...){
      # cat("xvars=",xvars,"\n")
      if(length(yvars)==0){
          df=map_dfr(xvars, function(x){gaze_sub(data,x,origData=data,...)})%>%select(-.data$type)
-         if(!keepid) df = select(df,-.data$id)
+
      } else if(length(yvars)==1){
 
        if(missing==TRUE){
@@ -98,28 +101,29 @@ gaze.formula_sub=function(x,data,keepid=FALSE,missing=FALSE,...){
            s=paste0(paste0(yvars,"Missing"),"~",paste0(xvars,collapse="+"))
            data[[yvars]]<-NULL
 
-           result=gaze(as.formula(s),data,keepid=keepid,missing=FALSE,...)
+           result=gaze(as.formula(s),data,missing=FALSE,...)
            attr(result,"missing")=TRUE
            return(result)
          } else{
            cat(paste0("There is no missing data in column '",yvars,"'\n"))
            s=paste0("~",paste0(xvars,collapse="+"))
-           result=gaze(as.formula(s),data,keepid=keepid,missing=FALSE,show.n=TRUE,...)
+           result=gaze(as.formula(s),data,missing=FALSE,show.n=TRUE,...)
            return(result)
          }
        }
          df=map_dfr(xvars, function(x){gaze_sub(data,x,yvars,origData=data,...)}) %>%select(-.data$type)
-         if(!keepid) df = select(df,-.data$id)
          attr(df,"groups")=getGroupNames(data,yvars[1])
 
 
      } else {
 
          dflist <- data %>% group_by_at(yvars[-length(yvars)]) %>% group_split()
-
+         df=dflist[[1]]
+         i=1
          df=map2_dfc(dflist,1:length(dflist),function(df,i){
+
               result=map_dfr(xvars,function(x){gaze_sub(df,x,yvars[length(yvars)],origData=data,...)}) %>% select(-.data$type)
-              if(!keepid) result = select(result,-.data$id)
+
               if(i>1) {
                    result=result %>% select(-.data$name,-.data$desc)
 
@@ -136,6 +140,28 @@ gaze.formula_sub=function(x,data,keepid=FALSE,missing=FALSE,...){
          })
          attr(df,"groups")=getGroupNames(data,yvars[-length(yvars)])
 
+     }
+
+     if(length(others)>0){
+
+       for(i in 1:length(others)){
+           # i=1
+         name=others[i]
+         desc="others"
+         if(str_detect(name,":")) {
+           desc="interaction"
+           temp=getInteraction(name,data=data)
+           temp$n=NULL
+
+         } else if(str_detect(name,fixed("I("))){
+           desc="interpretation"
+           temp=data.frame(name=name,levels=desc,id=name)
+         }
+         df
+         temp$stats=""
+         class(df)="data.frame"
+         df=bind_rows(df,temp)
+       }
      }
      attr(df,"yvars")=yvars
      class(df)=c("gaze","data.frame","tibble")
@@ -169,7 +195,7 @@ getGroupNames=function(data,yvars){
 #' @param showid logical if TRUE, show id
 #' @param ... Further arguments to be passed to df2flextable()
 #' @importFrom rrtable df2flextable
-#' @importFrom flextable align autofit hline hline_top
+#' @importFrom flextable align autofit hline hline_top footnote as_paragraph
 #' @importFrom officer fp_border
 #' @importFrom purrr map_chr
 #' @examples
@@ -187,8 +213,9 @@ myft=function(x,vanilla=TRUE,fontsize=10,digits,showid=FALSE,...){
         if(missing(digits)) digits=c(1,4,4,4,2,4,4,4,4,4,4,1)
      } else{
           if(("autoReg" %in% class(x))&(showid==FALSE)) x$id=NULL
-       names(x)[2]="levels"
-       if(missing(digits)) digits=2
+          if(("gaze" %in% class(x))&(showid==FALSE)) x$id=NULL
+          names(x)[2]="levels"
+          if(missing(digits)) digits=2
      }
      yvars=attr(x,"yvars")
      yvars
@@ -227,7 +254,9 @@ myft=function(x,vanilla=TRUE,fontsize=10,digits,showid=FALSE,...){
 
 
      }
-
+     if(("autoReg" %in% class(x))&(!is.null(attr(x,"add")))) {
+        ft=footnote(ft,i=1,j=1,value=as_paragraph(attr(x,"add")),ref_symbols="",part="body")
+     }
      ft %>%
        flextable::align(align="center",part="header") %>%
        flextable::align(j=1:2,align="left",part="body") %>%

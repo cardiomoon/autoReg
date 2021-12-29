@@ -4,7 +4,7 @@
 \alias{addFitSummary}
 \title{Add model summary to an object of class gaze}
 \usage{
-addFitSummary(df, fit, statsname = "", keepid = FALSE)
+addFitSummary(df, fit, statsname = "")
 }
 \arguments{
 \item{df}{An object of class gaze}
@@ -12,8 +12,6 @@ addFitSummary(df, fit, statsname = "", keepid = FALSE)
 \item{fit}{An object of class glm or lm or crr}
 
 \item{statsname}{character Name of statistics}
-
-\item{keepid}{logical whether or not save id}
 }
 \description{
 Add model summary to an object of class gaze
@@ -25,5 +23,5 @@ data(cancer,package="survival")
 fit=coxph(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
 df=autoReg(fit,data=colon,uni=FALSE)
 final=fit2final(fit)
-df \%>\% addFitSummary(final,statsname="HR (final)",keepid=FALSE) \%>\% myft()
+df \%>\% addFitSummary(final,statsname="HR (final)") \%>\% myft()
 }
