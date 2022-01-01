@@ -18,6 +18,7 @@ gazeCat(
   show.p = TRUE,
   method = 1,
   catMethod = 2,
+  maxCatLevel = 20,
   ...
 )
 }
@@ -61,6 +62,9 @@ Possible values in methods are
    \item{4}{perform prop.trend test}
 }
 Default value is 2.}
+
+\item{maxCatLevel}{An integer indicating the maximum number of unique levels of categorial variable.
+If a colummn have unique values more than maxCatLevel, categorical summarization will not be performed.}
 
 \item{...}{Further arguments}
 }

@@ -4,7 +4,7 @@
 \alias{shorten}
 \title{Shorten an object of class gaze}
 \usage{
-shorten(x, xname = "name", ref = 1)
+shorten(x, xname = NULL, ref = 1)
 }
 \arguments{
 \item{x}{an object of class gaze}

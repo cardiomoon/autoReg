@@ -12,7 +12,8 @@ autoRegCox(
   multi = TRUE,
   final = FALSE,
   imputed = FALSE,
-  keepstats = FALSE
+  keepstats = FALSE,
+  ...
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ autoRegCox(
 \item{imputed}{logical whether or not perform multiple imputation}
 
 \item{keepstats}{logical whether or not keep statistic}
+
+\item{...}{Further arguments to be passed to gaze()}
 }
 \description{
 perform automatc regression for a class of coxph
@@ -39,7 +42,7 @@ perform automatc regression for a class of coxph
 require(survival)
 require(magrittr)
 data(cancer)
-fit=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon)
+fit=coxph(Surv(time,status)~rx+age+sex+obstruct+perfor,data=colon)
 autoReg(fit,data=colon)
 autoReg(fit,data=colon,uni=TRUE,threshold=1)
 autoReg(fit,data=colon,uni=TRUE,final=TRUE) \%>\% myft()

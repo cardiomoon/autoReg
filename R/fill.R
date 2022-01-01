@@ -82,7 +82,8 @@ filldown=function(x,what=c("",NA)){
 #'x=gaze(sex~.,data=acs)
 #'shorten(x)
 #'@export
-shorten=function(x,xname="name",ref=1){
+shorten=function(x,xname=NULL,ref=1){
+     if(is.null(xname)) xname=names(x)[1]
      x[[xname]]=filldown(x[[xname]])
      pos=which(find1stDup(x[[xname]]))
      if(ref==2) pos=pos+1

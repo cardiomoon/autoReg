@@ -59,6 +59,7 @@ Summary function for continuous variable
 gazeCont(mtcars,"hp")
 gazeCont(mtcars,"hp","mpg")
 require(moonBook)
+gazeCont(acs,"log(age)")
 gazeCont(acs,"age",method=2)
 gazeCont(acs,"age","EF",method=2)
 gazeCont(acs,"age","Dx",method=1)

@@ -164,11 +164,12 @@ autoReg.coxph=function(x,...){
 #'@param final logical whether or not perform stepwise backward elimination
 #'@param imputed logical whether or not perform multiple imputation
 #'@param keepstats logical whether or not keep statistic
+#'@param ... Further arguments to be passed to gaze()
 #'@examples
 #' require(survival)
 #' require(magrittr)
 #' data(cancer)
-#' fit=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon)
+#' fit=coxph(Surv(time,status)~rx+age+sex+obstruct+perfor,data=colon)
 #' autoReg(fit,data=colon)
 #' autoReg(fit,data=colon,uni=TRUE,threshold=1)
 #' autoReg(fit,data=colon,uni=TRUE,final=TRUE) %>% myft()
@@ -177,9 +178,9 @@ autoReg.coxph=function(x,...){
 #' autoReg(fit,data=colon_s,uni=TRUE,threshold=1)
 #' autoReg(fit,data=colon_s,uni=TRUE,imputed=TRUE)
 #'@export
-autoRegCox=function(x,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepstats=FALSE){
+autoRegCox=function(x,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepstats=FALSE,...){
          # x=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon);data=colon
-        #  threshold=0.2;uni=TRUE;multi=TRUE;final=FALSE;imputed=FALSE;keepstats=FALSE
+          # threshold=0.2;uni=TRUE;multi=TRUE;final=FALSE;imputed=FALSE;keepstats=FALSE
      if(uni==FALSE) threshold=1
      fit=x
      dataname = as.character(fit$call)[3]
@@ -197,10 +198,15 @@ autoRegCox=function(x,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,impute
      xvars
      add=xvars[str_detect(xvars,"strata\\(|cluster\\(|frailty\\(")]
      add
+     if(str_detect(paste0(deparse(fit$call),collapse=""),"cluster")){
+             temp=unlist(strsplit(deparse(fit$call),"cluster"))[2]
+             add=c(add,paste0("cluster=",str_remove_all(temp,"=|\\)| ")))
+     }
      myformula=paste0("~",paste0(xvars,collapse="+"))
      myformula
      mylist=list()
-     mylist[[1]]=gaze(as.formula(myformula),data=data)
+     mylist[[1]]=gaze(as.formula(myformula),data=data,...)
+     # mylist[[1]]=gaze(as.formula(myformula),data=data)
      names(mylist[[1]])[1:3]=c(paste0("Dependent: Surv(",timevar,",",statusvar,")")," ","all")
      names(mylist[[1]])[1:3]
      no=2

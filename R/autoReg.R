@@ -261,7 +261,7 @@ autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALS
           #fit=lm(mpg~wt*hp+I(wt^2)+am,data=mtcars)
           #fit=lm(Sepal.Width~Sepal.Length*Species,data=iris)
       # fit=glm(cens~horTh*progrec+pnodes,data=GBSG2,family="binomial")
-            # data=NULL;threshold=0.2;uni=FALSE;multi=TRUE;final=FALSE;imputed=FALSE;keepstats=FALSE
+             # data=NULL;threshold=0.2;uni=FALSE;multi=TRUE;final=FALSE;imputed=FALSE;keepstats=FALSE
      xvars = attr(fit$terms, "term.labels")
      yvar = as.character(attr(fit$terms, "variables"))[2]
 
@@ -431,7 +431,7 @@ autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALS
 #' @export
 print.autoReg=function(x,...){
     printdf(x)
-    if(!is.null(attr(x,"add"))) cat(attr(x,"add"),"\n")
+    if(!is.null(attr(x,"add"))) cat(paste0(attr(x,"add"),collapse=","),"\n")
 }
 
 

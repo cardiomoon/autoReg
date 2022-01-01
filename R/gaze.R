@@ -71,6 +71,7 @@ gaze.formula_sub=function(x,data,missing=FALSE,...){
      #x=~hp*wt+am;data=mtcars;
      #x=sumY~Base+Age+Trt;data=breslow.dat
       # x=~Sepal.Length*Species;data=iris;missing=FALSE
+         # x=~log(age)+sex;data=acs;missing=FALSE
 
      f=x
 
@@ -78,6 +79,7 @@ gaze.formula_sub=function(x,data,missing=FALSE,...){
      xvars=attr(myt,"term.labels")
      del=str_detect(xvars,"strata\\(|cluster\\(|frailty\\(")
      if(any(del)) xvars=xvars[-which(del)]
+     others=c()
       others=setdiff(xvars,names(data))
       if(length(others)>0) xvars=setdiff(xvars,others)
 
@@ -91,6 +93,7 @@ gaze.formula_sub=function(x,data,missing=FALSE,...){
      # cat("xvars=",xvars,"\n")
      if(length(yvars)==0){
          df=map_dfr(xvars, function(x){gaze_sub(data,x,origData=data,...)})%>%select(-.data$type)
+          # df=map_dfr(xvars, function(x){gaze_sub(data,x,origData=data)})%>%select(-.data$type)
 
      } else if(length(yvars)==1){
 
@@ -154,6 +157,9 @@ gaze.formula_sub=function(x,data,missing=FALSE,...){
            temp$n=NULL
 
          } else if(str_detect(name,fixed("I("))){
+           desc="interpretation"
+           temp=data.frame(name=name,levels=desc,id=name)
+         } else{
            desc="interpretation"
            temp=data.frame(name=name,levels=desc,id=name)
          }
@@ -255,7 +261,7 @@ myft=function(x,vanilla=TRUE,fontsize=10,digits,showid=FALSE,...){
 
      }
      if(("autoReg" %in% class(x))&(!is.null(attr(x,"add")))) {
-        ft=footnote(ft,i=1,j=1,value=as_paragraph(attr(x,"add")),ref_symbols="",part="body")
+        ft=footnote(ft,i=1,j=1,value=as_paragraph(paste0(attr(x,"add"),collapse=",")),ref_symbols="",part="body")
      }
      ft %>%
        flextable::align(align="center",part="header") %>%

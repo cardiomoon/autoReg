@@ -76,6 +76,7 @@ descNum=function(method=1,p=NULL){
 #' gazeCont(mtcars,"hp")
 #' gazeCont(mtcars,"hp","mpg")
 #' require(moonBook)
+#' gazeCont(acs,"log(age)")
 #' gazeCont(acs,"age",method=2)
 #' gazeCont(acs,"age","EF",method=2)
 #' gazeCont(acs,"age","Dx",method=1)
@@ -83,14 +84,33 @@ descNum=function(method=1,p=NULL){
 #' @export
 gazeCont=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE,show.missing=FALSE,show.stats=TRUE,show.p=TRUE,method=1,origData,...){
 
-     #data=acs;x="age";y="Dx";max.ylev=5;digits=2;show.total=FALSE;show.p=TRUE;method=3;show.n=TRUE;show.missing=TRUE
+        # data=acs;x="log(age)";y=NULL;max.ylev=5;digits=2;show.total=FALSE;show.p=TRUE;method=3;show.n=TRUE;show.missing=TRUE
+
      plusminus="\u00b1"
      fmt=paste0("%.",digits,"f")
      xname=x
-     x= data[[x]]
+     xname1=x
+     conversion=FALSE
+     if(!(xname %in% names(data)) & str_detect(xname,"\\(")){
+             temp1=unlist(strsplit(xname,"\\("))
+             xname=temp1[2]
+             xname=str_replace(xname,"\\)","")
+             xname=str_replace(xname,"\\^[0-9]*","")
+             conversion=TRUE
+     }
+     x= data[[xname]]
      if(is.null(y)){
           temp=descNum(method)
-          df=data.frame(name=xname,desc=temp,stats=num2stat(x,digits=digits,method=method))
+          if(conversion){
+                 y=paste0(temp1[1],"(x)")
+                 y
+                 x=eval(parse(text=y))
+                 x
+                 stats=num2stat(x,digits=digits,method=method)
+          } else{
+             stats=num2stat(x,digits=digits,method=method)
+          }
+          df=data.frame(name=xname1,desc=temp,stats=stats)
           if(show.n) df$n=sum(!is.na(x))
      } else{
           y= data[[y]]
@@ -170,6 +190,8 @@ gazeCont=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALS
 #'               }
 #'               Default value is 2.
 #' @param origData A data.frame containing original data
+#' @param maxCatLevel An integer indicating the maximum number of unique levels of categorial variable.
+#' If a colummn have unique values more than maxCatLevel, categorical summarization will not be performed.
 #' @param ... Further arguments
 #' @examples
 #' require(moonBook)
@@ -186,7 +208,7 @@ gazeCont=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALS
 #' @importFrom tidyr pivot_wider
 #' @importFrom tidyselect everything
 #' @export
-gazeCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE,show.missing=FALSE,show.stats=TRUE,origData=NULL,show.p=TRUE,method=1,catMethod=2,...){
+gazeCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE,show.missing=FALSE,show.stats=TRUE,origData=NULL,show.p=TRUE,method=1,catMethod=2,maxCatLevel=20,...){
 
      # data=acs[acs$Dx=="Unstable Angina",];x="Dx";y="sex";
         # data=iris;x="Species";y="Sepal.Length"
@@ -200,6 +222,14 @@ gazeCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE
      plusminus="\u00b1"
      fmt=paste0("%.",digits,"f")
      if(is.null(y)){
+             if(length(unique(x))>maxCatLevel){
+                     name=xname
+                     desc=paste0(length(unique(x))," unique values" )
+                     stats=""
+                     id=xname
+                     res=data.frame(name=name,desc=desc,stats=stats,id=id,stringsAsFactors = FALSE)
+                     if(show.n) res$n=length(x)
+             } else{
      res=as.data.frame(table(x))
           res %>%
           mutate(
@@ -215,6 +245,7 @@ gazeCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE
              res1=as.data.frame(table(x))
              res$n=res1$Freq
      }
+             }
      } else{
           yname=y
           y= data[[y]]
@@ -303,14 +334,17 @@ gazeCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE
 
 #' Summary function for categorical/continuous variable
 #' @param data A data.frame
-#' @param x A name of categorical/continuous vector
+#' @param xname A name of categorical/continuous vector
 #' @param y A name of vector, either continuous or categorical
 #' @param max.ylev max.ylev An integer indicating the maximum number of levels of grouping variable ('y').
 #'  If a column have unique values less than max.ylev it is treated as a categorical variable. Default value is 5.
 #' @param ... Further arguments to be passed to gazeCont() or gazeCat()
+#' @importFrom stringr str_replace
 #' @examples
 #' require(moonBook)
 #' gaze_sub(acs,"age")
+#' gaze_sub(acs,"log(age)")
+#' gaze_sub(acs,"I(age^2)")
 #' gaze_sub(acs,"sex")
 #' gaze_sub(acs,"age","EF")
 #' gaze_sub(acs,"sex","EF")
@@ -318,16 +352,24 @@ gazeCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE
 #' gaze_sub(acs,"sex","Dx")
 #' gaze_sub(iris,"Species","Sepal.Length")
 #' @export
-gaze_sub=function(data,x,y=NULL,max.ylev=5,...){
+gaze_sub=function(data,xname,y=NULL,max.ylev=5,...){
 
+         # data=acs;xname="I(age^2)";y=NULL;max.ylev=5
+     x=xname
      if(!is.null(y)) {
           if(identical(x,y)) return(NULL)
      }
+     if(!(x %in% names(data)) & str_detect(x,"\\(")){
+        x=unlist(strsplit(x,"\\("))[2]
+        x=str_replace(x,"\\)","")
+        x=str_replace(x,"\\^[0-9]*","")
+     }
      myx=data[[x]]
      if(is.numeric(myx)) {
-          gazeCont(data,x,y,max.ylev,...)
+          gazeCont(data,xname,y,max.ylev,...)
+              # gazeCont(data,xname,y,max.ylev)
      } else{
-          gazeCat(data,x,y,max.ylev,...)
+          gazeCat(data,xname,y,max.ylev,...)
      }
 
 }

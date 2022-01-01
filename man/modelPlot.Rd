@@ -4,7 +4,16 @@
 \alias{modelPlot}
 \title{Draw coefficients/odds ratio/hazard ratio plot}
 \usage{
-modelPlot(fit, widths = NULL, change.pointsize = TRUE, show.OR = TRUE, ...)
+modelPlot(
+  fit,
+  widths = NULL,
+  change.pointsize = TRUE,
+  show.OR = TRUE,
+  show.ref = TRUE,
+  bw = TRUE,
+  legend.position = "top",
+  ...
+)
 }
 \arguments{
 \item{fit}{An object of calss glm}
@@ -15,15 +24,32 @@ modelPlot(fit, widths = NULL, change.pointsize = TRUE, show.OR = TRUE, ...)
 
 \item{show.OR}{logical Whether or not show odds ratio}
 
+\item{show.ref}{logical Whether or not show reference}
+
+\item{bw}{logical If true, use grey scale}
+
+\item{legend.position}{legend position default value is 'top'}
+
 \item{...}{Further arguments to be passed to autoReg()}
+}
+\value{
+modelPlot returns an  object of class "modelPlot"
+An object of class modelPlot is a list containing at least of the following components:
+\describe{
+   \item{tab1}{The first table containing names}
+   \item{tab2}{The 2nd table containing levels}
+   \item{tab3}{The 3rd table containing coefficients or odds ratio or hazards ratio}
+   \item{p}{A ggplot}
+   \item{widths}{the widths of the tables and the ggplot}
+}
 }
 \description{
 Draw coefficients/odds ratio/hazard ratio plot
 }
 \examples{
 fit=lm(mpg~wt*hp+am,data=mtcars)
-modelPlot(fit,width=c(1,0,2,3))
-modelPlot(fit,uni=TRUE,threshold=1,width=c(1,0,2,3))
+modelPlot(fit,widths=c(1,0,2,3))
+modelPlot(fit,uni=TRUE,threshold=1,widths=c(1,0,2,3))
 fit=lm(Sepal.Width~Sepal.Length*Species,data=iris)
 modelPlot(fit)
 modelPlot(fit,uni=TRUE,change.pointsize=FALSE)
@@ -38,6 +64,7 @@ fit=glm(mort_5yr~age.factor+sex.factor+obstruct.factor+perfor.factor,data=colon_
 modelPlot(fit)
 modelPlot(fit,uni=TRUE,multi=TRUE,threshold=1)
 modelPlot(fit,uni=TRUE,multi=TRUE)
+modelPlot(fit,uni=TRUE,multi=TRUE,threshold=1,show.ref=FALSE)
 library(survival)
 fit=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon)
 modelPlot(fit)
@@ -45,6 +72,7 @@ modelPlot(fit,uni=TRUE,threshold=1)
 fit=coxph(Surv(time,status)~age.factor+sex.factor+obstruct.factor+perfor.factor,data=colon_s)
 modelPlot(fit)
 modelPlot(fit,uni=TRUE,threshold=1)
+modelPlot(fit,uni=TRUE,threshold=1,show.ref=FALSE)
 modelPlot(fit,imputed=TRUE)
 }
 }

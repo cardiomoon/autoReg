@@ -4,12 +4,12 @@
 \alias{gaze_sub}
 \title{Summary function for categorical/continuous variable}
 \usage{
-gaze_sub(data, x, y = NULL, max.ylev = 5, ...)
+gaze_sub(data, xname, y = NULL, max.ylev = 5, ...)
 }
 \arguments{
 \item{data}{A data.frame}
 
-\item{x}{A name of categorical/continuous vector}
+\item{xname}{A name of categorical/continuous vector}
 
 \item{y}{A name of vector, either continuous or categorical}
 
@@ -24,6 +24,8 @@ Summary function for categorical/continuous variable
 \examples{
 require(moonBook)
 gaze_sub(acs,"age")
+gaze_sub(acs,"log(age)")
+gaze_sub(acs,"I(age^2)")
 gaze_sub(acs,"sex")
 gaze_sub(acs,"age","EF")
 gaze_sub(acs,"sex","EF")
