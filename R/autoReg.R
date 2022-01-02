@@ -1,6 +1,5 @@
 #' Make a list of univariable model with multivariable regression model
 #' @param fit An object of class lm or glm
-#' @param data A data.frame or NULL
 #' @importFrom purrr map
 #' @export
 #' @examples
@@ -10,19 +9,10 @@
 #' fit2list(fit)
 #' fit=lm(mpg~wt*hp+am,data=mtcars)
 #' fit2list(fit)
-fit2list=function(fit,data=NULL){
+fit2list=function(fit){
      # method = "likelihood"; vanilla = TRUE; threshold = 0.2; digits = NULL
 
-     if(is.null(data)){
-         if("glm" %in% class(fit)) {
-                 data=fit$data %>% dplyr::select(names(fit$model))
-         } else if("lm" %in% class(fit)){
-             data=fit$model
-         } else if("glmerMod" %in% class(fit)){
-             data=fit@frame
-         }
-
-     }
+     data=fit2model(fit)
 
      mode=1
      if("glm" %in% attr(fit,"class")) {
@@ -245,7 +235,6 @@ autoReg.glm=function(x,...){
 
 #'Perform univariable and multivariable regression and stepwise backward regression automatically
 #'@param fit An object of class lm or glm
-#'@param data A data.frame or NULL
 #'@param threshold numeric
 #'@param uni logical whether or not perform univariate regression
 #'@param multi logical whether or not perform multivariate regression
@@ -257,28 +246,17 @@ autoReg.glm=function(x,...){
 #' @importFrom dplyr left_join bind_rows all_of
 #' @importFrom rlang .data
 #' @export
-autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepstats=FALSE){
+autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepstats=FALSE){
           #fit=lm(mpg~wt*hp+I(wt^2)+am,data=mtcars)
           #fit=lm(Sepal.Width~Sepal.Length*Species,data=iris)
       # fit=glm(cens~horTh*progrec+pnodes,data=GBSG2,family="binomial")
-             # data=NULL;threshold=0.2;uni=FALSE;multi=TRUE;final=FALSE;imputed=FALSE;keepstats=FALSE
+               # threshold=0.2;uni=FALSE;multi=TRUE;final=FALSE;imputed=FALSE;keepstats=FALSE
      xvars = attr(fit$terms, "term.labels")
      yvar = as.character(attr(fit$terms, "variables"))[2]
+     # xvars
+     # yvar
+     data=fit2model(fit)
 
-     if(is.null(data)){
-         if("glm" %in% class(fit)) {
-             if(uni==TRUE) {
-                 data=fit$data %>% dplyr::select(names(fit$model))
-             }else{
-                 data=fit$model
-             }
-         } else if("lm" %in% class(fit)){
-             data=fit$model
-         } else if("glmerMod" %in% class(fit)){
-             data=fit@frame
-         }
-
-     }
      mode=1
      if("glm" %in% attr(fit,"class")) {
           mode=2
@@ -287,7 +265,10 @@ autoReg_sub=function(fit,data=NULL,threshold=0.2,uni=FALSE,multi=TRUE,final=FALS
      if(uni==FALSE) threshold=1
      result=getSigVars(fit,threshold=threshold,final=final)
      result
-     formula=paste0(yvar,"~.")
+     xvars
+     names(data)
+     formula=paste0(yvar,"~",paste0(xvars,collapse="+"))
+     formula
      if(any(str_detect(names(data),fixed("I(")))){
          temp=names(data)[str_detect(names(data),fixed("I("))]
          data<-data %>% select(-all_of(temp))

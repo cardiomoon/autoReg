@@ -4,12 +4,10 @@
 \alias{fit2list}
 \title{Make a list of univariable model with multivariable regression model}
 \usage{
-fit2list(fit, data = NULL)
+fit2list(fit)
 }
 \arguments{
 \item{fit}{An object of class lm or glm}
-
-\item{data}{A data.frame or NULL}
 }
 \description{
 Make a list of univariable model with multivariable regression model

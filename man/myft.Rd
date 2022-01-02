@@ -24,7 +24,7 @@ Convert data.frame into flextable
 }
 \examples{
 data(acs,package="moonBook")
-library(magrittr)
+library(dplyr)
 gaze(acs) \%>\% myft()
 gaze(sex~.,acs) \%>\% myft()
 gaze(sex+Dx~.,data=acs,show.p=TRUE,show.total=TRUE,show.n=TRUE,shiw.missing=TRUE) \%>\% myft()

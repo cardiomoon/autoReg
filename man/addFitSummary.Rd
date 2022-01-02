@@ -18,10 +18,10 @@ Add model summary to an object of class gaze
 }
 \examples{
 require(survival)
-require(magrittr)
+require(dplyr)
 data(cancer,package="survival")
 fit=coxph(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
-df=autoReg(fit,data=colon,uni=FALSE)
+df=autoReg(fit,uni=FALSE)
 final=fit2final(fit)
 df \%>\% addFitSummary(final,statsname="HR (final)") \%>\% myft()
 }

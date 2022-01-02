@@ -31,7 +31,7 @@ methods were used(t-test, ANOVA,Kruskal-Wallis, chisq, Fisher,...)
 
 \examples{
 library(moonBook)
-library(magrittr)
+library(dplyr)
 gaze(acs)
 gaze(~age+sex,data=acs)
 gaze(sex~.,data=acs,digits=1,method=1,show.p=TRUE) \%>\% myft()

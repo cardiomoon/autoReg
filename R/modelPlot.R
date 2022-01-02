@@ -57,8 +57,8 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,show.ref=T
                    legend.position="top",...){
          # fit=lm(Sepal.Width~Sepal.Length*Species,data=iris)
            # fit=lm(NTAV~age*sex+I(age^2)*sex,data=radial)
-           # widths=NULL;change.pointsize=TRUE;uni=TRUE;multi=TRUE;imputed=FALSE;show.OR=TRUE;
-           # show.ref=TRUE;bw=TRUE;legend.position="top"
+            # widths=NULL;change.pointsize=TRUE;uni=TRUE;multi=TRUE;imputed=FALSE;show.OR=TRUE;
+            # show.ref=TRUE;bw=TRUE;legend.position="top"
 
      if(is.null(widths)) {
         if(show.OR) {
@@ -82,18 +82,10 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,show.ref=T
      }
      xvars=attr(fit$term,"term.labels")
      xvars
-     if(mode==3){
-         dataname = as.character(fit$call)[3]
-         data=eval(parse(text=dataname))
-         myformula=paste0("~",paste0(xvars,collapse="+"))
-         df1=gaze(as.formula(myformula),data=data,show.n=TRUE)
+     data=fit2model(fit)
+     myformula=paste0("~",paste0(xvars,collapse="+"))
+     df1=gaze(as.formula(myformula),data=data,show.n=TRUE)
 
-     } else{
-          data=fit$model[-1]
-          data
-
-          df1=gaze(~.,data=data,show.n=TRUE)
-     }
      df1$id=str_replace_all(df1$id,"`","")
      df1$name=str_replace_all(df1$name,"`","")
      plusminus="\u00b1"
@@ -135,7 +127,7 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,show.ref=T
      df1
      fit
      df2=autoReg(fit,keepstats=TRUE,...)
-     # df2= autoReg(fit,keepstats=TRUE,uni=TRUE)
+      # df2= autoReg(fit,keepstats=TRUE,uni=TRUE)
 
      df2=df2%>% dplyr::filter(.data$id!="(Intercept)")
 
@@ -145,7 +137,7 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,show.ref=T
      df$mode[is.na(df$stats)]="Reference"
      df$stats[is.na(df$stats)]="Reference"
 
-     df
+     if(max(nchar(df$desc),na.rm=TRUE)<1) widths[2]=0
 
      if(mode==1) {
           df$Estimate[is.na(df$Estimate)]=0

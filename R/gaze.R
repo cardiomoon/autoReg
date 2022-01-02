@@ -5,11 +5,11 @@
 #' methods were used(t-test, ANOVA,Kruskal-Wallis, chisq, Fisher,...)
 #' @param x An R object, formula or data.frame
 #' @param ... arguments to be passed to gaze.data.frame or gaze.formula
-#' @importFrom magrittr `%>%`
+#' @importFrom dplyr `%>%`
 #' @export
 #' @examples
 #' library(moonBook)
-#' library(magrittr)
+#' library(dplyr)
 #'gaze(acs)
 #'gaze(~age+sex,data=acs)
 #'gaze(sex~.,data=acs,digits=1,method=1,show.p=TRUE) %>% myft()
@@ -89,6 +89,7 @@ gaze.formula_sub=function(x,data,missing=FALSE,...){
      yvars=strsplit(temp,"+",fixed=TRUE)[[1]]
      yvars
      xvars
+     names(data)=gsub(" ","",names(data))
      # cat("yvars=",yvars,"\n")
      # cat("xvars=",xvars,"\n")
      if(length(yvars)==0){
@@ -206,7 +207,7 @@ getGroupNames=function(data,yvars){
 #' @importFrom purrr map_chr
 #' @examples
 #' data(acs,package="moonBook")
-#' library(magrittr)
+#' library(dplyr)
 #' gaze(acs) %>% myft()
 #' gaze(sex~.,acs) %>% myft()
 #' gaze(sex+Dx~.,data=acs,show.p=TRUE,show.total=TRUE,show.n=TRUE,shiw.missing=TRUE) %>% myft()

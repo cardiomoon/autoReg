@@ -6,7 +6,6 @@
 \usage{
 autoRegCox(
   x,
-  data,
   threshold = 0.2,
   uni = FALSE,
   multi = TRUE,
@@ -18,8 +17,6 @@ autoRegCox(
 }
 \arguments{
 \item{x}{An object of class coxph}
-
-\item{data}{A data.frame}
 
 \item{threshold}{numeric}
 
@@ -40,14 +37,16 @@ perform automatc regression for a class of coxph
 }
 \examples{
 require(survival)
-require(magrittr)
+require(dplyr)
 data(cancer)
+fit=coxph(Surv(time,status==2)~log(bili)+age+cluster(edema),data=pbc)
+autoReg(fit)
 fit=coxph(Surv(time,status)~rx+age+sex+obstruct+perfor,data=colon)
-autoReg(fit,data=colon)
-autoReg(fit,data=colon,uni=TRUE,threshold=1)
-autoReg(fit,data=colon,uni=TRUE,final=TRUE) \%>\% myft()
+autoReg(fit)
+autoReg(fit,uni=TRUE,threshold=1)
+autoReg(fit,uni=TRUE,final=TRUE) \%>\% myft()
 data(colon_s,package="finalfit")
 fit=coxph(Surv(time,status)~age.factor+sex.factor+obstruct.factor+perfor.factor,data=colon_s)
-autoReg(fit,data=colon_s,uni=TRUE,threshold=1)
-autoReg(fit,data=colon_s,uni=TRUE,imputed=TRUE)
+autoReg(fit,uni=TRUE,threshold=1)
+autoReg(fit,uni=TRUE,imputed=TRUE)
 }

@@ -157,7 +157,6 @@ autoReg.coxph=function(x,...){
 
 #' perform automatc regression for a class of coxph
 #'@param x An object of class coxph
-#'@param data A data.frame
 #'@param threshold numeric
 #'@param uni logical whether or not perform univariate regression
 #'@param multi logical whether or not perform multivariate regression
@@ -167,27 +166,30 @@ autoReg.coxph=function(x,...){
 #'@param ... Further arguments to be passed to gaze()
 #'@examples
 #' require(survival)
-#' require(magrittr)
+#' require(dplyr)
 #' data(cancer)
+#' fit=coxph(Surv(time,status==2)~log(bili)+age+cluster(edema),data=pbc)
+#' autoReg(fit)
 #' fit=coxph(Surv(time,status)~rx+age+sex+obstruct+perfor,data=colon)
-#' autoReg(fit,data=colon)
-#' autoReg(fit,data=colon,uni=TRUE,threshold=1)
-#' autoReg(fit,data=colon,uni=TRUE,final=TRUE) %>% myft()
+#' autoReg(fit)
+#' autoReg(fit,uni=TRUE,threshold=1)
+#' autoReg(fit,uni=TRUE,final=TRUE) %>% myft()
 #' data(colon_s,package="finalfit")
 #' fit=coxph(Surv(time,status)~age.factor+sex.factor+obstruct.factor+perfor.factor,data=colon_s)
-#' autoReg(fit,data=colon_s,uni=TRUE,threshold=1)
-#' autoReg(fit,data=colon_s,uni=TRUE,imputed=TRUE)
+#' autoReg(fit,uni=TRUE,threshold=1)
+#' autoReg(fit,uni=TRUE,imputed=TRUE)
 #'@export
-autoRegCox=function(x,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepstats=FALSE,...){
+autoRegCox=function(x,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepstats=FALSE,...){
          # x=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon);data=colon
-          # threshold=0.2;uni=TRUE;multi=TRUE;final=FALSE;imputed=FALSE;keepstats=FALSE
+           # threshold=0.2;uni=TRUE;multi=TRUE;final=FALSE;imputed=FALSE;keepstats=FALSE
      if(uni==FALSE) threshold=1
      fit=x
-     dataname = as.character(fit$call)[3]
-     if(missing(data)) {
-          data=eval(parse(text=dataname))
-     }
-     fit
+     # dataname = as.character(fit$call)[3]
+     # if(missing(data)) {
+     #      data=eval(parse(text=dataname))
+     # }
+     # fit
+     data=fit2model(fit)
      f = fit$formula
      y = as.character(f)[2]
      temp1=str_remove_all(y,"Surv\\(|\\)| ")
@@ -196,11 +198,15 @@ autoRegCox=function(x,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,impute
      statusvar=temp1[2]
      xvars = attr(fit$terms, "term.labels")
      xvars
-     add=xvars[str_detect(xvars,"strata\\(|cluster\\(|frailty\\(")]
+     xvars
+     add=xvars[str_detect(xvars,"strata\\(|frailty\\(")]
      add
      if(str_detect(paste0(deparse(fit$call),collapse=""),"cluster")){
-             temp=unlist(strsplit(deparse(fit$call),"cluster"))[2]
+             temp=paste0(deparse(fit$call),collapse="")
+             temp=unlist(strsplit(temp,"cluster"))[2]
+             temp
              add=c(add,paste0("cluster=",str_remove_all(temp,"=|\\)| ")))
+             add
      }
      myformula=paste0("~",paste0(xvars,collapse="+"))
      myformula
@@ -286,10 +292,10 @@ autoRegCox=function(x,data,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,impute
 #' @export
 #' @examples
 #' require(survival)
-#' require(magrittr)
+#' require(dplyr)
 #' data(cancer,package="survival")
 #' fit=coxph(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
-#' df=autoReg(fit,data=colon,uni=FALSE)
+#' df=autoReg(fit,uni=FALSE)
 #' final=fit2final(fit)
 #' df %>% addFitSummary(final,statsname="HR (final)") %>% myft()
 addFitSummary=function(df,fit,statsname=""){

@@ -202,8 +202,7 @@ gazeCont=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALS
 #' gazeCat(acs,"Dx","EF")
 #' gazeCat(acs,"sex","EF",method=2)
 #' gazeCat(mtcars,"cyl","hp")
-#' @importFrom dplyr select group_by rename summarise mutate bind_cols count
-#' @importFrom magrittr `%>%`
+#' @importFrom dplyr select group_by rename summarise mutate bind_cols count `%>%`
 #' @importFrom stringr str_pad
 #' @importFrom tidyr pivot_wider
 #' @importFrom tidyselect everything

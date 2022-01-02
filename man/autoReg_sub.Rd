@@ -6,7 +6,6 @@
 \usage{
 autoReg_sub(
   fit,
-  data = NULL,
   threshold = 0.2,
   uni = FALSE,
   multi = TRUE,
@@ -17,8 +16,6 @@ autoReg_sub(
 }
 \arguments{
 \item{fit}{An object of class lm or glm}
-
-\item{data}{A data.frame or NULL}
 
 \item{threshold}{numeric}
 
