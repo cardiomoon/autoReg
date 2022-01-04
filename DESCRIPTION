@@ -4,10 +4,11 @@ Title: Automatic Linear and Logistic Regression and Survival Analysis
 Version: 0.1.0
 Authors@R: person("Keon-Woong","Moon", email="cardiomoon@gmail.com",
     role=c("aut", "cre"))
-Description: Make a summary table for decriptive statistics and selct explanatory variables 
+Description: Make summary tables for decriptive statistics and select explanatory variables 
     automatically in various regression models. Support linear models, generalized linear 
     models and cox-proportional hazard models. Generate publication-ready tables summarizing 
-    result of reggression analysis and plots. 
+    result of regression analysis and plots. The tables and plots can be exported in "HTML", 
+    "pdf('LaTex')", "docx('MS Word')" and "pptx('MS Powerpoint')" documents.
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
