@@ -1,4 +1,4 @@
-#' Competing risk Regression with formula
+#' Competing Risk Regression with Formula
 #' @param x fomular time+status~explanatory variables
 #' @param data data a data.frame
 #' @importFrom cmprsk crr
@@ -6,9 +6,9 @@
 #' @examples
 #' data(melanoma,package="boot")
 #' melanoma$status_crr=ifelse(melanoma$status==1,1,ifelse(melanoma$status==2,0,2))
-#' crr_formula(time+status_crr~age+sex+thickness+ulcer,data=melanoma)
+#' crrFormula(time+status_crr~age+sex+thickness+ulcer,data=melanoma)
 #' @export
-crr_formula=function(x,data){
+crrFormula=function(x,data){
      f=x
      myt=terms(f,data=data)
      xvars=attr(myt,"term.labels")
@@ -37,7 +37,7 @@ crr_formula=function(x,data){
 #' @examples
 #' data(melanoma,package="boot")
 #' melanoma$status_crr=ifelse(melanoma$status==1,1,ifelse(melanoma$status==2,0,2))
-#' x=crr_formula(time+status_crr~age+sex+thickness+ulcer,data=melanoma)
+#' x=crrFormula(time+status_crr~age+sex+thickness+ulcer,data=melanoma)
 #' crr2stats(x)
 #' @export
 crr2stats=function(x,digits=2){

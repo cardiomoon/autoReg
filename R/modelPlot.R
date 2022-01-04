@@ -83,21 +83,29 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,show.ref=T
      xvars=attr(fit$term,"term.labels")
      xvars
      data=fit2model(fit)
+
+     others=setdiff(xvars,names(data))
+     xvars=setdiff(xvars,others)
+     if(length(xvars)>0){
+
      myformula=paste0("~",paste0(xvars,collapse="+"))
      df1=gaze(as.formula(myformula),data=data,show.n=TRUE)
-
      df1$id=str_replace_all(df1$id,"`","")
      df1$name=str_replace_all(df1$name,"`","")
      plusminus="\u00b1"
      df1$desc[df1$desc==paste0("Mean ",plusminus," SD")]=""
-     others=setdiff(xvars,names(data))
-     others
+     } else{
+       df1=data.frame(name="",desc="",N=NA,stats="",n=1,id="")
+       df1=df1[-1,]
+       df1
+     }
+
      del=str_detect(others,"strata\\(|cluster\\(|frailty\\(")
      if(any(del)) others=others[-which(del)]
 
      if(length(others)>0){   ## interactions or interpretations
           for(i in 1:length(others)){
-                   # i=2
+                     # i=1
                name=others[i]
                desc="others"
                if(str_detect(name,":")) {
@@ -119,6 +127,7 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,show.ref=T
                for(i in seq_along(tempname)){
                  df1[[tempname[i]]]=NULL
                }
+               df1
                df1=rbind(df1,temp)
           }
      }

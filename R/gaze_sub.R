@@ -365,11 +365,15 @@ gaze_sub=function(data,xname,y=NULL,max.ylev=5,...){
      }
      myx=data[[x]]
      if(is.numeric(myx)) {
-          gazeCont(data,xname,y,max.ylev,...)
+          df=gazeCont(data,xname,y,max.ylev,...)
               # gazeCont(data,xname,y,max.ylev)
      } else{
-          gazeCat(data,xname,y,max.ylev,...)
+          df=gazeCat(data,xname,y,max.ylev,...)
      }
+     if(!is.null(attr(data[[xname]],"label"))){
+          df$name[df$name==xname]=attr(data[[xname]],"label")
+     }
+     df
 
 }
 

@@ -181,7 +181,7 @@ autoReg.coxph=function(x,...){
 #'@export
 autoRegCox=function(x,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepstats=FALSE,...){
          # x=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon);data=colon
-           # threshold=0.2;uni=TRUE;multi=TRUE;final=FALSE;imputed=FALSE;keepstats=FALSE
+            # threshold=0.2;uni=TRUE;multi=TRUE;final=FALSE;imputed=FALSE;keepstats=FALSE
      if(uni==FALSE) threshold=1
      fit=x
      # dataname = as.character(fit$call)[3]
@@ -212,9 +212,10 @@ autoRegCox=function(x,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FAL
      myformula
      mylist=list()
      mylist[[1]]=gaze(as.formula(myformula),data=data,...)
-     # mylist[[1]]=gaze(as.formula(myformula),data=data)
-     names(mylist[[1]])[1:3]=c(paste0("Dependent: Surv(",timevar,",",statusvar,")")," ","all")
-     names(mylist[[1]])[1:3]
+      # mylist[[1]]=gaze(as.formula(myformula),data=data)
+     # names(mylist[[1]])[1:3]=c(paste0("Dependent: Surv(",timevar,",",statusvar,")")," ","all")
+     # names(mylist[[1]])[1:3]
+     mylist[[1]]
      no=2
      if(uni){
           df=mycphSimple(fit,threshold=threshold)
@@ -273,13 +274,15 @@ autoRegCox=function(x,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FAL
 
      } else{
           Final=reduce(mylist,left_join,by="id")
-          names(Final)[1]=paste0("Dependent: Suv(",timevar,",",statusvar,")")
-          names(Final)[2]=" "
+          # names(Final)[1]=paste0("Dependent: Suv(",timevar,",",statusvar,")")
+          # names(Final)[2]=" "
           Final
      }
      class(Final)=c("autoReg","data.frame")
      Final[is.na(Final)]=""
      if(length(add)>0) attr(Final,"add")=add
+     attr(Final,"yvars")=attr(attr(fit$terms,"dataClasses"),"names")[1]
+     attr(Final,"model")="coxph"
      Final
 
 }

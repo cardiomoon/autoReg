@@ -1,0 +1,70 @@
+---
+title: "Bootstrap Simulation for model prediction"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Bootstrap Simulation for model prediction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = NA
+)
+```
+
+You can make a bootstrap simulation for model prediction. When writing bootPredict function and this vignette, I was inspired from package finalfit by Ewen Harrison. For example, you can predict survival after diagnosis of breast cancer.
+
+```{r}
+library(autoReg)
+library(dplyr)  # for use `%>%`
+data(GBSG2,package="TH.data")
+head(GBSG2)
+```
+
+Data `GBGS2` in TH.data package is a data frame containing the observations from the German Breast Cancer Study Group 2. In this data, the survival status of patients is coded as 0 or 1 in the variable `cens`. Whether the patient receive the hormonal therapy or not is recorded as 'no' or 'yes' in variable `horTh`. The number of positive lymph nodes are recoded in pnodes. You can make a logistic regression model with the following R code.
+
+```{r}
+GBSG2$cens.factor=factor(GBSG2$cens,labels=c("Alive","Died"))
+fit=glm(cens.factor~horTh+pnodes+menostat,data=GBSG2,family="binomial")
+summary(fit)
+```
+
+You can make a publication-ready table with the following R command.
+
+```{r}
+autoReg(fit) %>% myft()
+```
+
+You can draw a plot summarizing the model.
+
+```{r,fig.width=8,fig.height=7}
+modelPlot(fit)
+```
+
+For bootstraping simulation, you can make new dat with the following R code.
+```{r}
+newdata=expand.grid(horTh=factor(c(1,2),labels=c("no","yes")),
+                    pnodes=1:51,
+                    menostat=factor(c(1,2),labels=c("Pre","Post")))
+```
+
+You can make a bootstraping simuation with bootPredict() function. You can set the number of simlation by adjusting R argument.
+```{r}
+df=bootPredict(fit,newdata,R=500)
+head(df)
+```
+
+
+With this result, you can draw a plot showing bootstraping prediction of breast cancer.
+
+```{r,fig.width=8,fig.height=7}
+library(ggplot2)
+ggplot(df,aes(x=pnodes,y=estimate))+
+  geom_line(aes(color=horTh))+
+  geom_ribbon(aes(ymin=lower,ymax=upper,fill=horTh),alpha=0.2)+
+  facet_wrap(~menostat)+
+  theme_bw()+
+  labs(x="Number of positive lymph nodes", y="Probability of death")
+```

@@ -1,0 +1,96 @@
+---
+title: "Automatic Regression Modeling"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Automatic Regression Modeling}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = NA
+)
+```
+
+## Installation
+
+You can install autoReg package on github. 
+
+```{r, eval=FALSE}
+#install.packages("devtools")
+devtools::install_github("cardiomoon/autoReg")
+```
+
+## Load package
+
+To load the package, use library() function.
+```{r}
+library(autoReg)
+library(dplyr)
+```
+
+## Linear model with multiple variables
+
+The package `autoReg` aims automatic selection of explanatory variables of regression models. Let's begin with famous mtcars data. We select mpg(miles per gallon) as a dependent variable and select wt(weight), hp(horse power) and am(transmission, 0=automatic, 1=manual) as explanatory variables and included all possible interaction. The autoReg() function make a table summarizing the result of analysis.
+
+
+```{r}
+fit=lm(mpg~wt*hp*am,data=mtcars)
+autoReg(fit) 
+```
+
+You can make a publication-ready table easily using myft(). It makes a flextable object which can use in HTML, PDF, microsoft word or powerpoint file.
+
+```{r}
+autoReg(fit) %>% myft()
+```
+
+From the result of multivariable analysis, we found no explanatory variable is significant.
+
+### Selection of explanatory variable from univariable model
+
+You can staret with univariable model. With a list of univariable model, you can select potentially significant explanatory variable(p value below 0.2 for example). The autoReg() function automatically select from univariable model with a given p value threshold(default value is 0.2).
+
+```{r}
+autoReg(fit,uni=TRUE, threshold=0.2) %>% myft()
+```
+As you can see in the above table, the coefficents of hp:am(the interaction of hp and am) and wt:hp:am (interaction of wt and hp and am) have p-values above 0.2. So these variables are excluded and the remaining variables are used in multivariable model.
+
+### Stepwise backward elimination  
+
+From the multivariable model, you can perform stepwise backward elimination with step() function.
+
+```{r}
+fit=lm(mpg~wt+hp+am+wt:hp+wt:am,data=mtcars)
+final=step(fit,trace=0)
+summary(final)
+```
+You can perform univarible anlaysis for variable selection, mutivariable analysis and stepwise backward elimination in one step.
+
+```{r}
+fit=lm(mpg~hp*wt*am,data=mtcars)
+autoReg(fit,uni=TRUE,final=TRUE) %>% myft()
+```
+
+## Linear model with interaction between categorical variable
+
+You can use autoReg() function for models with interaction with categorical variable(s).
+
+```{r}
+fit=lm(Sepal.Length~Sepal.Width*Species,data=iris)
+autoReg(fit,uni=TRUE, final=TRUE) %>% myft()
+```
+
+## Missing data - automatic multiple imputation
+
+
+```{r}
+library(survival)
+data(cancer)
+gaze(colon,show.n=TRUE) %>% myft()
+colon$diff=factor(colon$diff,labels=c("well","moderate","poor"))
+fit=glm(status~rx+age+nodes+diff,data=colon)
+autoReg(fit,imputed=TRUE) %>% myft()
+```

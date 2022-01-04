@@ -1,10 +1,12 @@
 Package: autoReg
 Type: Package
-Title: Automatic Linear and Logistic Regression Analysis
+Title: Automatic Linear and Logistic Regression and Survival Analysis
 Version: 0.1.0
 Authors@R: person("Keon-Woong","Moon", email="cardiomoon@gmail.com",
     role=c("aut", "cre"))
-Description: Make a summary table for decriptive statistics and perform automatic regression analysis.
+Description: Make a summary table for decriptive statistics and perform automatic regression analysis. 
+    Generate regression results tables and plots for publication. Support linear models, generalized linear 
+    models and cox-proportional hazard models.
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
@@ -34,6 +36,7 @@ Suggests:
     finalfit,
     lme4,
     TH.data,
-    rmarkdown
+    rmarkdown,
+    survminer
 RoxygenNote: 7.1.2
 VignetteBuilder: knitr

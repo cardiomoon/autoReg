@@ -11,7 +11,9 @@ autoReg_sub(
   multi = TRUE,
   final = FALSE,
   imputed = FALSE,
-  keepstats = FALSE
+  keepstats = FALSE,
+  showstats = TRUE,
+  ...
 )
 }
 \arguments{
@@ -28,6 +30,10 @@ autoReg_sub(
 \item{imputed}{logical whether or not include imputed model}
 
 \item{keepstats}{logical whether or not keep statistics}
+
+\item{showstats}{logical whether or not show descriptive statistics}
+
+\item{...}{Further arguments to be passed to imputedReg()}
 }
 \description{
 Perform univariable and multivariable regression and stepwise backward regression automatically

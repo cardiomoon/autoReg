@@ -241,22 +241,24 @@ autoReg.glm=function(x,...){
 #'@param final logical whether or not perform stepwise backward elimination
 #'@param imputed logical whether or not include imputed model
 #'@param keepstats logical whether or not keep statistics
+#'@param showstats logical whether or not show descriptive statistics
+#'@param ... Further arguments to be passed to imputedReg()
 #' @importFrom stringr str_detect fixed
 #' @importFrom purrr reduce map_dfr
 #' @importFrom dplyr left_join bind_rows all_of
 #' @importFrom rlang .data
 #' @export
-autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepstats=FALSE){
-          #fit=lm(mpg~wt*hp+I(wt^2)+am,data=mtcars)
-          #fit=lm(Sepal.Width~Sepal.Length*Species,data=iris)
+autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepstats=FALSE,showstats=TRUE,...){
+          # fit=lm(mpg~wt*hp+am+disp,data=mtcars)
+          # fit=lm(Sepal.Length~Sepal.Width*Species,data=iris)
       # fit=glm(cens~horTh*progrec+pnodes,data=GBSG2,family="binomial")
-               # threshold=0.2;uni=FALSE;multi=TRUE;final=FALSE;imputed=FALSE;keepstats=FALSE
+                     # threshold=0.2;uni=TRUE;multi=TRUE;final=TRUE;imputed=FALSE;keepstats=FALSE
      xvars = attr(fit$terms, "term.labels")
      yvar = as.character(attr(fit$terms, "variables"))[2]
      # xvars
      # yvar
      data=fit2model(fit)
-
+     data
      mode=1
      if("glm" %in% attr(fit,"class")) {
           mode=2
@@ -266,17 +268,25 @@ autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=
      result=getSigVars(fit,threshold=threshold,final=final)
      result
      xvars
-     names(data)
+     others=setdiff(xvars,names(data))
+     others
+     xvars=setdiff(xvars,others)
+     if(length(xvars)>0){
      formula=paste0(yvar,"~",paste0(xvars,collapse="+"))
      formula
      if(any(str_detect(names(data),fixed("I(")))){
          temp=names(data)[str_detect(names(data),fixed("I("))]
          data<-data %>% select(-all_of(temp))
      }
-     df=gaze(x=as.formula(formula),data=data,show.n=keepstats)
+     df=gaze(x=as.formula(formula),data=data,show.n=keepstats,show.p=FALSE)
      df=as.data.frame(df)
+     } else{
+       df=data.frame(name="",desc="",id="")
+       df=df[-1,]
+       df
+     }
      df
-     others=setdiff(xvars,names(data))
+
      others
      if(length(others)>0){
 
@@ -299,8 +309,10 @@ autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=
                df=bind_rows(df,temp)
           }
      }
-
      df
+     if(length(which(duplicated(df$id)))>0){
+        df=df[-which(duplicated(df$id)),]
+     }
      dflist=list()
      dflist[[1]]=df
      stat=ifelse(mode==1,"Coefficient","OR")
@@ -335,7 +347,7 @@ autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=
           dflist[["multi"]]=df2
           df2
           if(imputed & (!final)){
-             df4=imputedReg(fit2)
+             df4=imputedReg(fit2,...)
              if(keepstats) {
                  df4=df4 %>%
                      select(.data$OR,.data$lower,.data$upper,
@@ -369,7 +381,7 @@ autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=
           dflist[["final"]]=df3
           if(imputed){
 
-             df4=imputedReg(fit3)
+             df4=imputedReg(fit3,...)
              if(keepstats) {
                  df4=df4 %>%
                      select(.data$OR,.data$lower,.data$upper,
@@ -391,13 +403,20 @@ autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=
 
      } else{
         Final=reduce(dflist,left_join,by="id")
-        names(Final)[1]=paste0("Dependent: ",yvar)
-        names(Final)[2]=" "
+        # names(Final)[1]=paste0("Dependent: ",yvar)
+        # names(Final)[2]=" "
 
         Final
      }
      class(Final)=c("autoReg","data.frame")
      Final[is.na(Final)]=""
+     attr(Final,"model")=ifelse(mode==1,"lm","glm")
+     if(is.null(attr(data[[yvar]],"label"))){
+       attr(Final,"yvars")=yvar
+     } else{
+       attr(Final,"yvars")=attr(data[[yvar]],"label")
+     }
+
      Final
 
 }
@@ -422,6 +441,11 @@ print.autoReg=function(x,...){
 printdf=function(x,showid=FALSE){
 
      if(("autoReg" %in% class(x))&(showid==FALSE)) x$id=NULL
+     if("autoReg" %in% class(x)) {
+        names(x)[1]=paste0("Dependent: ",attr(x,"yvars"))
+        names(x)[2]=" "
+        if(attr(x,"model")=="coxph") names(x)[3]="all"
+     }
     lengths1=map_int(x,maxnchar)
     lengths2=map_int(names(x),maxnchar)
     lengths=pmax(lengths1,lengths2)+2

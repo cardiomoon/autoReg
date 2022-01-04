@@ -36,7 +36,7 @@ residualPlot=function(fit,mode=1){
                                   names_to="xvars")
      if(mode==1){
           p=ggplot(longdf,aes_string(x="value",y="r1"))+
-               geom_point()+
+               geom_point(alpha=0.3)+
                stat_smooth(method="loess",formula="y~x")+
                facet_wrap(~xvars,scales="free")+
                labs(x="",y="martingale residuals")+
@@ -61,13 +61,13 @@ residualPlot=function(fit,mode=1){
 
           if(mode==2) {
                p= ggplot(longdf,aes_string(x="index",y="value"))+
-                    geom_point()+
+                    geom_point(alpha=0.3)+
                     facet_wrap(~name,scales="free")+
                     labs(x="index",y="dfbeta")+
                     theme_bw()
           } else{
                p= ggplot(longdf,aes_string(x="riskscore",y="value"))+
-                    geom_point()+
+                    geom_point(alpha=0.3)+
                     facet_wrap(~name,scales="free")+
                     labs(x="risk score",y="")+
                     theme_bw()

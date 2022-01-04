@@ -34,6 +34,7 @@ print.gaze=function(x,...){
      # attr(x1, "yvars")=attr(x, "yvars")
      # x=x1
       x$id=NULL
+
      if(!is.null(attr(x,"missing"))) {
            yname=str_remove(attr(x,"yvars"),"Missing")
            cat("Missing data analysis : '",yname,"'\n\n")
@@ -50,7 +51,7 @@ print.gaze=function(x,...){
                names(x)[1]=paste0("Dependent:",yname)
           }
 
-          if(ncol(x)>4) mode=mode+length(yvars)
+          if(ncol(x)>5) mode=mode+length(yvars)
      }
 
      temp=str_split(names(x),fixed("("),simplify=TRUE)

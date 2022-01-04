@@ -26,6 +26,9 @@ fit2model=function(fit){
 
           if(str_detect(statusvar,"==")) {
                statusvar=unlist(strsplit(statusvar,"=="))[1]
+          } else if(str_detect(statusvar,"!=")) {
+                  statusvar=unlist(strsplit(statusvar,"!="))[1]
+
           }
           add=xvars[str_detect(xvars,"strata\\(|cluster\\(|frailty\\(")]
           if(length(add)>0){
@@ -57,6 +60,10 @@ fit2model=function(fit){
                     temp=unlist(strsplit(y,"=="))[1]
                     temp=str_replace_all(temp," ","")
                     xvars=c(xvars,temp)
+               } else if(str_detect(y,"!=")) {
+                       temp=unlist(strsplit(y,"!="))[1]
+                       temp=str_replace_all(temp," ","")
+                       xvars=c(xvars,temp)
                }
                add=xvars[str_detect(xvars,"strata\\(|cluster\\(|frailty\\(")]
                if(length(add)>0){

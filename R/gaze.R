@@ -68,7 +68,7 @@ gaze.formula_sub=function(x,data,missing=FALSE,...){
       # x=sex+Dx+DM~HBP
       # data=acs
      # #cat("gaze.formula_sub\n")
-     #x=~hp*wt+am;data=mtcars;
+      # x=mpg~hp*wt+am+disp;data=mtcars;
      #x=sumY~Base+Age+Trt;data=breslow.dat
       # x=~Sepal.Length*Species;data=iris;missing=FALSE
          # x=~log(age)+sex;data=acs;missing=FALSE
@@ -94,7 +94,7 @@ gaze.formula_sub=function(x,data,missing=FALSE,...){
      # cat("xvars=",xvars,"\n")
      if(length(yvars)==0){
          df=map_dfr(xvars, function(x){gaze_sub(data,x,origData=data,...)})%>%select(-.data$type)
-          # df=map_dfr(xvars, function(x){gaze_sub(data,x,origData=data)})%>%select(-.data$type)
+           # df=map_dfr(xvars, function(x){gaze_sub(data,x,origData=data)})%>%select(-.data$type)
 
      } else if(length(yvars)==1){
 
@@ -126,7 +126,7 @@ gaze.formula_sub=function(x,data,missing=FALSE,...){
          i=1
          df=map2_dfc(dflist,1:length(dflist),function(df,i){
 
-              result=map_dfr(xvars,function(x){gaze_sub(df,x,yvars[length(yvars)],origData=data,...)}) %>% select(-.data$type)
+              result=map_dfr(xvars,function(x){gaze_sub(df,x,yvars[length(yvars)],origData=data,...)}) %>% select(-.data$id,-.data$type)
 
               if(i>1) {
                    result=result %>% select(-.data$name,-.data$desc)
@@ -149,7 +149,7 @@ gaze.formula_sub=function(x,data,missing=FALSE,...){
      if(length(others)>0){
 
        for(i in 1:length(others)){
-           # i=1
+            # i=1
          name=others[i]
          desc="others"
          if(str_detect(name,":")) {
@@ -218,25 +218,32 @@ myft=function(x,vanilla=TRUE,fontsize=10,digits,showid=FALSE,...){
 
      if("imputedReg" %in% class(x)){
         if(missing(digits)) digits=c(1,4,4,4,2,4,4,4,4,4,4,1)
-     } else{
-          if(("autoReg" %in% class(x))&(showid==FALSE)) x$id=NULL
-          if(("gaze" %in% class(x))&(showid==FALSE)) x$id=NULL
+     } else if("autoReg" %in% class(x)) {
+           if(showid==FALSE) x$id=NULL
+           if(names(x)[1]=="name"){
+                names(x)[1]=paste0("Dependent: \n",attr(x,"yvars"))
+           }
+           names(x)[2]=" "
+           if(attr(x,"model")=="coxph") names(x)[3]="all"
+           if(missing(digits)) digits=2
+
+
+     } else if(("gaze" %in% class(x))&(showid==FALSE)) {
+          x$id=NULL
           names(x)[2]="levels"
           if(missing(digits)) digits=2
      }
      yvars=attr(x,"yvars")
      yvars
      if(length(yvars)>0){
-       if(is.null(attr(x,"missing"))) {
-         names(x)[1]=paste0("Dependent:",yvars[length(yvars)])
-       } else{
+       if(!is.null(attr(x,"missing"))) {
          yname=str_remove(attr(x,"yvars"),"Missing")
          names(x)[1]=paste0("Dependent:",yname)
        }
 
      }
      vanilla=TRUE
-     ft<-x %>% rrtable::df2flextable(vanilla=vanilla,fontsize=fontsize,digits=digits,...)
+    ft<-x %>% rrtable::df2flextable(vanilla=vanilla,fontsize=fontsize,digits=digits,...)
 
 
      if(length(yvars)>1){
