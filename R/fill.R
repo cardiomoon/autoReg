@@ -87,7 +87,11 @@ shorten=function(x,xname=NULL,ref=1){
      x[[xname]]=filldown(x[[xname]])
      pos=which(find1stDup(x[[xname]]))
      if(ref==2) pos=pos+1
-     x=x[-pos,]
+     result=c()
+     for(i in seq_along(pos)){
+        if(x[[2]][pos[i]]!="") result=c(result,pos[i])
+     }
+     x=x[-result,]
      x[[xname]]=removeDup(x[[xname]])
      x
 }

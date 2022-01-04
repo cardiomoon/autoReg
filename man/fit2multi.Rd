@@ -2,7 +2,7 @@
 % Please edit documentation in R/mycphSimple.R
 \name{fit2multi}
 \alias{fit2multi}
-\title{Make multivariate regression model by selecting univariate models with p.value below threshold}
+\title{Make multivariable regression model by selecting univariable models with p.value below threshold}
 \usage{
 fit2multi(fit, threshold = 0.2)
 }
@@ -12,7 +12,7 @@ fit2multi(fit, threshold = 0.2)
 \item{threshold}{Numeric}
 }
 \description{
-Make multivariate regression model by selecting univariate models with p.value below threshold
+Make multivariable regression model by selecting univariable models with p.value below threshold
 }
 \examples{
 require(survival)

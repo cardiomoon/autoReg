@@ -4,9 +4,10 @@ Title: Automatic Linear and Logistic Regression and Survival Analysis
 Version: 0.1.0
 Authors@R: person("Keon-Woong","Moon", email="cardiomoon@gmail.com",
     role=c("aut", "cre"))
-Description: Make a summary table for decriptive statistics and perform automatic regression analysis. 
-    Generate regression results tables and plots for publication. Support linear models, generalized linear 
-    models and cox-proportional hazard models.
+Description: Make a summary table for decriptive statistics and selct explanatory variables 
+    automatically in various regression models. Support linear models, generalized linear 
+    models and cox-proportional hazard models. Generate publication-ready tables summarizing 
+    result of reggression analysis and plots. 
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
@@ -20,7 +21,7 @@ Imports:
    purrr,
    survival,
    mice,
-   miceadds,
+   survminer,
    officer,
    flextable,
    rrtable,
@@ -36,7 +37,6 @@ Suggests:
     finalfit,
     lme4,
     TH.data,
-    rmarkdown,
-    survminer
+    rmarkdown
 RoxygenNote: 7.1.2
 VignetteBuilder: knitr

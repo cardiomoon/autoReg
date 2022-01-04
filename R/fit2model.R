@@ -80,8 +80,9 @@ fit2model=function(fit){
           }
           data=modelData
      } else{
-          modelData=fit$model
-          data=modelData
+          dataname = as.character(fit$call)[3]
+          modelData=eval(parse(text=dataname))
+
      }
      modelData %>%
           restoreData() %>%

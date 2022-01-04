@@ -55,10 +55,10 @@
 #' @export
 modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,show.ref=TRUE,bw=TRUE,
                    legend.position="top",...){
-         # fit=lm(Sepal.Width~Sepal.Length*Species,data=iris)
+           # fit=lm(Sepal.Width~Sepal.Length+Species,data=iris)
            # fit=lm(NTAV~age*sex+I(age^2)*sex,data=radial)
-            # widths=NULL;change.pointsize=TRUE;uni=TRUE;multi=TRUE;imputed=FALSE;show.OR=TRUE;
-            # show.ref=TRUE;bw=TRUE;legend.position="top"
+             # widths=NULL;change.pointsize=TRUE;uni=FALSE;multi=TRUE;imputed=FALSE;show.OR=TRUE;
+             # show.ref=TRUE;bw=TRUE;legend.position="top"
 
      if(is.null(widths)) {
         if(show.OR) {
@@ -136,7 +136,7 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,show.ref=T
      df1
      fit
      df2=autoReg(fit,keepstats=TRUE,...)
-      # df2= autoReg(fit,keepstats=TRUE,uni=TRUE)
+                # df2= autoReg(fit,keepstats=TRUE)
 
      df2=df2%>% dplyr::filter(.data$id!="(Intercept)")
 
@@ -158,7 +158,17 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,show.ref=T
              df$HR[is.na(df$HR)]=1
              xintercept=1
      }
+     df
      if(!show.ref) df=shorten(df)
+     no=which(findDup(df[[1]])+findDup(df[[2]])==2)
+     no
+     df$name[no]=""
+     if("desc" %in% names(df)){
+        df$desc[no]=""
+     }
+     if("levels" %in% names(df)){
+         df$levels[no]=""
+     }
      dodge=length(setdiff(unique(df$mode),c(NA,"Reference")))>1
      dodge
 
@@ -213,6 +223,7 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,show.ref=T
                 axis.title.y=element_blank(),legend.position="none",
                 panel.background=element_blank(),panel.border=element_blank(),panel.grid.major=element_blank(),
                 panel.grid.minor=element_blank(),plot.background=element_blank())
+
 
      tab1 <- tab_base +
           geom_text(aes(x=1,label=.data$name)) +

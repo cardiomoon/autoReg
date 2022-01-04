@@ -56,14 +56,14 @@ You can staret with univariable model. With a list of univariable model, you can
 ```{r}
 autoReg(fit,uni=TRUE, threshold=0.2) %>% myft()
 ```
-As you can see in the above table, the coefficents of hp:am(the interaction of hp and am) and wt:hp:am (interaction of wt and hp and am) have p-values above 0.2. So these variables are excluded and the remaining variables are used in multivariable model.
+As you can see in the above table, the coefficents of hp:am(the interaction of hp and am) and wt:hp:am (interaction of wt and hp and am) have p-values above 0.2. So these variables are excluded and the remaining variables are used in multivariable model. If you want to use all the explanatory variables in the multivariable model, set the threshold 1.
 
 ### Stepwise backward elimination  
 
 From the multivariable model, you can perform stepwise backward elimination with step() function.
 
 ```{r}
-fit=lm(mpg~wt+hp+am+wt:hp+wt:am,data=mtcars)
+fit=lm(mpg~hp+wt+am+wt:hp+wt:am,data=mtcars)
 final=step(fit,trace=0)
 summary(final)
 ```
@@ -85,12 +85,60 @@ autoReg(fit,uni=TRUE, final=TRUE) %>% myft()
 
 ## Missing data - automatic multiple imputation
 
+### Original data
+
+Let us think about linear regression model with iris data. In this model, Sepal.Length 
+is the dependent variable and Sepal.Width and Species are explanatory variables. You can 
+make a table summarizing the result as follows.
 
 ```{r}
-library(survival)
-data(cancer)
-gaze(colon,show.n=TRUE) %>% myft()
-colon$diff=factor(colon$diff,labels=c("well","moderate","poor"))
-fit=glm(status~rx+age+nodes+diff,data=colon)
-autoReg(fit,imputed=TRUE) %>% myft()
+df=gaze(Sepal.Length~Sepal.Width+Species,data=iris)
+df %>% myft()
 ```
+
+```{r}
+fit=lm(Sepal.Length~Sepal.Width+Species,data=iris)
+df=addFitSummary(df,fit,"Coefficient (original data)")
+df %>% myft()
+```
+
+### Missed data
+
+For simulation of the MCAR(missing at completely random) data, one third of the 
+Sepal.Width records are replace with NA(missing). If you want to perform missing data analysis,
+use gaze() function with missing=TRUE.
+
+
+```{r}
+iris1=iris
+set.seed=123
+no=sample(1:150,50,replace=FALSE)
+iris1$Sepal.Width[no]=NA
+gaze(Sepal.Width~.,data=iris1,missing=TRUE) %>% myft()
+```
+
+And then we do same analysis  with this data.
+
+```{r}
+fit1=lm(Sepal.Length~Sepal.Width+Species,data=iris1)
+df=addFitSummary(df,fit1,"Coefficient (missed data)")
+df %>% myft()
+```
+### Multiple imputation
+
+You can do multiple imputation by using imputegReg() function. This function perform 
+multiple imputation using mice() function in mice package. The dafault value of the number of multiple imputation
+is 20. You can adjust the number with m argument. You can set random number generator with seed argument.
+
+```{r}
+fit2=imputedReg(fit1, m=20,seed=1234)
+df=addFitSummary(df,fit2,statsname="Coefficient (imputed)")
+df %>% myft()
+```
+
+You can make a plot summarizing models with modelPlot() function.
+
+```{r,fig.width=8,fig.height=5}
+modelPlot(fit1,imputed=TRUE)
+```
+

@@ -66,7 +66,7 @@ mycphSimple=function (fit, threshold = 0.2,digits=2)
 }
 
 
-#' Make multivariate regression model by selecting univariate models with p.value below threshold
+#' Make multivariable regression model by selecting univariable models with p.value below threshold
 #' @param fit An object of class coxph
 #' @param threshold Numeric
 #' @examples
@@ -158,8 +158,8 @@ autoReg.coxph=function(x,...){
 #' perform automatc regression for a class of coxph
 #'@param x An object of class coxph
 #'@param threshold numeric
-#'@param uni logical whether or not perform univariate regression
-#'@param multi logical whether or not perform multivariate regression
+#'@param uni logical whether or not perform univariable regression
+#'@param multi logical whether or not perform multivariable regression
 #'@param final logical whether or not perform stepwise backward elimination
 #'@param imputed logical whether or not perform multiple imputation
 #'@param keepstats logical whether or not keep statistic
@@ -221,10 +221,10 @@ autoRegCox=function(x,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FAL
           df=mycphSimple(fit,threshold=threshold)
           if(keepstats){
                df=df[c(2:4,7:9)]
-               df$mode="univariate"
+               df$mode="univariable"
           } else{
                df=df[c(8:9)] %>%
-                    rename("HR (univariate)"=.data$stats)
+                    rename("HR (univariable)"=.data$stats)
           }
           mylist[[no]]=df
           no=no+1
@@ -233,21 +233,21 @@ autoRegCox=function(x,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FAL
           fit=fit2multi(fit,threshold=threshold)
           if(keepstats){
                df=fit2stats(fit)
-               df$mode="multivariate"
+               df$mode="multivariable"
           } else{
                df=fit2summary(fit) %>%
-                    rename("HR (multivariate)"=.data$stats)
+                    rename("HR (multivariable)"=.data$stats)
           }
           mylist[[no]]=df
           no=no+1
      }
      if(final){
-          final=fit2final(fit,threshold=threshold)
+          final1=fit2final(fit,threshold=threshold)
           if(keepstats){
-               df=fit2stats(fit)
+               df=fit2stats(final1)
                df$mode="final"
           } else{
-               df=fit2summary(fit) %>%
+               df=fit2summary(final1) %>%
                     rename("HR (final)"=.data$stats)
           }
           mylist[[no]]=df
@@ -280,7 +280,21 @@ autoRegCox=function(x,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FAL
      }
      class(Final)=c("autoReg","data.frame")
      Final[is.na(Final)]=""
-     if(length(add)>0) attr(Final,"add")=add
+     if(length(add)>0) {
+       attr(Final,"add")=add
+       if(str_detect(add,"frailty")) {
+           if(final) {
+             no=which(str_detect(rownames(summary(final1)$coefficients),"frailty"))
+             p=data.frame(summary(final1)$coef)$p[no]
+             attr(Final,"add")=paste(add,p2character2(p,add.p = TRUE),summary(final1)$print2)
+
+           } else{
+              no=which(str_detect(rownames(summary(fit)$coefficients),"frailty"))
+              p=data.frame(summary(fit)$coef)$p[no]
+              attr(Final,"add")=paste(add,p2character2(p,add.p = TRUE),summary(fit)$print2)
+           }
+       }
+     }
      attr(Final,"yvars")=attr(attr(fit$terms,"dataClasses"),"names")[1]
      attr(Final,"model")="coxph"
      Final
@@ -305,6 +319,8 @@ addFitSummary=function(df,fit,statsname=""){
      if("crr" %in% class(fit)){
           result=crr2stats(fit)
           result=result[,c(5,6)]
+     } else if("imputedReg" %in% class(fit)){
+          result=fit[,c(1,11)]
      } else{
         result=fit2summary(fit)
      }

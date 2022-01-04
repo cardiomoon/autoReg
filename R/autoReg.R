@@ -164,7 +164,7 @@ fit2stats=function(fit,method="likelihood",digits=2){
           temp=round(result[,c(1,5,6)],digits)
           id=rownames(result)
           stats=paste0(
-               sprintf(fmt,temp[,1]),"(",
+               sprintf(fmt,temp[,1])," (",
                sprintf(fmt,temp[,2])," to ",
                sprintf(fmt,temp[,3]),", ",p2character2(result[,4]),")")
           df=data.frame(id=id,Estimate=result[,1],lower=result[,5],upper=result[,6],stats=stats)
@@ -252,13 +252,13 @@ autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=
           # fit=lm(mpg~wt*hp+am+disp,data=mtcars)
           # fit=lm(Sepal.Length~Sepal.Width*Species,data=iris)
       # fit=glm(cens~horTh*progrec+pnodes,data=GBSG2,family="binomial")
-                     # threshold=0.2;uni=TRUE;multi=TRUE;final=TRUE;imputed=FALSE;keepstats=FALSE
+                                 # threshold=0.2;uni=FALSE;multi=TRUE;final=FALSE;imputed=TRUE;keepstats=TRUE
      xvars = attr(fit$terms, "term.labels")
      yvar = as.character(attr(fit$terms, "variables"))[2]
      # xvars
      # yvar
-     data=fit2model(fit)
-     data
+     data1=fit2model(fit)
+     data1
      mode=1
      if("glm" %in% attr(fit,"class")) {
           mode=2
@@ -268,17 +268,17 @@ autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=
      result=getSigVars(fit,threshold=threshold,final=final)
      result
      xvars
-     others=setdiff(xvars,names(data))
+     others=setdiff(xvars,names(data1))
      others
      xvars=setdiff(xvars,others)
      if(length(xvars)>0){
      formula=paste0(yvar,"~",paste0(xvars,collapse="+"))
      formula
-     if(any(str_detect(names(data),fixed("I(")))){
-         temp=names(data)[str_detect(names(data),fixed("I("))]
-         data<-data %>% select(-all_of(temp))
+     if(any(str_detect(names(data1),fixed("I(")))){
+         temp=names(data1)[str_detect(names(data1),fixed("I("))]
+         data1<-data1 %>% select(-all_of(temp))
      }
-     df=gaze(x=as.formula(formula),data=data,show.n=keepstats,show.p=FALSE)
+     df=gaze(x=as.formula(formula),data=data1,show.n=keepstats,show.p=FALSE)
      df=as.data.frame(df)
      } else{
        df=data.frame(name="",desc="",id="")
@@ -296,7 +296,7 @@ autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=
                desc="others"
                if(str_detect(name,":")) {
                     desc="interaction"
-                    temp=getInteraction(name,data=data)
+                    temp=getInteraction(name,data=data1)
                     temp$n=NULL
 
                } else if(str_detect(name,fixed("I("))){
@@ -333,9 +333,9 @@ autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=
      if(multi){
           formula2=paste0(yvar,"~",paste0(result$sigVars,collapse="+"))
           if(mode==1){
-               fit2=lm(as.formula(formula2),data=data)
+               fit2=lm(as.formula(formula2),data=data1)
           } else if(mode==2){
-               fit2=glm(as.formula(formula2),data=data,family=family)
+               fit2=glm(as.formula(formula2),data=data1,family=family)
           }
           if(keepstats){
               df2=fit2stats(fit2)
@@ -347,13 +347,26 @@ autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=
           dflist[["multi"]]=df2
           df2
           if(imputed & (!final)){
-             df4=imputedReg(fit2,...)
+             df4=imputedReg(fit2,data=data1,...)
+
+             # fit2
+             # as.character(fit2$call)[3]
+                    # df4=imputedReg(fit2)
+
              if(keepstats) {
+                 if(mode==2){
                  df4=df4 %>%
                      select(.data$OR,.data$lower,.data$upper,
                                     .data$p.value,.data$id,.data$stats) %>%
                      mutate(mode="imputed") %>%
                      rename(p=.data$p.value)
+                 } else{
+                 df4=df4 %>%
+                   select(.data$Estimate,.data$lower,.data$upper,
+                          .data$p.value,.data$id,.data$stats) %>%
+                   mutate(mode="imputed") %>%
+                   rename(p=.data$p.value)
+                 }
              } else{
                  df4 = df4 %>% select(.data$id,.data$stats)
                  temp=paste0(ifelse(mode==1,"Coefficients ","OR "),"(imputed)")
@@ -365,9 +378,9 @@ autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=
      if(final) {
           formula3=paste0(yvar,"~",paste0(result$finalVars,collapse="+"))
           if(mode==1){
-               fit3=lm(as.formula(formula3),data=data)
+               fit3=lm(as.formula(formula3),data=data1)
           } else if(mode==2){
-               fit3=glm(as.formula(formula3),data=data,family=family)
+               fit3=glm(as.formula(formula3),data=data1,family=family)
           }
           if(keepstats){
               df3=fit2stats(fit3)
@@ -381,7 +394,7 @@ autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=
           dflist[["final"]]=df3
           if(imputed){
 
-             df4=imputedReg(fit3,...)
+             df4=imputedReg(fit3,data=data1,...)
              if(keepstats) {
                  df4=df4 %>%
                      select(.data$OR,.data$lower,.data$upper,
@@ -411,10 +424,10 @@ autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=
      class(Final)=c("autoReg","data.frame")
      Final[is.na(Final)]=""
      attr(Final,"model")=ifelse(mode==1,"lm","glm")
-     if(is.null(attr(data[[yvar]],"label"))){
+     if(is.null(attr(data1[[yvar]],"label"))){
        attr(Final,"yvars")=yvar
      } else{
-       attr(Final,"yvars")=attr(data[[yvar]],"label")
+       attr(Final,"yvars")=attr(data1[[yvar]],"label")
      }
 
      Final
@@ -472,7 +485,7 @@ printdf=function(x,showid=FALSE){
 #' Make a multiple imputed model
 #' @param fit An object of class lm or glm
 #' @param data a data.frame
-#' @param m Number of multiple imputations. The default is m=5.
+#' @param m Number of multiple imputations. The default is m=20.
 #' @param seed 	An integer that is used as argument by the set.seed() for offsetting the random number generator.
 #' @param digits Integer indicating the number of decimal place
 #' @param ... Further argument to be passed to mice
@@ -490,8 +503,8 @@ printdf=function(x,showid=FALSE){
 #' @export
 imputedReg=function(fit,data=NULL,m=20,seed=1234,digits=2,...){
 
-     #fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
-        # data=NULL;m=20; seed=1234; digits=2
+     # fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
+          # m=20; seed=1234; digits=2
      #xvars = attr(fit$terms, "term.labels")
         # data(cancer,package="survival")
         # fit=coxph(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
@@ -500,9 +513,9 @@ imputedReg=function(fit,data=NULL,m=20,seed=1234,digits=2,...){
 
      if("coxph" %in% class(fit)) {
           mode=3
-          dataname = as.character(fit$call)[3]
-          if(is.null(data)) {
-               data=eval(parse(text=dataname))
+          if(is.null(data)){
+              dataname = as.character(fit$call)[3]
+              data=get(dataname)
           }
           timevar=attr(fit$y,"dimnames")[[2]][1]
           statusvar=attr(fit$y,"dimnames")[[2]][2]
@@ -513,19 +526,30 @@ imputedReg=function(fit,data=NULL,m=20,seed=1234,digits=2,...){
      } else{
           if("glm" %in% class(fit)) {
                mode=2
-               if(is.null(data)) data=fit$data
+               if(is.null(data)){
+                 mydata=fit$data
+               } else{
+                 mydata=data
+               }
 
           } else {
                mode=1
-               if(is.null(data)) data=fit$model
+               if(is.null(data)){
+                 dataname = as.character(fit$call)[3]
+                 mydata=get(dataname)
+               } else{
+                 mydata=data
+               }
 
           }
           xvars=names(fit$model)[-1]
           yvar = as.character(attr(fit$terms, "variables"))[2]
-          mydata=data[c(xvars,yvar)]
+          # str(data)
+          # mydata=data[c(xvars,yvar)]
           formstring=paste0(yvar,"~",paste0(attr(fit$terms, "term.labels"),collapse="+"))
      }
      fmt=paste0("%.",digits,"f")
+
      if(mode==3){
           mice(mydata,m=m,seed=seed,printFlag=FALSE,...) %>%
                with(coxph(as.formula(formstring))) %>%
@@ -562,10 +586,11 @@ imputedReg=function(fit,data=NULL,m=20,seed=1234,digits=2,...){
                     lower=.data$`2.5 %`,
                     upper=.data$`97.5 %`,
                     stats=paste0(sprintf(fmt,.data$estimate)," (",
-                                 sprintf(fmt,.data$lower),"-",
+                                 sprintf(fmt,.data$lower)," to ",
                                  sprintf(fmt,.data$upper),", ",
                                  p2character2(.data$p.value),")")
                ) -> df
+               df<-df %>% rename(Estimate=.data$estimate)
      }
      df<-df %>%rename(id=.data$term)
      class(df)=c("imputedReg","data.frame")

@@ -10,16 +10,15 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = NA
+  comment = NA,
+  message=FALSE
 )
 ```
 
 
-## Background
+## What is survival analysis ?
 
-In healthcare, we deal with a lot of binary outcomes. Death yes/no, disease recurrence yes/no, for instance. These outcomes are often easily analysed using binary logistic regression using glm(...,family="binomial). 
-
-When the time taken for the outcome to occur is important, we need a different approach. For instance, in patients with cancer, the time taken until recurrence of the cancer is often just as important as the fact it has recurred.
+Survival analysis is the study of survival times and of the factors that influence them. Types of studies with survival outcomes include clinical trials, prospective and retrospective observational studies, and animal experiments. Examples of survival times include time from birth until death, time from entry into a clinical trial until death or disease progression, or time from birth to development of breast cancer(that is, age of onset). The survival endpoint can also refer a positive event. For example, one might be interested in the time from entry into a clinical trial until tumor response.  
 
 Package autoReg provides a number of functions to make these analyses easy to perform.
 
@@ -45,14 +44,13 @@ library(dplyr)
 
 ## Data `melanoma`
 
-We will use the classic “Survival from Malignant Melanoma” dataset which is included in the boot package. The data consist of measurements made on patients with malignant melanoma. Each patient had their tumour removed by surgery at the Department of Plastic Surgery, University Hospital of Odense, Denmark during the period 1962 to 1977.
+The data melenoma included in the boot package is a data of 205 patients with malignant melanoma. Each patient had their tumor removed by surgery at the Department of Plastic Surgery, University Hospital of Odense, Denmark during the period 1962 to 1977. The surgery consisted of complete removal of the tumour together with about 2.5cm of the surrounding skin. Among the measurements taken were the thickness of the tumour and whether it was ulcerated or not. These are thought to be important prognostic variables in that patients with a thick and/or ulcerated tumour have an increased chance of death from melanoma. Patients were followed until the end of 1977.
+
 
 ```{r}
 data(melanoma,package="boot")
 gaze(melanoma)
 ```
-
-We are interested in the association between tumor ulceration and survival after surgery.
 
 The patient status at the end of study was coded in status variable. 
 
@@ -70,7 +68,8 @@ There are three options for coding this.
 The `sex` variable in melanoma is coded as 0=female and 1=male. The `ulcer` variable is coded as 1=present and 2= absent. It is possible to use this variables during analysis, but we change these variables to factor with proper labels(just for aesthetic purpose).
 
 ```{r}
-melanoma$statusCRR = ifelse(melanoma$status==1,1,ifelse(melanoma$status==2,0,2))
+melanoma$status1 = ifelse(melanoma$status==1,1,ifelse(melanoma$status==2,0,2))
+melanoma$statusCRR=factor(melanoma$status1,labels=c("survived","melanoma","other cause"))
 melanoma$sex=factor(melanoma$sex,labels=c("Female","Male"))
 melanoma$ulcer=factor(melanoma$ulcer,labels=c("Absent","Present"))
 ```
@@ -79,19 +78,41 @@ melanoma$ulcer=factor(melanoma$ulcer,labels=c("Absent","Present"))
 gaze(melanoma,show.n=TRUE)
 ```
 
+## Survival analysis for whole group
 
+You can estimate survival in whole group with sutvfit() function in the survival package.
 
 ```{r}
-fit=survfit(Surv(time/365,status!=2)~1,data=melanoma)
-summary(fit,time=0:5)
-
-library(survminer)
-ggsurvplot(fit,pval=TRUE,risk.table=TRUE)
+fit=survfit(Surv(time/365.25,status!=2)~1,data=melanoma)
+fit
 ```
+
+### Life table
+
+A life table is the tabular form of a KM plot. It shows survival as a proportion, together with confidence limits. 
+
+```{r}
+summary(fit,times=0:5)
+```
+
+### Kaplan-Meier Plot
+
+Yoou can plot survival curves using the ggsurvplot() in the survminer package. There are numerous options available on the help page. 
+
+```{r, fig.height=4,fig.width=6}
+library(survminer)
+ggsurvplot(fit)
+```
+
+### Cox-proportional hazard model
+
+The coxph() function in the survival package fits a Cox proportional hazards regression model. Time dependent variables, time dependent strata, multiple events per subject, and other extensions are incorporated using the counting process formulation of Andersen and Gill.
 
 ```{r}
 fit=coxph(Surv(time,status!=2)~age+sex+thickness+ulcer,data=melanoma)
 ```
+
+You can summarise the results of coxph() with autoReg() function. With a list of univariable model, you can select potentially significant explanatory variable(p value below 0.2 for example). The autoReg() function automatically select from univariable model with a given p value threshold(default value is 0.2). If you want to use all the explanatory variables in the multivariable model, set the threshold 1.
 
 ```{r}
 x=autoReg(fit,uni=TRUE,threshold=1)
@@ -100,16 +121,28 @@ x %>% myft()
 If you want, you can decorate your table as follows:
 
 ```{r}
-x$name=c("Age(years)","Sex","","Tumor thickness (mm)","Tumor thickness (mm)","")
+x$name=c("Age(years)","Sex","","Tumor thickness (mm)","Ulceration","")
 names(x)[1]="Overall Survival"
 x %>% myft()
 ```
+
+#### Hazard ratio plot : modelPlot()
+
+You can draw hazard ratio plot
+
+```{r,fig.width=8,fig.height=5}
+modelPlot(fit,uni=TRUE, threshold=1,show.ref=FALSE)
+```
+
+
 If you want to add another model summary to the table, the addFitSummary() can do this.
 ```{r}
 final=coxph(Surv(time,status!=2)~age+thickness+ulcer,data=melanoma)
-x=x %>% addFitSummary(final,statsname="HR (reduced)") 
+x=x %>% addFitSummary(final,statsname="HR (final)") 
 x %>% myft()
 ```
+
+
 #### Testing for proportional hazards
 
 An assumption of CPH regression is that the hazard (think risk) associated with a particular variable does not change over time. For example, is the magnitude of the increase in risk of death associated with tumour ulceration the same in the early post-operative period as it is in later years?
@@ -117,7 +150,6 @@ An assumption of CPH regression is that the hazard (think risk) associated with 
 The cox.zph() function from the survival package allows us to test this assumption for each variable. The plot of scaled Schoenfeld residuals should be a horizontal line. The included hypothesis test identifies whether the gradient differs from zero for each variable. No variable significantly differs from zero at the 5% significance level.
 
 ```{r}
-fit=coxph(Surv(time,status!=2)~age+sex+thickness+ulcer,data=melanoma)
 result=cox.zph(fit)
 result
 ```
@@ -125,47 +157,9 @@ result
 survminer::ggcoxzph(result)
 ```
 
-#### Stratified models
-
-One approach to dealing with a violation of the proportional hazards assumption is to stratify by that variable. Including a strata() term will result in a separate baseline hazard function being fit for each level in the stratification variable. It will be no longer possible to make direct inference on the effect associated with that variable.
-
-```{r}
-fit=coxph(Surv(time,status!=2)~age+sex+ulcer+thickness+strata(year),data=melanoma)
-autoReg(fit) %>% myft()
-```
-### Correlated groups of observations
-
-As a general rule, you should always try to account for any higher structure in your data within the model. For instance, patients may be clustered within particular hospitals.
-
-There are two broad approaches to dealing with correlated groups of observations.
-
-A cluster() term implies a generalised estimating equations (GEE) approach. Here, a standard CPH model is fitted but the standard errors of the estimated hazard ratios are adjusted to account for correlations.
-
-```{r}
-# Simulate random hospital identifier
-melanoma$hospital_id= c(rep(1:10, 20), rep(11, 5))
-str(melanoma)
-fit=coxph(Surv(time,status!=2)~age+sex+ulcer+thickness+cluster(hospital_id),data=melanoma)
-autoReg(fit,uni=TRUE,threshold=1) %>% myft()
-```
-
-A frailty() term implies a mixed effects model, where specific random effects term(s) are directly incorporated into the model.
-
-```{r}
-fit=coxph(Surv(time,status!=2)~age+sex+ulcer+thickness+frailty(hospital_id),data=melanoma)
-autoReg(fit,uni=TRUE,threshold=1) %>% myft()
-```
-Both approaches achieve the same goal in different ways. Volumes have been written on GEE vs mixed effects models. We favour the latter approach because of its flexibility and our preference for mixed effects modelling in generalised linear modelling. Note cluster() and frailty() terms cannot be combined in the same model.
-
-#### Hazard ratio plot : modelPlot()
-
-You can draw hazard ratio plot
-
-```{r,fig.width=8,fig.height=6}
-modelPlot(fit)
-```
-
 ### Disease-specific survival
+
+You can analyze disease specific survival and make a publication-ready table.
 
 ```{r}
 fit=coxph(Surv(time,status==1)~age+sex+thickness+ulcer,data=melanoma)
@@ -174,14 +168,80 @@ autoReg(fit,uni=TRUE,threshold=1) %>% myft()
 
 ### Competing risk regression
 
-Competing-risks regression is an alternative to CPH regression. It can be useful if the outcome of interest may not be able to occur simply because something else (like death) has happened first. For instance, in our example it is obviously not possible for a patient to die from melanoma if they have died from another disease first. By simply looking at cause-specific mortality (deaths from melanoma) and considering other deaths as censored, bias may result in estimates of the influence of predictors.
+Competing-risks regression is an alternative to cox proportional regression. It can be useful if the outcome of interest may not be able to occur simply because something else (like death) has happened first. For instance, in our example it is obviously not possible for a patient to die from melanoma if they have died from another disease first. By simply looking at cause-specific mortality (deaths from melanoma) and considering other deaths as censored, bias may result in estimates of the influence of predictors.
 
 The approach by Fine and Gray is one option for dealing with this. It is implemented in the package `cmprsk`. The crrFormula() function in autoReg package can make competing risk regression model and addFitSummary() function can add the model summary.
 
 ```{r}
-fit1=crrFormula(time+statusCRR~age+sex+thickness+ulcer,data=melanoma)
+fit1=crrFormula(time+status1~age+sex+thickness+ulcer,data=melanoma)
 autoReg(fit,uni=TRUE,threshold=1) %>% 
   addFitSummary(fit1,"HR (competing risks multivariable)") %>% 
   myft()
 ```
 
+You can estimate cumulative incidence functions from competing risk data.
+
+```{r}
+library(cmprsk) # for use of cuminc()
+fit=cuminc(melanoma$time/365,melanoma$status1)
+fit
+```
+
+At 5 years, cumulative death incidence due to melanoma is 22.3% and cumulative death incidence due to other cause is 4.4%.
+
+You can plot this with the following R code.
+
+```{r,fig.width=8, fig.height=5}
+ggcmprsk(fit,c("melanoma","others"))
+```
+
+## Analysis of clustered data
+
+In clustered data, cases are not independent. For instance, one might be interested in survival times of individuals that are in the same family or in the same unit, such as a town or school. In this case, genetic or environmental factors mean that survival times within a cluster are more similar to each other than to those from other clusters, so that the independence assumption no longer holds. Marginal approach and frailty model can used to handle these type of data.
+
+
+### 1. Frailty survival model
+
+The retinopathy data is a trial of laser coagulation as a treatment to delay diabetic retinopathy. We shall examine the effect of treatment on time-to-blindness in patients with diabetic retinopathy, and also the interaction of the effect of treatment(trt) with age of onset (juvenile or adult onset), as defined by the type indicator. To estimate individual effect, the `frailty(id)` shall be used.
+
+```{r}
+data(retinopathy, package="survival")
+fit=coxph(Surv(futime,status)~trt*type+frailty(id),data=retinopathy)
+summary(fit)
+```
+
+Variance of random effect $\hat{\sigma}^2=0.926$ and the p value of frailty(id) is 0.098. So we can reject $H_0 : \sigma^2=0$, that is the individual patient has different effect.       
+The result is summarized as table with the following R code.
+
+```{r}
+autoReg(fit) %>% myft()
+```
+
+With above result, we can estimate the risk of blindness in each group.
+
+- juvenile, not treated : $HR = exp(0) = 1$
+- juvenile, treated     : $HR = 0.6030$
+- adult onset, not treated : $HR = 1.4872$
+- adult onset, treated : $HR = 0.6030\times1.4872\times0.3734=0.3348$
+
+The type of diabetes is not significant on the development of blindness($p=0.130$). Laser treatment significantly reduced the risk of blindness(HR 0.60(95% CI 0.39-0.94), $p=0.03$).
+Laser treatment is effective in both type of diabetes, but more effective in adult-onset diabetes.
+
+### 2. Marginal approach
+
+In the marginal approach, the proportional hazards assumption is presumed to hold
+for all subjects, despite the structure in the data due to clusters. With this approach,
+the parameter estimates are obtained from a Cox proportional hazards model ignoring the cluster structure.
+
+```{r}
+fit=coxph(Surv(futime,status)~trt*type+cluster(id),data=retinopathy)
+summary(fit)
+```
+
+The result can be summarized as table.
+
+```{r}
+autoReg(fit) %>% myft()
+```
+
+The result of marginal approach is similar to frailty approach. But in the frailty approach, subject-specific effect is estimated, whereas in the marginal approach, population average effect is estimated.

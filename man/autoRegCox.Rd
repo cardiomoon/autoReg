@@ -20,9 +20,9 @@ autoRegCox(
 
 \item{threshold}{numeric}
 
-\item{uni}{logical whether or not perform univariate regression}
+\item{uni}{logical whether or not perform univariable regression}
 
-\item{multi}{logical whether or not perform multivariate regression}
+\item{multi}{logical whether or not perform multivariable regression}
 
 \item{final}{logical whether or not perform stepwise backward elimination}
 

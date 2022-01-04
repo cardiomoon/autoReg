@@ -11,7 +11,7 @@ imputedReg(fit, data = NULL, m = 20, seed = 1234, digits = 2, ...)
 
 \item{data}{a data.frame}
 
-\item{m}{Number of multiple imputations. The default is m=5.}
+\item{m}{Number of multiple imputations. The default is m=20.}
 
 \item{seed}{An integer that is used as argument by the set.seed() for offsetting the random number generator.}
 
