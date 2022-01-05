@@ -1,0 +1,14 @@
+pandoc: 2.7.3
+pkgdown: 2.0.1
+pkgdown_sha: ~
+articles:
+  Automatic_Regression_Modeling: Automatic_Regression_Modeling.html
+  Bootstrap_Prediction: Bootstrap_Prediction.html
+  Getting_started: Getting_started.html
+  Statiastical_test_in_gaze: Statiastical_test_in_gaze.html
+  Survival: Survival.html
+last_built: 2022-01-05T11:25Z
+urls:
+  reference: https://cardiomoon.github.io/autoReg/reference
+  article: https://cardiomoon.github.io/autoReg/articles
+
