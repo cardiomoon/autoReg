@@ -74,6 +74,7 @@ The following objects are masked from 'package:base':
 ft=gaze(sex~.,data=acs) %>% myft()
 ft
 ```
+![](man/figures/unnamed-chunk-5-1.png)
 
 You can also make a powerpoint file using rrtable::table2pptx()
 function.
@@ -98,6 +99,7 @@ more grouping variables.
 ``` r
 gaze(sex+Dx~.,data=acs) %>% myft()
 ```
+![](man/figures/unnamed-chunk-8-1.png)
 
 You can also use three or more grouping variables.The resultant table
 will be too long to review, but you can try.
@@ -105,6 +107,8 @@ will be too long to review, but you can try.
 ``` r
 gaze(sex+DM+HBP~age,data=acs) %>% myft()
 ```
+
+![](man/figures/unnamed-chunk-9-1.png)
 
 ### 2. For automatic selection of explanatory variables : autoReg()
 
@@ -174,6 +178,8 @@ Or you can make a publication-ready table.
 autoReg(fit) %>% myft()
 ```
 
+![](man/figures/unnamed-chunk-12-1.png)
+
 If you want make a table with more explanation, you can make categorical
 variables with numeric variables. For example, the explanatory variables
 obstruct(obstruction of colon by tumor) and perfor(perforation of colon)
@@ -191,6 +197,8 @@ result=autoReg(fit)
 result %>% myft()
 ```
 
+![](man/figures/unnamed-chunk-13-1.png)
+
 You can add labels to the names of variables with setLabel() function.
 
 ``` r
@@ -207,12 +215,16 @@ result=autoReg(fit)
 result %>% myft()
 ```
 
+![](man/figures/unnamed-chunk-14-1.png)
+
 If you do not want to show the reference values in table, you can
 shorten the table.
 
 ``` r
 shorten(result) %>% myft()
 ```
+
+![](man/figures/unnamed-chunk-15-1.png)
 
 ### Add univariate models to table and automatic selection of explanatory variables
 
@@ -227,6 +239,9 @@ excluded in multivariate model.
 autoReg(fit, uni=TRUE) %>% myft()
 ```
 
+![](man/figures/unnamed-chunk-16-1.png)
+
+
 If you want to include all explanatory variables in the multivariate
 model, just set the threshold 1.
 
@@ -234,12 +249,17 @@ model, just set the threshold 1.
 autoReg(fit, uni=TRUE,threshold=1) %>% myft()
 ```
 
+![](man/figures/unnamed-chunk-17-1.png)
+
+
 You can perform stepwise backward elimination to select variables and
 make a final model. Just set final=TRUE.
 
 ``` r
 autoReg(fit, uni=TRUE,threshold=1, final=TRUE) %>% myft()
 ```
+
+![](man/figures/unnamed-chunk-18-1.png)
 
 #### Multiple imputation with mice()
 
@@ -251,6 +271,8 @@ argument.
 ``` r
 autoReg(fit, imputed=TRUE) %>% myft()
 ```
+
+![](man/figures/unnamed-chunk-19-1.png)
 
 ### Summarize regression model results in a plot : modelPlot()
 
