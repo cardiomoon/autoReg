@@ -210,9 +210,11 @@ getGroupNames=function(data,yvars){
 #' library(dplyr)
 #' gaze(acs) %>% myft()
 #' gaze(sex~.,acs) %>% myft()
+#' \donttest{
 #' gaze(sex+Dx~.,data=acs,show.p=TRUE,show.total=TRUE,show.n=TRUE,shiw.missing=TRUE) %>% myft()
 #' gaze(Dx+sex~cardiogenicShock,data=acs,show.p=TRUE) %>% myft()
 #' gaze(Dx+sex+HBP~cardiogenicShock,data=acs,show.p=TRUE) %>% myft()
+#' }
 #' @export
 myft=function(x,vanilla=TRUE,fontsize=10,digits,showid=FALSE,...){
 
