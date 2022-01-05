@@ -2,7 +2,7 @@
 % Please edit documentation in R/fill.R
 \name{findDup}
 \alias{findDup}
-\title{Find duplcated term}
+\title{Find duplicated term}
 \usage{
 findDup(x)
 }
@@ -10,7 +10,7 @@ findDup(x)
 \item{x}{A vector}
 }
 \description{
-Find duplcated term
+Find duplicated term
 }
 \examples{
 x=rep(1:5,each=3)

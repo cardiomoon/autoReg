@@ -2,7 +2,7 @@
 % Please edit documentation in R/getInteraction.R
 \name{getN}
 \alias{getN}
-\title{Get number of data specified by name and desc}
+\title{Get number of data specified by 'name' and 'desc'}
 \usage{
 getN(name, desc, data)
 }
@@ -14,7 +14,7 @@ getN(name, desc, data)
 \item{data}{a data.frame}
 }
 \description{
-Get number of data specified by name and desc
+Get number of data specified by 'name' and 'desc'
 }
 \examples{
 data(acs,package="moonBook")

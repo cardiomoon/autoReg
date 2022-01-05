@@ -2,7 +2,7 @@
 % Please edit documentation in R/fill.R
 \name{removeDup}
 \alias{removeDup}
-\title{Remove duplcated term}
+\title{Remove duplicated term}
 \usage{
 removeDup(x, replacement = "")
 }
@@ -12,7 +12,7 @@ removeDup(x, replacement = "")
 \item{replacement}{A character to be replaced or NA}
 }
 \description{
-Remove duplcated term
+Remove duplicated term
 }
 \examples{
 x=rep(1:5,each=3)

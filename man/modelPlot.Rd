@@ -16,7 +16,7 @@ modelPlot(
 )
 }
 \arguments{
-\item{fit}{An object of calss glm}
+\item{fit}{An object of class glm}
 
 \item{widths}{Numeric vector}
 

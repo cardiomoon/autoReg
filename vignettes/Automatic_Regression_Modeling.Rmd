@@ -51,12 +51,12 @@ From the result of multivariable analysis, we found no explanatory variable is s
 
 ### Selection of explanatory variable from univariable model
 
-You can staret with univariable model. With a list of univariable model, you can select potentially significant explanatory variable(p value below 0.2 for example). The autoReg() function automatically select from univariable model with a given p value threshold(default value is 0.2).
+You can start with univariable model. With a list of univariable model, you can select potentially significant explanatory variable(p value below 0.2 for example). The autoReg() function automatically select from univariable model with a given p value threshold(default value is 0.2).
 
 ```{r}
 autoReg(fit,uni=TRUE, threshold=0.2) %>% myft()
 ```
-As you can see in the above table, the coefficents of hp:am(the interaction of hp and am) and wt:hp:am (interaction of wt and hp and am) have p-values above 0.2. So these variables are excluded and the remaining variables are used in multivariable model. If you want to use all the explanatory variables in the multivariable model, set the threshold 1.
+As you can see in the above table, the coefficients of hp:am(the interaction of hp and am) and wt:hp:am (interaction of wt and hp and am) have p-values above 0.2. So these variables are excluded and the remaining variables are used in multivariable model. If you want to use all the explanatory variables in the multivariable model, set the threshold 1.
 
 ### Stepwise backward elimination  
 
@@ -67,7 +67,7 @@ fit=lm(mpg~hp+wt+am+wt:hp+wt:am,data=mtcars)
 final=step(fit,trace=0)
 summary(final)
 ```
-You can perform univarible anlaysis for variable selection, mutivariable analysis and stepwise backward elimination in one step.
+You can perform univariable analysis for variable selection, multivariable analysis and stepwise backward elimination in one step.
 
 ```{r}
 fit=lm(mpg~hp*wt*am,data=mtcars)
@@ -126,8 +126,8 @@ df %>% myft()
 ```
 ### Multiple imputation
 
-You can do multiple imputation by using imputegReg() function. This function perform 
-multiple imputation using mice() function in mice package. The dafault value of the number of multiple imputation
+You can do multiple imputation by using imputedReg() function. This function perform 
+multiple imputation using mice() function in mice package. The default value of the number of multiple imputation
 is 20. You can adjust the number with m argument. You can set random number generator with seed argument.
 
 ```{r}

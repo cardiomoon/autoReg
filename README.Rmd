@@ -1,10 +1,10 @@
 ---
 title: "Getting started"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Getting started}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+author: Keon-Woong Moon
+date: Jan 5,2022 
+output:
+     md_document:
+          variant: markdown_github
 ---
 
 ```{r, include = FALSE}

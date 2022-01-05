@@ -9,7 +9,7 @@ p2character2(x, digits = 3, add.p = TRUE)
 \arguments{
 \item{x}{a numeric}
 
-\item{digits}{interger indicating decimal place}
+\item{digits}{integer indicating decimal place}
 
 \item{add.p}{logical}
 }

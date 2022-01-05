@@ -1,4 +1,4 @@
-#'Summarise numeric vector to statical summary
+#'Summarize numeric vector to statistical summary
 #' @param x A numeric vector
 #' @param  digits integer indicating the number of decimal places
 #' @param method An integer indicating methods for continuous variables. Possible values in methods are
@@ -33,7 +33,7 @@ num2stat=function(x,digits=1,method=1,p=NULL){
      result
 }
 
-#'Make ddescribe for numeric summary
+#'Make description for numeric summary
 #'@param method numeric
 #'@param p A numeric or NULL
 descNum=function(method=1,p=NULL){
@@ -167,9 +167,9 @@ gazeCont=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALS
 #' @param x  Name of a categorical variable
 #' @param y Name of a variable, either continuous or categorical
 #' @param max.ylev max.ylev An integer indicating the maximum number of levels of grouping variable ('y').
-#'  If a colummn have unique values less than max.ylev it is treated as a categorical variable. Default value is 5.
+#'  If a column have unique values less than max.ylev it is treated as a categorical variable. Default value is 5.
 #' @param digits Numeric
-#' @param show.total logical. Wheter or not show total column
+#' @param show.total logical. Whether or not show total column
 #' @param show.n logical. Whether or not show N column
 #' @param show.missing logical. Whether or not show missing column
 #' @param show.stats logical. Whether or not show stats column
@@ -190,8 +190,8 @@ gazeCont=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALS
 #'               }
 #'               Default value is 2.
 #' @param origData A data.frame containing original data
-#' @param maxCatLevel An integer indicating the maximum number of unique levels of categorial variable.
-#' If a colummn have unique values more than maxCatLevel, categorical summarization will not be performed.
+#' @param maxCatLevel An integer indicating the maximum number of unique levels of categorical variable.
+#' If a column have unique values more than maxCatLevel, categorical summarization will not be performed.
 #' @param ... Further arguments
 #' @examples
 #' require(moonBook)

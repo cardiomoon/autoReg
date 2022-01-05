@@ -43,21 +43,21 @@ You can draw a plot summarizing the model.
 modelPlot(fit)
 ```
 
-For bootstraping simulation, you can make new dat with the following R code.
+For bootstrapping simulation, you can make new data with the following R code.
 ```{r}
 newdata=expand.grid(horTh=factor(c(1,2),labels=c("no","yes")),
                     pnodes=1:51,
                     menostat=factor(c(1,2),labels=c("Pre","Post")))
 ```
 
-You can make a bootstraping simuation with bootPredict() function. You can set the number of simlation by adjusting R argument.
+You can make a bootstrapping simulation with bootPredict() function. You can set the number of simulation by adjusting R argument.
 ```{r}
 df=bootPredict(fit,newdata,R=500)
 head(df)
 ```
 
 
-With this result, you can draw a plot showing bootstraping prediction of breast cancer.
+With this result, you can draw a plot showing bootstrapping prediction of breast cancer.
 
 ```{r,fig.width=8,fig.height=7}
 library(ggplot2)

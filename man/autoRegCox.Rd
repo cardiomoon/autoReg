@@ -2,7 +2,7 @@
 % Please edit documentation in R/mycphSimple.R
 \name{autoRegCox}
 \alias{autoRegCox}
-\title{perform automatc regression for a class of coxph}
+\title{perform automatic regression for a class of coxph}
 \usage{
 autoRegCox(
   x,
@@ -33,7 +33,7 @@ autoRegCox(
 \item{...}{Further arguments to be passed to gaze()}
 }
 \description{
-perform automatc regression for a class of coxph
+perform automatic regression for a class of coxph
 }
 \examples{
 require(survival)

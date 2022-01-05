@@ -30,11 +30,11 @@ gazeCat(
 \item{y}{Name of a variable, either continuous or categorical}
 
 \item{max.ylev}{max.ylev An integer indicating the maximum number of levels of grouping variable ('y').
-If a colummn have unique values less than max.ylev it is treated as a categorical variable. Default value is 5.}
+If a column have unique values less than max.ylev it is treated as a categorical variable. Default value is 5.}
 
 \item{digits}{Numeric}
 
-\item{show.total}{logical. Wheter or not show total column}
+\item{show.total}{logical. Whether or not show total column}
 
 \item{show.n}{logical. Whether or not show N column}
 
@@ -63,8 +63,8 @@ Possible values in methods are
 }
 Default value is 2.}
 
-\item{maxCatLevel}{An integer indicating the maximum number of unique levels of categorial variable.
-If a colummn have unique values more than maxCatLevel, categorical summarization will not be performed.}
+\item{maxCatLevel}{An integer indicating the maximum number of unique levels of categorical variable.
+If a column have unique values more than maxCatLevel, categorical summarization will not be performed.}
 
 \item{...}{Further arguments}
 }

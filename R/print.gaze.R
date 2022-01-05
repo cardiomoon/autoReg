@@ -1,4 +1,4 @@
-#'Retur maximum character number except NA
+#'Return maximum character number except NA
 #'@param x a vector
 #'@examples
 #'x=c(1,2,"sadf",NA)

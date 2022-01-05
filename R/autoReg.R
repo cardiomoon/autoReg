@@ -91,8 +91,8 @@ getSigVars=function(fit,threshold=0.2,final=TRUE){
 }
 
 
-#' Summarise statistics with a model or model list
-#' @param fit An object of class lm or glm of filtlist
+#' Summarize statistics with a model or model list
+#' @param fit An object of class lm or glm of fitlist
 #' @param ... Further argument to be passed to fit2stats
 #' @export
 #' @examples
@@ -115,7 +115,7 @@ fit2summary=function(fit,...){
 }
 
 
-#' Summarise statistics with a model
+#' Summarize statistics with a model
 #' @param fit An object of class lm or glm
 #' @param method character choices are one of the c("likelihood","wald")
 #' @param digits integer indicating the number of decimal places
@@ -174,7 +174,7 @@ fit2stats=function(fit,method="likelihood",digits=2){
 
 #'Change p value to string
 #'@param x a numeric
-#'@param digits interger indicating decimal place
+#'@param digits integer indicating decimal place
 #'@param add.p logical
 #'@export
 p2character2=function(x,digits=3,add.p=TRUE){

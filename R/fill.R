@@ -1,4 +1,4 @@
-#' Find duplcated term
+#' Find duplicated term
 #' @param x A vector
 #' @importFrom dplyr lag
 #' @examples
@@ -39,7 +39,7 @@ find1stDup=function(x){
 }
 
 
-#' Remove duplcated term
+#' Remove duplicated term
 #' @param x A vector
 #' @param replacement A character to be replaced or NA
 #' @importFrom dplyr lag

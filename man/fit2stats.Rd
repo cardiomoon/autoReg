@@ -2,7 +2,7 @@
 % Please edit documentation in R/autoReg.R
 \name{fit2stats}
 \alias{fit2stats}
-\title{Summarise statistics with a model}
+\title{Summarize statistics with a model}
 \usage{
 fit2stats(fit, method = "likelihood", digits = 2)
 }
@@ -14,7 +14,7 @@ fit2stats(fit, method = "likelihood", digits = 2)
 \item{digits}{integer indicating the number of decimal places}
 }
 \description{
-Summarise statistics with a model
+Summarize statistics with a model
 }
 \examples{
 library(survival)

@@ -1,5 +1,5 @@
 #' Competing Risk Regression with Formula
-#' @param x fomular time+status~explanatory variables
+#' @param x formula time+status~explanatory variables
 #' @param data data a data.frame
 #' @importFrom cmprsk crr
 #' @importFrom stats model.matrix

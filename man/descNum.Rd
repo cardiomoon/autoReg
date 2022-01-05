@@ -2,7 +2,7 @@
 % Please edit documentation in R/gaze_sub.R
 \name{descNum}
 \alias{descNum}
-\title{Make ddescribe for numeric summary}
+\title{Make description for numeric summary}
 \usage{
 descNum(method = 1, p = NULL)
 }
@@ -12,5 +12,5 @@ descNum(method = 1, p = NULL)
 \item{p}{A numeric or NULL}
 }
 \description{
-Make ddescribe for numeric summary
+Make description for numeric summary
 }

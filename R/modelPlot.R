@@ -1,5 +1,5 @@
 #' Draw coefficients/odds ratio/hazard ratio plot
-#' @param fit An object of calss glm
+#' @param fit An object of class glm
 #' @param widths Numeric vector
 #' @param change.pointsize logical Whether or not change point size
 #' @param show.OR logical Whether or not show odds ratio

@@ -2,7 +2,7 @@
 % Please edit documentation in R/gaze.R
 \name{getGroupNames}
 \alias{getGroupNames}
-\title{Get sepcific group name}
+\title{Get specific group name}
 \usage{
 getGroupNames(data, yvars)
 }
@@ -12,7 +12,7 @@ getGroupNames(data, yvars)
 \item{yvars}{variable names}
 }
 \description{
-Get sepcific group name
+Get specific group name
 }
 \examples{
 library(moonBook)

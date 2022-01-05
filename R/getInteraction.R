@@ -36,7 +36,7 @@ getInteraction=function(name,data){
      data.frame(name=name,desc=desc,id=answer,n=n)
 }
 
-#' Get number of data specified by name and desc
+#' Get number of data specified by 'name' and 'desc'
 #' @param name a string with interaction term
 #' @param desc character
 #' @param data a data.frame

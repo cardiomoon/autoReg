@@ -44,7 +44,7 @@ library(dplyr)
 
 ## Data `melanoma`
 
-The data melenoma included in the boot package is a data of 205 patients with malignant melanoma. Each patient had their tumor removed by surgery at the Department of Plastic Surgery, University Hospital of Odense, Denmark during the period 1962 to 1977. The surgery consisted of complete removal of the tumour together with about 2.5cm of the surrounding skin. Among the measurements taken were the thickness of the tumour and whether it was ulcerated or not. These are thought to be important prognostic variables in that patients with a thick and/or ulcerated tumour have an increased chance of death from melanoma. Patients were followed until the end of 1977.
+The data melanoma included in the boot package is a data of 205 patients with malignant melanoma. Each patient had their tumor removed by surgery at the Department of Plastic Surgery, University Hospital of Odense, Denmark during the period 1962 to 1977. The surgery consisted of complete removal of the tumor together with about 2.5cm of the surrounding skin. Among the measurements taken were the thickness of the tumor and whether it was ulcerated or not. These are thought to be important prognostic variables in that patients with a thick and/or ulcerated tumor have an increased chance of death from melanoma. Patients were followed until the end of 1977.
 
 
 ```{r}
@@ -80,7 +80,7 @@ gaze(melanoma,show.n=TRUE)
 
 ## Survival analysis for whole group
 
-You can estimate survival in whole group with sutvfit() function in the survival package.
+You can estimate survival in whole group with survfit() function in the survival package.
 
 ```{r}
 fit=survfit(Surv(time/365.25,status!=2)~1,data=melanoma)
@@ -97,7 +97,7 @@ summary(fit,times=0:5)
 
 ### Kaplan-Meier Plot
 
-Yoou can plot survival curves using the ggsurvplot() in the survminer package. There are numerous options available on the help page. 
+You can plot survival curves using the ggsurvplot() in the survminer package. There are numerous options available on the help page. 
 
 ```{r, fig.height=4,fig.width=6}
 library(survminer)
@@ -112,7 +112,7 @@ The coxph() function in the survival package fits a Cox proportional hazards reg
 fit=coxph(Surv(time,status!=2)~age+sex+thickness+ulcer,data=melanoma)
 ```
 
-You can summarise the results of coxph() with autoReg() function. With a list of univariable model, you can select potentially significant explanatory variable(p value below 0.2 for example). The autoReg() function automatically select from univariable model with a given p value threshold(default value is 0.2). If you want to use all the explanatory variables in the multivariable model, set the threshold 1.
+You can summarize the results of coxph() with autoReg() function. With a list of univariable model, you can select potentially significant explanatory variable(p value below 0.2 for example). The autoReg() function automatically select from univariable model with a given p value threshold(default value is 0.2). If you want to use all the explanatory variables in the multivariable model, set the threshold 1.
 
 ```{r}
 x=autoReg(fit,uni=TRUE,threshold=1)
@@ -145,7 +145,7 @@ x %>% myft()
 
 #### Testing for proportional hazards
 
-An assumption of CPH regression is that the hazard (think risk) associated with a particular variable does not change over time. For example, is the magnitude of the increase in risk of death associated with tumour ulceration the same in the early post-operative period as it is in later years?
+An assumption of Cox proportional hazard regression is that the hazard (think risk) associated with a particular variable does not change over time. For example, is the magnitude of the increase in risk of death associated with tumor ulceration the same in the early post-operative period as it is in later years?
 
 The cox.zph() function from the survival package allows us to test this assumption for each variable. The plot of scaled Schoenfeld residuals should be a horizontal line. The included hypothesis test identifies whether the gradient differs from zero for each variable. No variable significantly differs from zero at the 5% significance level.
 

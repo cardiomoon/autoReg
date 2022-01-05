@@ -7,7 +7,7 @@
 crrFormula(x, data)
 }
 \arguments{
-\item{x}{fomular time+status~explanatory variables}
+\item{x}{formula time+status~explanatory variables}
 
 \item{data}{data a data.frame}
 }

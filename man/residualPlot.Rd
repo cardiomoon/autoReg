@@ -7,10 +7,10 @@
 residualPlot(fit, mode = 1)
 }
 \arguments{
-\item{fit}{An object of calss coxph}
+\item{fit}{An object of class coxph}
 
 \item{mode}{Integer If mode is 1, draw martingale residual plot.
-If mode is 2, draw dfbeta plot. if mode is 3, draw riskscore plot}
+If mode is 2, draw dfbeta plot. if mode is 3, draw risk score plot}
 }
 \value{
 A ggplot

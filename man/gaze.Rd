@@ -20,7 +20,7 @@ gaze(x, ...)
 \description{
 Produce table for descriptive statistics by groups for several variables easily.
 Depending on  the nature of these variables, different descriptive statistical
-methods were used(t-test, ANOVA,Kruskal-Wallis, chisq, Fisher,...)
+methods were used(t-test, ANOVA, Kruskal-Wallis, chi-squared, Fisher's,...)
 }
 \section{Methods (by class)}{
 \itemize{

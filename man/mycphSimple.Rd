@@ -11,7 +11,7 @@ mycphSimple(fit, threshold = 0.2, digits = 2)
 
 \item{threshold}{numeric p-value threshold to enter multiple model}
 
-\item{digits}{interger indicating the position decimal place}
+\item{digits}{integer indicating the position decimal place}
 }
 \description{
 Fit Simple Proportional Hazards Regression Model

@@ -2,7 +2,7 @@
 #'
 #' Produce table for descriptive statistics by groups for several variables easily.
 #' Depending on  the nature of these variables, different descriptive statistical
-#' methods were used(t-test, ANOVA,Kruskal-Wallis, chisq, Fisher,...)
+#' methods were used(t-test, ANOVA, Kruskal-Wallis, chi-squared, Fisher's,...)
 #' @param x An R object, formula or data.frame
 #' @param ... arguments to be passed to gaze.data.frame or gaze.formula
 #' @importFrom dplyr `%>%`
@@ -48,7 +48,7 @@ gaze.data.frame=function(x,...){
 #'
 #' Produce table for descriptive statistics by groups for several variables easily.
 #' Depending on  the nature of these variables, different descriptive statistical
-#' methods were used(t-test, ANOVA,Kruskal-Wallis, chisq, Fisher,...)
+#' methods were used(t-test, ANOVA, Kruskal-Wallis, chi-squared, Fisher's,...)
 #'
 #' @param x An object of class "formula". Left side of ~ must contain the
 #'                name of one grouping variable or two grouping variables in an
@@ -175,7 +175,7 @@ gaze.formula_sub=function(x,data,missing=FALSE,...){
      df
 }
 
-#' Get sepcific group name
+#' Get specific group name
 #' @param data A data.frame
 #' @param yvars variable names
 #' @examples

@@ -3,7 +3,7 @@
 #'Fit Simple Proportional Hazards Regression Model
 #'@param fit An object of class coxph
 #'@param threshold	numeric p-value threshold to enter multiple model
-#'@param digits interger indicating the position decimal place
+#'@param digits integer indicating the position decimal place
 #'@examples
 #' require(survival)
 #' data(cancer)
@@ -155,7 +155,7 @@ autoReg.coxph=function(x,...){
      autoRegCox(x,...)
 }
 
-#' perform automatc regression for a class of coxph
+#' perform automatic regression for a class of coxph
 #'@param x An object of class coxph
 #'@param threshold numeric
 #'@param uni logical whether or not perform univariable regression

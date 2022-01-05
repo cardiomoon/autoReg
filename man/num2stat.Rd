@@ -2,7 +2,7 @@
 % Please edit documentation in R/gaze_sub.R
 \name{num2stat}
 \alias{num2stat}
-\title{Summarise numeric vector to statical summary}
+\title{Summarize numeric vector to statistical summary}
 \usage{
 num2stat(x, digits = 1, method = 1, p = NULL)
 }
@@ -20,7 +20,7 @@ Default value is 1.}
 \item{p}{A numeric}
 }
 \description{
-Summarise numeric vector to statical summary
+Summarize numeric vector to statistical summary
 }
 \examples{
 library(moonBook)

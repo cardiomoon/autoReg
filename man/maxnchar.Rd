@@ -2,7 +2,7 @@
 % Please edit documentation in R/print.gaze.R
 \name{maxnchar}
 \alias{maxnchar}
-\title{Retur maximum character number except NA}
+\title{Return maximum character number except NA}
 \usage{
 maxnchar(x)
 }
@@ -10,7 +10,7 @@ maxnchar(x)
 \item{x}{a vector}
 }
 \description{
-Retur maximum character number except NA
+Return maximum character number except NA
 }
 \examples{
 x=c(1,2,"sadf",NA)

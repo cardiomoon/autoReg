@@ -2,17 +2,17 @@
 % Please edit documentation in R/autoReg.R
 \name{fit2summary}
 \alias{fit2summary}
-\title{Summarise statistics with a model or model list}
+\title{Summarize statistics with a model or model list}
 \usage{
 fit2summary(fit, ...)
 }
 \arguments{
-\item{fit}{An object of class lm or glm of filtlist}
+\item{fit}{An object of class lm or glm of fitlist}
 
 \item{...}{Further argument to be passed to fit2stats}
 }
 \description{
-Summarise statistics with a model or model list
+Summarize statistics with a model or model list
 }
 \examples{
 library(survival)

@@ -1,8 +1,8 @@
 ---
-title: "Statiastical tests in gaze"
+title: "Statistical tests in gaze"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Statiastical tests in gaze}
+  %\VignetteIndexEntry{Statistical tests in gaze}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -51,7 +51,7 @@ Default value is 1.
 
 ### 1. Comparison of two groups
 
-Ejection fraction (EF) refers to how well your left ventricle (or right ventricle) pumps blood with each heart beat. The normal values are approximately 56-78%. 
+Ejection fraction(EF) refers to how well your left ventricle (or right ventricle) pumps blood with each heart beat. The normal values are approximately 56-78%. 
 
 #### (1) Parametric method
 
@@ -60,8 +60,7 @@ Ejection fraction (EF) refers to how well your left ventricle (or right ventricl
 gaze(sex~EF,data=acs)  # default: method=1 
 ```
 
-If you want to compare EF means between males and females in acs data with parametric method,
-you have to compare the variances of two samples. If the variances of two groups are equal, the pooled variance is used to estimate the variance. Otherwise the Welch (or Satterthwaite) approximation to the degrees of freedom is used.
+If you want to compare EF means between males and females in acs data with parametric method, you have to compare the variances of two samples. If the variances of two groups are equal, the pooled variance is used to estimate the variance. Otherwise the Welch (or Satterthwaite) approximation to the degrees of freedom is used.
 
 ```{r}
 var.test(EF~sex,data=acs)  # F Test to Compare Two Variances
@@ -98,7 +97,7 @@ wilcox.test(EF~sex,data=acs)
 gaze(sex~EF,data=acs, method=3) 
 ```
 
-When method=3, perform the Shapiro-Wilk test or the Anderson-Daring test for normality(nortest::ad.test) to decide between normal or non-normal. If the number of cases are below 5000, Shapiro-Wilk test perfomed. If above 5000, Anderson-Daring test for normality performed.
+When method=3, perform the Shapiro-Wilk test or the Anderson-Daring test for normality(nortest::ad.test) to decide between normal or non-normal. If the number of cases are below 5000, Shapiro-Wilk test performed. If above 5000, Anderson-Daring test for normality performed.
 
 ```{r}
 nrow(acs)
@@ -110,7 +109,7 @@ The result of shapiro.test() is significant. So we perform Wilcoxon rank sum tes
 
 ### 2. Comparison of three or more groups
 
-The Dx column of acs data is diagnosis. It has three groups : Unstable Angina, NSTEMI and STEMI. You can make a table summarizing baseline characteristics among three groups. The parametric method cmparing means of three or more groups is ANOVA, whereas non-paramatric method is Kruskal-Wallis rank sum test.
+The 'Dx' column of acs data is diagnosis. It has three groups : Unstable Angina, NSTEMI and STEMI. You can make a table summarizing baseline characteristics among three groups. The parametric method comparing means of three or more groups is ANOVA, whereas non-parametric method is Kruskal-Wallis rank sum test.
 
 ```{r}
 gaze(Dx~.,data=acs) %>% myft()
@@ -167,20 +166,20 @@ shapiro.test(resid(out))
 
 Since the result for normality test is significant($p<0.001$), then we perform Kruskal-Wallis test.
 
-## Statistical tests for categorial variables
+## Statistical tests for categorical variables
 
 
 The statistical methods for categorical variables in gaze() are as follows:
 
-- 0 : Perform chisq.test first. If warning present, perform fisher test
+- 0 : Perform chi-squared test first. If warning present, perform Fisher's exact test
 
-- 1 : Perform chisq.test without continuity correction
+- 1 : Perform chi-squared test without continuity correction
 
-- 2 : Perform chisq.test with continuity correction (default value)
+- 2 : Perform chi-squared test with continuity correction (default value)
 
-- 3 : perform fisher.test
+- 3 : perform Fisher's exact test
 
-- 4 : perform prop.trend test
+- 4 : perform test for trend in proportions
 
 You can choose by setting catMethod argument(default value is 2).
 
@@ -201,7 +200,7 @@ chisq.test(result)  # default: correct = TRUE
 
 ### (2) Chi-squared test without continuity correction
 
-If you want to perform chi-squared test without continuity correction, just set catMethod=1. This is the default metohd in SPSS.
+If you want to perform chi-squared test without continuity correction, just set catMethod=1. This is the default method in SPSS.
 
 ```{r}
 gaze(sex~Dx,data=acs, catMethod=1) # Perform chisq.test without continuity correction
@@ -256,7 +255,7 @@ You can make a combining table with two or more grouping variables.
 gaze(sex+Dx~.,data=acs) %>% myft()
 ```
 
-You can seelct whether or not show total column.
+You can select whether or not show total column.
 
 ```{r}
 gaze(sex+Dx~.,data=acs,show.total=TRUE) %>% myft()

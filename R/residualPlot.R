@@ -1,7 +1,7 @@
 #' Draw a martingale residual plot with an object of class coxph
-#' @param fit An object of calss coxph
+#' @param fit An object of class coxph
 #' @param mode Integer If mode is 1, draw martingale residual plot.
-#' If mode is 2, draw dfbeta plot. if mode is 3, draw riskscore plot
+#' If mode is 2, draw dfbeta plot. if mode is 3, draw risk score plot
 #' @importFrom ggplot2 facet_wrap stat_smooth
 #' @importFrom tidyr pivot_longer
 #' @importFrom stats residuals
