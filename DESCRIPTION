@@ -4,7 +4,8 @@ Title: Automatic Linear and Logistic Regression and Survival Analysis
 Version: 0.1.0
 Authors@R: person("Keon-Woong","Moon", email="cardiomoon@gmail.com",
     role=c("aut", "cre"))
-URL: https://github.com/cardiomoon/autoReg
+URL: https://github.com/cardiomoon/autoReg,
+    https://cardiomoon.github.io/autoReg/
 BugReports: https://github.com/cardiomoon/autoReg/issues
 Description: Make summary tables for descriptive statistics and select explanatory variables 
     automatically in various regression models. Support linear models, generalized linear 
