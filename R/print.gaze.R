@@ -20,8 +20,10 @@ maxnchar=function(x){
 #' data(acs,package="moonBook")
 #' x=gaze(acs,show.n=TRUE,show.missing=TRUE)
 #' gaze(sex~.,acs,show.p=TRUE,show.n=TRUE,show.missing=TRUE,show.total=TRUE)
+#' \donttest{
 #' gaze(Dx+sex~.,acs,show.p=TRUE)
 #' gaze(sex+Dx+HBP~.,acs,show.p=TRUE)
+#' }
 #' @export
 print.gaze=function(x,...){
 
