@@ -1,0 +1,278 @@
+---
+title: "Statiastical tests in gaze"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Statiastical tests in gaze}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = NA
+)
+```
+
+## Loading package
+
+```{r}
+library(autoReg)
+library(dplyr) # for use of pipe operator `%>%`
+```
+
+## Statistical tests for numeric variables
+
+The gaze() function in this autoReg package perform statistical tests for compare means between/among groups. The acs data included in moonBook package is a dataset containing 
+demographic and laboratory data of 857 patients with acute coronary syndrome(ACS).
+
+To make a table comparing baseline characteristics, use gaze() function.  
+
+```{r}
+data(acs, package="moonBook")
+gaze(sex~.,data=acs)
+```
+
+
+You can make a publication-ready table with myft() function which can be used in HTML, pdf,
+microsoft word and powerpoint file.
+
+```{r}
+gaze(sex~.,data=acs) %>% myft()
+```
+
+You can select the statistical method comparing means between/among groups  with argument method. Possible values in methods are: 
+
+- 1 forces analysis as normal-distributed 
+- 2 forces analysis as continuous non-normal 
+- 3 performs a Shapiro-Wilk test or nortest::ad.test to decide between normal or non-normal 
+
+Default value is 1.
+
+### 1. Comparison of two groups
+
+Ejection fraction (EF) refers to how well your left ventricle (or right ventricle) pumps blood with each heart beat. The normal values are approximately 56-78%. 
+
+#### (1) Parametric method
+
+
+```{r}
+gaze(sex~EF,data=acs)  # default: method=1 
+```
+
+If you want to compare EF means between males and females in acs data with parametric method,
+you have to compare the variances of two samples. If the variances of two groups are equal, the pooled variance is used to estimate the variance. Otherwise the Welch (or Satterthwaite) approximation to the degrees of freedom is used.
+
+```{r}
+var.test(EF~sex,data=acs)  # F Test to Compare Two Variances
+```
+
+The result of var.test is not significant. So we cannot reject the null hypothesis :$H_0 : true\  ratio\  of\  variance\ is\  equal\  to\  0$. With this result, we perform t-test using pooled variance.
+
+```{r}
+t.test(EF~sex,data=acs,var.equal=TRUE)
+```
+
+The result of t.test is not significant($p=.387$). The p value in the table is the result of this test. Alternatively, if the result of var.test() is significant, we perform t.test with the Welch approximation to the degrees of freedom.
+
+```{r}
+t.test(EF~sex,data=acs) # default value: var.equal=FALSE
+```
+
+#### (2) Non-parametric method
+
+```{r}
+gaze(sex~EF,data=acs, method=2)  # method=2 forces analysis as continuous non-normal 
+```
+
+When you choose method=2, the Wilcoxon rank sum test(also known as Mann-Whitney test) is performed.
+
+```{r}
+wilcox.test(EF~sex,data=acs)
+```
+
+#### (3) Performs test for normality 
+
+
+```{r}
+gaze(sex~EF,data=acs, method=3) 
+```
+
+When method=3, perform the Shapiro-Wilk test or the Anderson-Daring test for normality(nortest::ad.test) to decide between normal or non-normal. If the number of cases are below 5000, Shapiro-Wilk test perfomed. If above 5000, Anderson-Daring test for normality performed.
+
+```{r}
+nrow(acs)
+out=lm(age~sex,data=acs)
+shapiro.test(resid(out))
+```
+
+The result of shapiro.test() is significant. So we perform Wilcoxon rank sum test.
+
+### 2. Comparison of three or more groups
+
+The Dx column of acs data is diagnosis. It has three groups : Unstable Angina, NSTEMI and STEMI. You can make a table summarizing baseline characteristics among three groups. The parametric method cmparing means of three or more groups is ANOVA, whereas non-paramatric method is Kruskal-Wallis rank sum test.
+
+```{r}
+gaze(Dx~.,data=acs) %>% myft()
+```
+
+#### (1) Parametric method
+
+Now we focus on comparing means of age among three groups. 
+
+```{r}
+gaze(Dx~age,data=acs)  # default : method=1
+```
+
+We can perform ANOVA as follows
+
+```{r}
+out=lm(age~Dx,data=acs)
+anova(out)
+```
+
+On analysis of variance table you can get the p value 0.073.
+
+#### (2) Non-parametric method
+
+```{r}
+gaze(Dx~age,data=acs, method=2) %>% myft()
+```
+The above p value in the table is the result of Kruskal-Wallis rank sum test.
+
+```{r}
+kruskal.test(age~Dx,data=acs)
+```
+
+
+          if(sum(result)<=5000) out4=shapiro.test(resid(out3))
+          else out4=nortest::ad.test(resid(out3))
+          out5=kruskal.test(as.numeric(x),factor(y))
+          p=c(out4$p.value,anova(out3)$Pr[1],out5$p.value)
+
+
+#### (3) Performs test for normality 
+
+
+```{r}
+gaze(Dx~age,data=acs, method=3) %>% myft()
+```
+
+When method=3, gaze() performs normality test.
+
+```{r}
+out=lm(age~Dx,data=acs)
+shapiro.test(resid(out))
+```
+
+Since the result for normality test is significant($p<0.001$), then we perform Kruskal-Wallis test.
+
+## Statistical tests for categorial variables
+
+
+The statistical methods for categorical variables in gaze() are as follows:
+
+- 0 : Perform chisq.test first. If warning present, perform fisher test
+
+- 1 : Perform chisq.test without continuity correction
+
+- 2 : Perform chisq.test with continuity correction (default value)
+
+- 3 : perform fisher.test
+
+- 4 : perform prop.trend test
+
+You can choose by setting catMethod argument(default value is 2).
+
+### (1) Default method : chi-squared test with continuity correction
+
+The default method for categorical variables is chi-squared test with Yates's correction for continuity(https://en.wikipedia.org/wiki/Yates%27s_correction_for_continuity).
+
+```{r}
+gaze(sex~Dx,data=acs) # default : catMethod=2
+```
+
+You can get same result with the following R code:
+
+```{r}
+result=table(acs$Dx,acs$sex)
+chisq.test(result)  # default: correct = TRUE
+```
+
+### (2) Chi-squared test without continuity correction
+
+If you want to perform chi-squared test without continuity correction, just set catMethod=1. This is the default metohd in SPSS.
+
+```{r}
+gaze(sex~Dx,data=acs, catMethod=1) # Perform chisq.test without continuity correction
+```
+
+You can get same result with the following R code:
+
+```{r}
+result=table(acs$Dx,acs$sex)
+chisq.test(result, correct=FALSE)  # without continuity correction
+```
+
+
+### (3) Fisher's exact test
+
+
+If you want to perform Fisher's exact test, set the catMethod=3.
+
+```{r}
+gaze(sex~Dx,data=acs, catMethod=3) # Perform Fisher's exact test
+```
+
+You can get same result with the following R code:
+
+```{r}
+result=table(acs$Dx,acs$sex)
+fisher.test(result)  
+```
+
+### (4) Test for trend in proportions
+
+
+If you want to perform test for trend in proportions, set the catMethod=4. You can perform this test only when the grouping variable has only two group(male and female for example).
+
+```{r}
+gaze(sex~Dx,data=acs, catMethod=4) # Perform test for trend in proportions
+```
+
+You can get same result with the following R code:
+
+```{r}
+result=table(acs$Dx,acs$sex)
+result
+prop.trend.test(result[,2],rowSums(result)) 
+```
+
+## Make a combining table with two or more grouping variables
+
+You can make a combining table with two or more grouping variables.
+
+```{r}
+gaze(sex+Dx~.,data=acs) %>% myft()
+```
+
+You can seelct whether or not show total column.
+
+```{r}
+gaze(sex+Dx~.,data=acs,show.total=TRUE) %>% myft()
+```
+
+
+## Missing data analysis
+
+You can use gaze() for missing data analysis. Set the missing argument TRUE.
+
+```{r}
+gaze(EF~.,data=acs, missing=TRUE) %>% myft()
+```
+
+If there is no missing data, show the table summarizing missing numbers.
+
+```{r}
+gaze(sex~.,data=acs,missing=TRUE) %>% myft()
+```

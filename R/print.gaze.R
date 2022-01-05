@@ -51,7 +51,7 @@ print.gaze=function(x,...){
                names(x)[1]=paste0("Dependent:",yname)
           }
 
-          if(ncol(x)>5) mode=mode+length(yvars)
+          if(ncol(x)>=5) mode=mode+length(yvars)
      }
 
      temp=str_split(names(x),fixed("("),simplify=TRUE)
