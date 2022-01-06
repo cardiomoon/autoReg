@@ -25,7 +25,6 @@ Imports:
    purrr,
    survival,
    mice,
-   survminer,
    officer,
    flextable,
    rlang,
@@ -39,6 +38,7 @@ Suggests:
     finalfit,
     lme4,
     TH.data,
-    rmarkdown
+    rmarkdown,
+    survminer
 RoxygenNote: 7.1.2
 VignetteBuilder: knitr
