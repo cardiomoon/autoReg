@@ -201,7 +201,6 @@ getGroupNames=function(data,yvars){
 #' @param digits integer indicating the position of decimal place
 #' @param showid logical if TRUE, show id
 #' @param ... Further arguments to be passed to df2flextable()
-#' @importFrom rrtable df2flextable
 #' @importFrom flextable align autofit hline hline_top footnote as_paragraph
 #' @importFrom officer fp_border
 #' @importFrom purrr map_chr
@@ -245,7 +244,7 @@ myft=function(x,vanilla=TRUE,fontsize=10,digits,showid=FALSE,...){
 
      }
      vanilla=TRUE
-    ft<-x %>% rrtable::df2flextable(vanilla=vanilla,fontsize=fontsize,digits=digits,...)
+    ft<-x %>% df2flextable(vanilla=vanilla,fontsize=fontsize,digits=digits,...)
 
 
      if(length(yvars)>1){

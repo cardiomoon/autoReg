@@ -28,19 +28,18 @@ Imports:
    survminer,
    officer,
    flextable,
-   rrtable,
    rlang,
    patchwork,
    ggplot2,
    boot,
    broom,
-   cmprsk,
-   predict3d
+   cmprsk
 Suggests:
     knitr,
     finalfit,
     lme4,
     TH.data,
-    rmarkdown
+    rmarkdown,
+    rrtable
 RoxygenNote: 7.1.2
 VignetteBuilder: knitr
