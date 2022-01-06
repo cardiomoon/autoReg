@@ -39,7 +39,6 @@ Suggests:
     finalfit,
     lme4,
     TH.data,
-    rmarkdown,
-    rrtable
+    rmarkdown
 RoxygenNote: 7.1.2
 VignetteBuilder: knitr

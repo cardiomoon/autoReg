@@ -84,11 +84,18 @@ library(rrtable)
 
 table2pptx(ft)
 ```
+```
+Exported table as Report.pptx
+```
+
 
 You can make a microsoft word file using rrtable::table2docx() function.
 
 ``` r
 table2docx(ft)
+```
+```
+Exported table as Report.docx
 ```
 
 ### Summarizing baseline characteristics with two or more grouping variables
@@ -289,6 +296,10 @@ You can make powerpoint file with this plot using rrtable::plot2pptx().
 
 ``` r
 plot2pptx(print(x))
+```
+
+```
+Exported plot as Report.pptx
 ```
 
 You can summarize models in a plot. If you want to summarize univariate
