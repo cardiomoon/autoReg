@@ -40,6 +40,9 @@
     <loc>https://cardiomoon.github.io/autoReg/reference/autoReg_sub.html</loc>
   </url>
   <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/beNumeric.html</loc>
+  </url>
+  <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/bootPredict.html</loc>
   </url>
   <url>
@@ -50,6 +53,9 @@
   </url>
   <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/descNum.html</loc>
+  </url>
+  <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/df2flextable.html</loc>
   </url>
   <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/drawline.html</loc>
@@ -158,6 +164,21 @@
   </url>
   <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/residualPlot.html</loc>
+  </url>
+  <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/restoreData.html</loc>
+  </url>
+  <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/restoreData2.html</loc>
+  </url>
+  <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/restoreData3.html</loc>
+  </url>
+  <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/revOperator.html</loc>
+  </url>
+  <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/roundDf.html</loc>
   </url>
   <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/setLabel.html</loc>
