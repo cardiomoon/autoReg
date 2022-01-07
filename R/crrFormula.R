@@ -29,7 +29,7 @@ crrFormula=function(x,data,...){
      statusvar=yvars[2]
      formula=paste0("~",paste0(xvars,collapse="+"))
      cov=model.matrix(as.formula(formula),data=data)[,-1]
-     cmprsk::crr(data[[timevar]],data[[statusvar]],cov)
+     cmprsk::crr(data[[timevar]],data[[statusvar]],cov,...)
 }
 
 #' Extract statistics from an object of class crr
