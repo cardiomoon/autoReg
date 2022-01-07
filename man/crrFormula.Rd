@@ -4,12 +4,14 @@
 \alias{crrFormula}
 \title{Competing Risk Regression with Formula}
 \usage{
-crrFormula(x, data)
+crrFormula(x, data, ...)
 }
 \arguments{
 \item{x}{formula time+status~explanatory variables}
 
 \item{data}{data a data.frame}
+
+\item{...}{Further arguments to be passed to cmprsk::crr()}
 }
 \description{
 Competing Risk Regression with Formula

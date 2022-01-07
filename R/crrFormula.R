@@ -1,6 +1,7 @@
 #' Competing Risk Regression with Formula
 #' @param x formula time+status~explanatory variables
 #' @param data data a data.frame
+#' @param ... Further arguments to be passed to cmprsk::crr()
 #' @importFrom cmprsk crr
 #' @importFrom stats model.matrix
 #' @examples
@@ -8,7 +9,7 @@
 #' melanoma$status_crr=ifelse(melanoma$status==1,1,ifelse(melanoma$status==2,0,2))
 #' crrFormula(time+status_crr~age+sex+thickness+ulcer,data=melanoma)
 #' @export
-crrFormula=function(x,data){
+crrFormula=function(x,data,...){
      f=x
      myt=terms(f,data=data)
      xvars=attr(myt,"term.labels")
