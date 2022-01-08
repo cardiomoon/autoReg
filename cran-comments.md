@@ -9,7 +9,7 @@ This is a resubmission of the package 'autoReg'.
 There were no ERRORs or WARNINGs.
 
 
-## Reply from CRAN on the last submission
+## Comment from CRAN on the last submission and my reply
 
 1. Please add \value to .Rd files regarding exported methods and explain the functions results in the documentation. Please write about the structure of the output (class) and also what the output means. (If a function does not return a value, please document that too, e.g. \value{No return value, called for side effects} or similar)
 Missing Rd-tags in up to 48 .Rd files, e.g.:
@@ -19,11 +19,11 @@ Missing Rd-tags in up to 48 .Rd files, e.g.:
      autoRegCox.Rd: \value
      bootPredict.Rd: \value
      ...
--> I have added \value to all .Rd files. Thank you! 
+-> I have added \value to all .Rd files. Thank you ! 
 
 2. You are setting options(warn=-1) in your function. This is not allowed.
 To avoid unnecessary warning output you could use e.g. suppressWarnings().
--> my reply: I have removed options(warn=-1) in my function. Thank you !
+-> I have removed options(warn=-1) in my function. Thank you !
 
 Please fix and resubmit.
--> I have fixed all you have commented. Thank you!
+-> I have fixed all you commented. Thank you !
