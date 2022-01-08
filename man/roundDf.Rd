@@ -11,6 +11,9 @@ roundDf(df, digits = 2)
 
 \item{digits}{integer indicating the number of decimal places}
 }
+\value{
+An object of class "data.frame"
+}
 \description{
 Convert numeric columns of data.frame to character
 }

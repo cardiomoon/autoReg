@@ -133,6 +133,7 @@ df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
 #'Convert numeric columns of data.frame to character
 #'@param df a data.frame
 #'@param digits integer indicating the number of decimal places
+#'@return An object of class "data.frame"
 roundDf=function(df,digits=2){
      if(length(digits)==1){
           digits<-rep(digits,ncol(df))
