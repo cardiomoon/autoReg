@@ -11,6 +11,9 @@ crr2stats(x, digits = 2)
 
 \item{digits}{integer indication the position of decimal place}
 }
+\value{
+An object of class "data.frame"
+}
 \description{
 Extract statistics from an object of class crr
 }

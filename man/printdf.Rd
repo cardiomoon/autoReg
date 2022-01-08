@@ -11,6 +11,9 @@ printdf(x, showid = FALSE)
 
 \item{showid}{logical if TRUE, show id}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Print function for data.frame
 }

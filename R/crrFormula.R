@@ -42,6 +42,7 @@ crrFormula=function(x,data,...){
 #' melanoma$status_crr=ifelse(melanoma$status==1,1,ifelse(melanoma$status==2,0,2))
 #' x=crrFormula(time+status_crr~age+sex+thickness+ulcer,data=melanoma)
 #' crr2stats(x)
+#' @return An object of class "data.frame"
 #' @export
 crr2stats=function(x,digits=2){
 

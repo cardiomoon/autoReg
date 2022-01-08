@@ -5,6 +5,7 @@
 #' data(cancer,package="survival")
 #' fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
 #' autoReg(fit)
+#' @return No return value, called for side effects
 #' @export
 print.autoReg=function(x,...){
      printdf(x)
@@ -16,6 +17,7 @@ print.autoReg=function(x,...){
 #'Print function for data.frame
 #'@param x A data.frame
 #'@param showid logical if TRUE, show id
+#'@return No return value, called for side effects
 printdf=function(x,showid=FALSE){
 
      if(("autoReg" %in% class(x))&(showid==FALSE)) x$id=NULL

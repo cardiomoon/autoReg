@@ -1,6 +1,5 @@
 #' Restore fit model data containing AsIs expressions
 #' @param fit An object of class "lm", "glm" or "coxph"
-#' @return a data.frame
 #' @examples
 #' require(survival)
 #' pbc$status2=ifelse(pbc$status==2,1,0)

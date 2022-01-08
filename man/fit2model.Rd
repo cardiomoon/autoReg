@@ -10,8 +10,6 @@ fit2model(fit)
 \item{fit}{An object of class "lm", "glm" or "coxph"}
 }
 \value{
-a data.frame
-
 An object of class "data.frame"
 }
 \description{
