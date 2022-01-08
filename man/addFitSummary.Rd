@@ -14,7 +14,7 @@ addFitSummary(df, fit, statsname = "")
 \item{statsname}{character Name of statistics}
 }
 \value{
-addFitSummary returns an object of "gaze" or "autoReg" - the same class as df
+addFitSummary returns an object of \code{\link{gaze}} or \code{\link{autoReg}} - the same class as df
 }
 \description{
 Add model summary to an object of class gaze

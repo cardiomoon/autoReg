@@ -2,7 +2,7 @@
 #' @param df An object of class "gaze" or "autoReg"
 #' @param fit An object of class "glm" or "lm" or "crr"
 #' @param statsname character Name of statistics
-#' @return addFitSummary returns an object of "gaze" or "autoReg" - the same class as df
+#' @return addFitSummary returns an object of \code{\link{gaze}} or \code{\link{autoReg}} - the same class as df
 #' @export
 #' @examples
 #' require(survival)

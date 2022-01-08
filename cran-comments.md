@@ -9,7 +9,7 @@ This is a resubmission of the package 'autoReg'.
 There were no ERRORs or WARNINGs.
 
 
-Reply from CRAN on the last submission
+## Reply from CRAN on the last submission
 
 1. Please add \value to .Rd files regarding exported methods and explain the functions results in the documentation. Please write about the structure of the output (class) and also what the output means. (If a function does not return a value, please document that too, e.g. \value{No return value, called for side effects} or similar)
 Missing Rd-tags in up to 48 .Rd files, e.g.:
