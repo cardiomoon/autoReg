@@ -70,12 +70,27 @@
 <dt>digits</dt>
 <dd><p>integer indicating the position decimal place</p></dd>
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>An object of class "data.frame"</p>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cancer</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">age</span><span class="op">+</span><span class="va">sex</span><span class="op">+</span><span class="va">obstruct</span><span class="op">+</span><span class="va">perfor</span>,data<span class="op">=</span><span class="va">colon</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">mycphSimple</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  coef        HR     lower    upper          se          z</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age      -0.002444104 0.9975589 0.9921094 1.003038 0.002794865 -0.8744983</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex      -0.033625890 0.9669332 0.8496235 1.100440 0.065988994 -0.5095682</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct  0.242055841 1.2738653 1.0881772 1.491240 0.080385064  3.0112042</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> perfor    0.264368788 1.3026085 0.9154312 1.853541 0.179966997  1.4689848</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    p       id                    stats</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age      0.381846947      age 1.00 (0.99-1.00, p=.382)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex      0.610354035      sex 0.97 (0.85-1.10, p=.610)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct 0.002602138 obstruct 1.27 (1.09-1.49, p=.003)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> perfor   0.141836904   perfor 1.30 (0.92-1.85, p=.142)</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

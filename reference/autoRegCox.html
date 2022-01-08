@@ -48,7 +48,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>perform automatic regression for a class of coxph</h1>
-      <small class="dont-index">Source: <a href="https://github.com/cardiomoon/autoReg/blob/HEAD/R/mycphSimple.R" class="external-link"><code>R/mycphSimple.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/cardiomoon/autoReg/blob/HEAD/R/autoReg.coxph.R" class="external-link"><code>R/autoReg.coxph.R</code></a></small>
       <div class="d-none name"><code>autoRegCox.Rd</code></div>
     </div>
 
@@ -88,6 +88,17 @@
 <dd><p>logical whether or not keep statistic</p></dd>
 <dt>...</dt>
 <dd><p>Further arguments to be passed to gaze()</p></dd>
+</dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>autoRegCox returns an object of class "autoReg" which inherits from the class "data.frame"
+with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
+<dd><p>character. name of dependent variable</p></dd>
+
+<dt>attr(*,"model")</dt>
+<dd><p>name of model. One of "lm","glm" or "coxph"</p></dd>
+
+
 </dl></div>
 
     <div class="section level2">

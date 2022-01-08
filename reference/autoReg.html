@@ -48,7 +48,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Perform univariable and multivariable regression and stepwise backward regression automatically</h1>
-      <small class="dont-index">Source: <a href="https://github.com/cardiomoon/autoReg/blob/HEAD/R/autoReg.R" class="external-link"><code>R/autoReg.R</code></a>, <a href="https://github.com/cardiomoon/autoReg/blob/HEAD/R/mycphSimple.R" class="external-link"><code>R/mycphSimple.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/cardiomoon/autoReg/blob/HEAD/R/autoReg.R" class="external-link"><code>R/autoReg.R</code></a>, <a href="https://github.com/cardiomoon/autoReg/blob/HEAD/R/autoReg.coxph.R" class="external-link"><code>R/autoReg.coxph.R</code></a></small>
       <div class="d-none name"><code>autoReg.Rd</code></div>
     </div>
 
@@ -76,6 +76,17 @@
 <dd><p>An object of class lm, glm or coxph</p></dd>
 <dt>...</dt>
 <dd><p>Further arguments</p></dd>
+</dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>autoReg returns an object of class "autoReg" which inherits from the class "data.frame"
+with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
+<dd><p>character. name of dependent variable</p></dd>
+
+<dt>attr(*,"model")</dt>
+<dd><p>name of model. One of "lm","glm" or "coxph"</p></dd>
+
+
 </dl></div>
     <div class="section level2">
     <h2 id="methods-by-class-">Methods (by class)<a class="anchor" aria-label="anchor" href="#methods-by-class-"></a></h2>
