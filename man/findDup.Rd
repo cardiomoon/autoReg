@@ -9,6 +9,9 @@ findDup(x)
 \arguments{
 \item{x}{A vector}
 }
+\value{
+A logical vector
+}
 \description{
 Find duplicated term
 }

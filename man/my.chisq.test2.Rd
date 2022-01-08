@@ -25,6 +25,9 @@ Default value is 2.}
 
 \item{all}{A logical}
 }
+\value{
+A numeric vector of length 1
+}
 \description{
 Statistical test for categorical variables
 Statistical test for categorical variables

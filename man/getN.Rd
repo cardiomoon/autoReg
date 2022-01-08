@@ -13,6 +13,9 @@ getN(name, desc, data)
 
 \item{data}{a data.frame}
 }
+\value{
+A numeric vector
+}
 \description{
 Get number of data specified by 'name' and 'desc'
 }

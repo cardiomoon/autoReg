@@ -3,6 +3,7 @@
 #'@param data a data.frame
 #'@importFrom stringr str_remove str_remove_all
 #'@export
+#'@return An object of class "data.frame"
 #'@examples
 #'data(acs,package="moonBook")
 #'getInteraction("TC:Dx:sex",data=acs)
@@ -41,6 +42,7 @@ getInteraction=function(name,data){
 #' @param desc character
 #' @param data a data.frame
 #' @export
+#' @return A numeric vector
 #' @examples
 #' data(acs,package="moonBook")
 #' df=getInteraction("TC:Dx:sex",data=acs)

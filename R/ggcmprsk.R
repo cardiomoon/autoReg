@@ -1,20 +1,33 @@
 #'Draw Cumulative Incidence Curves for Competing Risks
-#'@param fit An  object of class cuminc
-#'@param cnames character vector
+#'@param x A formula as time+status~1
+#'@param data A data.frame
+#'@param id character vector
 #'@param se logical whether or not show confidence interval
+#'@importFrom cmprsk cuminc
 #'@importFrom purrr map2_dfr
 #'@importFrom ggplot2 geom_line geom_ribbon scale_color_discrete theme_classic
 #'@examples
-#'library(cmprsk)
 #'data(melanoma,package="boot")
 #'melanoma$status1 = ifelse(melanoma$status==1,1,ifelse(melanoma$status==2,0,2))
-#'fit=cuminc(melanoma$time/365,melanoma$status1)
-#'ggcmprsk(fit,c("melanoma","others"))
+#'ggcmprsk(time/365+status1~1,data=melanoma,id=c("melanoma","other"))
+#'@return An object of class "ggplot"
 #'@export
-ggcmprsk=function(fit,cnames=NULL,se=FALSE){
+ggcmprsk=function(x,data,id=NULL,se=FALSE){
 
-     if(is.null(cnames)) cnames=names(fit)
-     result=map2_dfr(fit,cnames,function(x,y){
+        temp=strsplit(deparse(x),"~")[[1]][1]
+        temp=gsub(" ","",temp)
+        yvars=strsplit(temp,"+",fixed=TRUE)[[1]]
+
+        if(length(yvars)!=2) {
+                cat("The formula should be : time+status~1\n")
+                return(NULL)
+        }
+     time=eval(parse(text=paste0("data$",yvars[1])))
+     status=eval(parse(text=paste0("data$",yvars[2])))
+
+     fit=cuminc(time,status)
+     if(is.null(id)) id=names(fit)
+     result=map2_dfr(fit,id,function(x,y){
           x=as.data.frame(x)
           x %>% mutate(
                upper=.data$est+1.96*sqrt(.data$var),

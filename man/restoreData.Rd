@@ -7,7 +7,10 @@
 restoreData(data)
 }
 \arguments{
-\item{data}{data.frame}
+\item{data}{An object of class "data.frame"}
+}
+\value{
+An object of class "data.frame"
 }
 \description{
 restore data with factor in column name

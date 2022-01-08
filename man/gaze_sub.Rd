@@ -18,6 +18,9 @@ If a column have unique values less than max.ylev it is treated as a categorical
 
 \item{...}{Further arguments to be passed to gazeCont() or gazeCat()}
 }
+\value{
+An object of class "data.frame" or "tibble"
+}
 \description{
 Summary function for categorical/continuous variable
 }

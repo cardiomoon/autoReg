@@ -5,6 +5,7 @@
 #'maxnchar(x)
 #'data(acs,package="moonBook")
 #'lapply(acs,maxnchar)
+#'@return A numeric vector of length 1
 #'@export
 maxnchar=function(x){
     x[is.na(x)]=""
@@ -24,6 +25,7 @@ maxnchar=function(x){
 #' gaze(Dx+sex~.,acs,show.p=TRUE)
 #' gaze(sex+Dx+HBP~.,acs,show.p=TRUE)
 #' }
+#' @return No return value, called for side effects
 #' @export
 print.gaze=function(x,...){
 
@@ -128,6 +130,7 @@ print.gaze=function(x,...){
 #' @param n Numeric
 #' @examples
 #' drawline(10)
+#' @return No return value, called for side effects
 #' @export
 drawline=function(n){
      x=paste0(rep("\u2014",n),collapse="")

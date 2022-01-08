@@ -4,22 +4,25 @@
 \alias{ggcmprsk}
 \title{Draw Cumulative Incidence Curves for Competing Risks}
 \usage{
-ggcmprsk(fit, cnames = NULL, se = FALSE)
+ggcmprsk(x, data, id = NULL, se = FALSE)
 }
 \arguments{
-\item{fit}{An  object of class cuminc}
+\item{x}{A formula as time+status~1}
 
-\item{cnames}{character vector}
+\item{data}{A data.frame}
+
+\item{id}{character vector}
 
 \item{se}{logical whether or not show confidence interval}
+}
+\value{
+An object of class "ggplot"
 }
 \description{
 Draw Cumulative Incidence Curves for Competing Risks
 }
 \examples{
-library(cmprsk)
 data(melanoma,package="boot")
 melanoma$status1 = ifelse(melanoma$status==1,1,ifelse(melanoma$status==2,0,2))
-fit=cuminc(melanoma$time/365,melanoma$status1)
-ggcmprsk(fit,c("melanoma","others"))
+ggcmprsk(time/365+status1~1,data=melanoma,id=c("melanoma","other"))
 }

@@ -9,6 +9,9 @@ maxnchar(x)
 \arguments{
 \item{x}{a vector}
 }
+\value{
+A numeric vector of length 1
+}
 \description{
 Return maximum character number except NA
 }

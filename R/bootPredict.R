@@ -12,6 +12,7 @@
 #'@importFrom stats predict
 #'@importFrom utils combn
 #'@export
+#'@return An object of class "data.frame"
 #'@examples
 #'data(GBSG2,package="TH.data")
 #'fit=glm(cens~horTh+pnodes,data=GBSG2,family="binomial")

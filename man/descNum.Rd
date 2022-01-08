@@ -11,6 +11,9 @@ descNum(method = 1, p = NULL)
 
 \item{p}{A numeric or NULL}
 }
+\value{
+A character vector of length 1
+}
 \description{
 Make description for numeric summary
 }

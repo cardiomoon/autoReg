@@ -9,6 +9,9 @@ revOperator(operator)
 \arguments{
 \item{operator}{A character}
 }
+\value{
+A character
+}
 \description{
 get opposite arithmetic operator
 }

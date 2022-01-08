@@ -18,10 +18,11 @@
 #' @param align_rownames alignment of rownames. Expected value is one of 'left', 'right', 'center', 'justify'.
 #' @param NA2space A logical. If true, convert NA value to space
 #' @param pcol An integer indicating p value. If specified, convert value less than 0.01 to "< 0.001" in given column.
-#' @param ... further arguments to be passed to flextable
+#' @param ... further arguments to be passed to \code{\link[flextable]{flextable}}
 #' @importFrom flextable flextable regulartable set_formatter_type set_header_df theme_zebra vline vline_left align autofit padding hline hline_top hline_bottom border_remove font fontsize color
 #' @importFrom officer fp_border
 #' @importFrom dplyr "%>%"
+#' @return An object of class "flextable" which is described in \code{\link[flextable]{flextable}}
 df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
                       add.rownames=FALSE,
                       even_header="transparent",odd_header="#5B7778",

@@ -13,6 +13,9 @@ mycphSimple(fit, threshold = 0.2, digits = 2)
 
 \item{digits}{integer indicating the position decimal place}
 }
+\value{
+An object of class "data.frame"
+}
 \description{
 Fit Simple Proportional Hazards Regression Model
 }
@@ -20,4 +23,5 @@ Fit Simple Proportional Hazards Regression Model
 require(survival)
 data(cancer)
 fit=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon)
+mycphSimple(fit)
 }

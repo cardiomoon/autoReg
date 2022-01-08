@@ -11,6 +11,9 @@ filldown(x, what = c("", NA))
 
 \item{what}{Values to be filled}
 }
+\value{
+A vector with the same class as x
+}
 \description{
 filldown vector with lead value
 }

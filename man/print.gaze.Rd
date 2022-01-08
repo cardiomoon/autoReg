@@ -11,6 +11,9 @@
 
 \item{...}{Further arguments}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 S3 method print for an object of class gaze
 }

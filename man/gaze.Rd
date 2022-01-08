@@ -17,6 +17,13 @@ gaze(x, ...)
 
 \item{...}{arguments to be passed to gaze.data.frame or gaze.formula}
 }
+\value{
+An object of class "gaze" which inherits from the class "data.frame"
+with at least the following attributes:
+\describe{
+\item{attr(*,"yvars)}{character. name of dependent variable}
+}
+}
 \description{
 Produce table for descriptive statistics by groups for several variables easily.
 Depending on  the nature of these variables, different descriptive statistical

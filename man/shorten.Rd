@@ -13,6 +13,9 @@ shorten(x, xname = NULL, ref = 1)
 
 \item{ref}{Numeric Th number to be used as reference}
 }
+\value{
+An object of class "gaze" which is described in \code{\link{gaze}}
+}
 \description{
 Shorten an object of class gaze
 }

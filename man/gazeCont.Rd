@@ -52,6 +52,9 @@ Default value is 1.}
 
 \item{...}{Further arguments}
 }
+\value{
+An object of class "data.frame" or "tibble"
+}
 \description{
 Summary function for continuous variable
 }

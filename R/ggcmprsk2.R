@@ -1,8 +1,8 @@
 #'Compare cumulative incidence to th Kaplan-Meier estimate
-#'@param timevar a name of time variable
-#'@param statusvar a name of status variable. coded as one of c(0,1,2)
+#'@param x A formula as time+status~1
 #'@param data A data.frame
 #'@param id Character vector of length2
+#'@param se logical whether or not show confidence interval
 #'@param xpos numeric x-axis position of label
 #'@param ypos numeric y-axis position of label
 #'@param ylabs string vector of length 2. y axis labels
@@ -12,9 +12,9 @@
 #'@importFrom cmprsk cuminc
 #'@importFrom survival survfit Surv
 #'@importFrom ggplot2 scale_y_continuous sec_axis
-#'@return A list
+#'@return A list containing the following components:
 #'\describe{
-#'   \item{df}{A long data.frame consist of time, est, upper,lower, id, method}
+#'   \item{df}{A long-form data.frame consist of time, est, upper,lower, id, method}
 #'   \item{df3}{A data.frame for label consist of x, y, label, id}
 #'   \item{p}{A ggplot object}
 #'}
@@ -24,18 +24,27 @@
 #'data(prostateSurvival,package="asaur")
 #'prostateHighRisk <- prostateSurvival %>%
 #'   filter(grade=="poor" & stage=="T2",ageGroup=="80+")
-#'ggcmprisk2("survTime/12","status",data=prostateHighRisk,
-#'      id=c("prostate cancer","other causes"))
-ggcmprisk2=function(timevar,statusvar,data,id=c("disease","other"),
+#'ggcmprsk2(survTime/12+status~1,data=prostateHighRisk,
+#'   id=c("prostate cancer","other causes"))
+ggcmprsk2=function(x,data,id=c("disease","other"),se=FALSE,
                     xpos=c(2,2),ypos=c(0.25,0.70),
                     ylabs=NULL,xlab=NULL,label=NULL,plot=TRUE){
+
+        temp=strsplit(deparse(x),"~")[[1]][1]
+        temp=gsub(" ","",temp)
+        yvars=strsplit(temp,"+",fixed=TRUE)[[1]]
+
+        if(length(yvars)!=2) {
+                cat("The formula should be : time+status~1\n")
+                return(NULL)
+        }
+        time=eval(parse(text=paste0("data$",yvars[1])))
+        status=eval(parse(text=paste0("data$",yvars[2])))
 
      if(is.null(ylabs)) ylabs=paste0("Probability of death from ",id)
      if(is.null(xlab)) xlab=paste0("Time from " ,id[1]," diagnosis")
      if(is.null(label)) labels=paste0("Death from\n",id)
 
-     time=eval(parse(text=paste0("data$",timevar)))
-     status=eval(parse(text=paste0("data$",statusvar)))
 
      df1=map2_dfr(1:length(id),id,function(x,y){
           fit=survfit(Surv(time,status==x)~1)
@@ -82,8 +91,9 @@ ggcmprisk2=function(timevar,statusvar,data,id=c("disease","other"),
      df=rbind(df1,df2)
 
 
-     p<-ggplot(df,aes_string(x="time",y="est"))+
-          geom_line(aes_string(color="id",linetype="method"))+theme_bw()+
+     p<-ggplot(df,aes_string(x="time",y="est"))
+     if(se) p=p+geom_ribbon(aes_string(ymin="lower",ymax="upper",fill="id",linetype="method"),alpha=0.2)
+     p=p+ geom_line(aes_string(color="id",linetype="method"))+theme_bw()+
           scale_y_continuous(
                sec.axis=sec_axis(~1-.,name=ylabs[2]))+
           labs(x=xlab,

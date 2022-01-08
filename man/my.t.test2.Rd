@@ -19,6 +19,9 @@ Default value is 1.}
 
 \item{all}{A logical}
 }
+\value{
+A numeric vector of length 1
+}
 \description{
 Statistical test for continuous variables
 }

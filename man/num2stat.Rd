@@ -19,6 +19,9 @@ Default value is 1.}
 
 \item{p}{A numeric}
 }
+\value{
+A character vector of length 1
+}
 \description{
 Summarize numeric vector to statistical summary
 }

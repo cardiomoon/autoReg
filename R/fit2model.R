@@ -1,5 +1,5 @@
 #' Restore fit model data containing AsIs expressions
-#' @param fit An object of class lm, glm or coxph
+#' @param fit An object of class "lm", "glm" or "coxph"
 #' @return a data.frame
 #' @examples
 #' require(survival)
@@ -7,6 +7,7 @@
 #' fit=coxph(Surv(time,status2)~age+log(bili),data=pbc)
 #' fit2model(fit)
 #' @importFrom stringr str_remove_all
+#' @return An object of class "data.frame"
 #' @export
 fit2model=function(fit){
 
@@ -93,7 +94,8 @@ fit2model=function(fit){
 }
 
 #' restore data with factor in column name
-#' @param data data.frame
+#' @param data An object of class "data.frame"
+#' @return An object of class "data.frame"
 restoreData=function (data)
 {
      select = which(str_detect(names(data), "\\(.*\\)"))
@@ -115,6 +117,7 @@ restoreData=function (data)
 
 #' Whether a string vector can be converted to numeric
 #' @param x A string vector
+#' @return A logical vector
 beNumeric=function (x)
 {
      str_replace_all(x, "([:digit:]|\\.|\\/).*", "") == ""
@@ -122,8 +125,9 @@ beNumeric=function (x)
 
 
 #' restore data with I() in column name
-#' @param df data.frame
+#' @param df An object of class "data.frame"
 #' @importFrom stringr str_extract
+#' @return An object of class "data.frame"
 restoreData2=function (df)
 {
      seek = which(str_detect(names(df), "I\\("))
@@ -189,8 +193,9 @@ restoreData2=function (df)
 }
 
 #'restore data with operator in column name
-#'@param df a data.frame
+#'@param df An object of class "data.frame"
 #'@param changeLabel logical
+#'@return An object of class "data.frame"
 restoreData3=function (df, changeLabel = FALSE)
 {
      pattern = "/|-|\\+|\\*|\\^"
@@ -278,6 +283,7 @@ restoreData3=function (df, changeLabel = FALSE)
 #'
 #'get opposite arithmetic operator
 #'@param operator A character
+#'@return A character
 revOperator=function (operator)
 {
      result = operator

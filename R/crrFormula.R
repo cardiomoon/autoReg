@@ -1,9 +1,10 @@
 #' Competing Risk Regression with Formula
 #' @param x formula time+status~explanatory variables
 #' @param data data a data.frame
-#' @param ... Further arguments to be passed to cmprsk::crr()
+#' @param ... Further arguments to be passed to \code{\link[cmprsk]{crr}}
 #' @importFrom cmprsk crr
 #' @importFrom stats model.matrix
+#' @return An object of class "crr" which is described in \code{\link[cmprsk]{crr}}
 #' @examples
 #' data(melanoma,package="boot")
 #' melanoma$status_crr=ifelse(melanoma$status==1,1,ifelse(melanoma$status==2,0,2))
@@ -31,6 +32,7 @@ crrFormula=function(x,data,...){
      cov=model.matrix(as.formula(formula),data=data)[,-1]
      cmprsk::crr(data[[timevar]],data[[statusvar]],cov,...)
 }
+
 
 #' Extract statistics from an object of class crr
 #' @param x an object of class crr

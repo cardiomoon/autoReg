@@ -11,6 +11,7 @@
 #' library(moonBook)
 #' num2stat(acs$age)
 #' num2stat(acs$age,method=2)
+#' @return A character vector of length 1
 #' @export
 num2stat=function(x,digits=1,method=1,p=NULL){
      plusminus="\u00b1"
@@ -36,6 +37,7 @@ num2stat=function(x,digits=1,method=1,p=NULL){
 #'Make description for numeric summary
 #'@param method numeric
 #'@param p A numeric or NULL
+#'@return A character vector of length 1
 descNum=function(method=1,p=NULL){
      plusminus="\u00b1"
      if(method==3){
@@ -72,6 +74,7 @@ descNum=function(method=1,p=NULL){
 #' @param origData A data.frame containing original data
 #' @param ... Further arguments
 #' @importFrom stats addmargins fivenum sd
+#' @return An object of class "data.frame" or "tibble"
 #' @examples
 #' gazeCont(mtcars,"hp")
 #' gazeCont(mtcars,"hp","mpg")
@@ -193,6 +196,7 @@ gazeCont=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALS
 #' @param maxCatLevel An integer indicating the maximum number of unique levels of categorical variable.
 #' If a column have unique values more than maxCatLevel, categorical summarization will not be performed.
 #' @param ... Further arguments
+#' @return An object of class "data.frame" or "tibble"
 #' @examples
 #' require(moonBook)
 #' gazeCat(acs,"Dx")
@@ -350,6 +354,7 @@ gazeCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE
 #' gaze_sub(acs,"age","Dx")
 #' gaze_sub(acs,"sex","Dx")
 #' gaze_sub(iris,"Species","Sepal.Length")
+#' @return An object of class "data.frame" or "tibble"
 #' @export
 gaze_sub=function(data,xname,y=NULL,max.ylev=5,...){
 
@@ -389,6 +394,7 @@ gaze_sub=function(data,xname,y=NULL,max.ylev=5,...){
 #' Default value is 1.
 #' @param all A logical
 #' @importFrom stats lm shapiro.test resid var.test t.test kruskal.test anova wilcox.test
+#' @return A numeric vector of length 1
 #' @examples
 #' library(moonBook)
 #' y=acs$sex
@@ -422,9 +428,7 @@ my.t.test2=function(y,x,method=1,all=FALSE){
           if(class(out1)!="htest") {
                p=c(NA,NA,NA)
           } else{
-               options(warn=-1)
-               out5<-wilcox.test(x~y)
-               options(warn=0)
+               suppressWarnings(out5<-wilcox.test(x~y))
                if(is.nan(out1$p.value)) {
                     p=c(NA,NA,out5$p.value)
                } else if(out1$p.value<0.05) {
@@ -471,6 +475,7 @@ my.t.test2=function(y,x,method=1,all=FALSE){
 #' @param all A logical
 #' @importFrom stats chisq.test fisher.test xtabs prop.trend.test
 #' @importFrom moonBook cat.test
+#' @return A numeric vector of length 1
 #' @examples
 #' library(moonBook)
 #' x=acs$sex
@@ -492,21 +497,19 @@ my.chisq.test2=function(x,y,catMethod=2,all=FALSE)
           #     attr(p,"method")=""
      } else{
           p=c(NA,NA,NA)
-          ow=options("warn")
-          options(warn=-1)
           if(catMethod==0) {
-               result=cat.test(temp)
+                suppressWarnings(result<-cat.test(temp))
           } else if(catMethod==1) {
-               result=chisq.test(temp,correct=FALSE)
+                suppressWarnings(result<-chisq.test(temp,correct=FALSE))
           } else if(catMethod==2) {
-               result=chisq.test(temp)
+                  suppressWarnings(result<-chisq.test(temp))
           } else if(catMethod==3) {
-               result=cat.test(temp,mode=2)
+                  suppressWarnings(result<-cat.test(temp,mode=2))
           } else if(catMethod==4) {
                if(nrow(temp)>2) {
                     result=NA
                } else {
-                    result=prop.trend.test(temp[2,],colSums(temp))
+                  suppressWarnings(result<-prop.trend.test(temp[2,],colSums(temp)))
                }
           }
 
@@ -518,14 +521,14 @@ my.chisq.test2=function(x,y,catMethod=2,all=FALSE)
                attr(p,"method")=result$method
           }
           if(sum(temp)< 100 & dim(temp)[1]>1){
-               p[2]=fisher.test(temp)$p.value
+               suppressWarnings(p[2]<-fisher.test(temp)$p.value)
           }
           if(nrow(temp)!=2) {
                p[3]=NA
           } else {
-               p[3]=prop.trend.test(temp[2,],colSums(temp))$p.value
+               suppressWarnings(p[3]<-prop.trend.test(temp[2,],colSums(temp))$p.value)
           }
-          options(ow)
+
      }
      if(is.nan(p[1])) p[1]=1
 

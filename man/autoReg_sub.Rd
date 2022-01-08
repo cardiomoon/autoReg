@@ -35,6 +35,14 @@ autoReg_sub(
 
 \item{...}{Further arguments to be passed to imputedReg()}
 }
+\value{
+An object of class "autoReg" which inherits from the class "data.frame"
+with at least the following attributes:
+\describe{
+\item{attr(*,"yvars)}{character. name of dependent variable}
+\item{attr(*,"model")}{name of model. One of "lm","glm" or "coxph"}
+}
+}
 \description{
 Perform univariable and multivariable regression and stepwise backward regression automatically
 }

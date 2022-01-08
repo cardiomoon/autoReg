@@ -11,6 +11,9 @@ getInteraction(name, data)
 
 \item{data}{a data.frame}
 }
+\value{
+An object of class "data.frame"
+}
 \description{
 Get interaction data from data
 }

@@ -7,10 +7,12 @@
 fit2model(fit)
 }
 \arguments{
-\item{fit}{An object of class lm, glm or coxph}
+\item{fit}{An object of class "lm", "glm" or "coxph"}
 }
 \value{
 a data.frame
+
+An object of class "data.frame"
 }
 \description{
 Restore fit model data containing AsIs expressions

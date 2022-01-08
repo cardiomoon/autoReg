@@ -9,6 +9,9 @@ beNumeric(x)
 \arguments{
 \item{x}{A string vector}
 }
+\value{
+A logical vector
+}
 \description{
 Whether a string vector can be converted to numeric
 }

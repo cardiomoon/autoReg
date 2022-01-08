@@ -11,6 +11,9 @@ removeDup(x, replacement = "")
 
 \item{replacement}{A character to be replaced or NA}
 }
+\value{
+A vector with the same class as x
+}
 \description{
 Remove duplicated term
 }

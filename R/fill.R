@@ -5,6 +5,7 @@
 #' x=rep(1:5,each=3)
 #' findDup(x)
 #' which(!findDup(x))
+#' @return A logical vector
 #'@export
 findDup=function(x){
      if(length(x)==0) return(NULL)
@@ -30,6 +31,7 @@ findDup=function(x){
 #' @examples
 #'x=rep(1:5,each=3)
 #' which(find1stDup(x))
+#' @return A logical vector
 #'@export
 find1stDup=function(x){
      if(length(x)==0) return(NULL)
@@ -46,6 +48,7 @@ find1stDup=function(x){
 #' @examples
 #' x=rep(1:5,each=3)
 #' removeDup(x)
+#' @return A vector with the same class as x
 #'@export
 removeDup=function(x,replacement=""){
      pos=findDup(x)
@@ -60,6 +63,7 @@ removeDup=function(x,replacement=""){
 #'x=rep(1:5,each=3)
 #'x=removeDup(x,NA)
 #'filldown(x)
+#' @return A vector with the same class as x
 #'@export
 filldown=function(x,what=c("",NA)){
      temp=x[1]
@@ -81,6 +85,7 @@ filldown=function(x,what=c("",NA)){
 #'data(acs,package="moonBook")
 #'x=gaze(sex~.,data=acs)
 #'shorten(x)
+#' @return An object of class "gaze" which is described in \code{\link{gaze}}
 #'@export
 shorten=function(x,xname=NULL,ref=1){
      if(is.null(xname)) xname=names(x)[1]

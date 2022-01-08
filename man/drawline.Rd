@@ -9,6 +9,9 @@ drawline(n)
 \arguments{
 \item{n}{Numeric}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 draw line character
 }

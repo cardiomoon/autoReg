@@ -7,7 +7,10 @@
 restoreData2(df)
 }
 \arguments{
-\item{df}{data.frame}
+\item{df}{An object of class "data.frame"}
+}
+\value{
+An object of class "data.frame"
 }
 \description{
 restore data with I() in column name

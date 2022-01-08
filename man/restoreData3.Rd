@@ -7,9 +7,12 @@
 restoreData3(df, changeLabel = FALSE)
 }
 \arguments{
-\item{df}{a data.frame}
+\item{df}{An object of class "data.frame"}
 
 \item{changeLabel}{logical}
+}
+\value{
+An object of class "data.frame"
 }
 \description{
 restore data with operator in column name

@@ -68,6 +68,9 @@ If a column have unique values more than maxCatLevel, categorical summarization 
 
 \item{...}{Further arguments}
 }
+\value{
+An object of class "data.frame" or "tibble"
+}
 \description{
 Summary function for categorical variable
 }

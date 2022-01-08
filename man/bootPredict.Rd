@@ -18,6 +18,9 @@ Thus for a binomial model the default predictions are predicted probabilities.}
 
 \item{...}{Further arguments to be passed to boot::boot}
 }
+\value{
+An object of class "data.frame"
+}
 \description{
 Generate model predictions against a specified set of explanatory levels with bootstrapped confidence intervals.
 }

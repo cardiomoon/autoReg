@@ -9,6 +9,9 @@ find1stDup(x)
 \arguments{
 \item{x}{a vector}
 }
+\value{
+A logical vector
+}
 \description{
 Find first duplicated position
 }

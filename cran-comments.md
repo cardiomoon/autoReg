@@ -19,8 +19,11 @@ Missing Rd-tags in up to 48 .Rd files, e.g.:
      autoRegCox.Rd: \value
      bootPredict.Rd: \value
      ...
+-> I have add \value to all .Rd files. Thank you! 
 
 2. You are setting options(warn=-1) in your function. This is not allowed.
 To avoid unnecessary warning output you could use e.g. suppressWarnings().
+-> my reply: I have removed options(warn=-1) in my function. Thank you !
 
 Please fix and resubmit.
+-> I haved fixed all you have commented. Thank you!

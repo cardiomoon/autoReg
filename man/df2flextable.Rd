@@ -63,7 +63,10 @@ df2flextable(
 
 \item{pcol}{An integer indicating p value. If specified, convert value less than 0.01 to "< 0.001" in given column.}
 
-\item{...}{further arguments to be passed to flextable}
+\item{...}{further arguments to be passed to \code{\link[flextable]{flextable}}}
+}
+\value{
+An object of class "flextable" which is described in \code{\link[flextable]{flextable}}
 }
 \description{
 Convert data.frame to flextable
