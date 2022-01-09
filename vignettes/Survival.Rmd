@@ -192,7 +192,7 @@ At 5 years, cumulative death incidence due to melanoma is 22.3% and cumulative d
 You can plot this with the following R code.
 
 ```{r,fig.width=8, fig.height=5}
-ggcmprsk(fit,c("melanoma","others"))
+ggcmprsk(time/365+status1~1,data=melanoma,id=c("melanoma","others"))
 ```
 
 ## Analysis of clustered data
