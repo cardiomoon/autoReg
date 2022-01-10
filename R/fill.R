@@ -4,12 +4,14 @@
 #' @examples
 #' x=rep(1:5,each=3)
 #' findDup(x)
+#' x=c(6,x)
+#' findDup(x)
 #' which(!findDup(x))
 #' @return A logical vector
 #'@export
 findDup=function(x){
      if(length(x)==0) return(NULL)
-     else if(length(x)==2) return(TRUE)
+     # else if(length(x)==2) return(TRUE)
      y=dplyr::lag(x)
      result=c()
      for(i in 1:length(x)){

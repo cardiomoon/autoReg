@@ -136,7 +136,7 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,show.ref=T
      df1
      fit
      df2=autoReg(fit,keepstats=TRUE,...)
-                # df2= autoReg(fit,keepstats=TRUE)
+                 # df2= autoReg(fit,keepstats=TRUE)
 
      df2=df2%>% dplyr::filter(.data$id!="(Intercept)")
 

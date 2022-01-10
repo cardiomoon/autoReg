@@ -18,5 +18,7 @@ Find duplicated term
 \examples{
 x=rep(1:5,each=3)
 findDup(x)
+x=c(6,x)
+findDup(x)
 which(!findDup(x))
 }
