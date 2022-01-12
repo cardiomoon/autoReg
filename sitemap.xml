@@ -28,6 +28,9 @@
     <loc>https://cardiomoon.github.io/autoReg/index.html</loc>
   </url>
   <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/OEplot.html</loc>
+  </url>
+  <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/addFitSummary.html</loc>
   </url>
   <url>
@@ -85,6 +88,9 @@
     <loc>https://cardiomoon.github.io/autoReg/reference/fit2multi.html</loc>
   </url>
   <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/fit2newdata.html</loc>
+  </url>
+  <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/fit2stats.html</loc>
   </url>
   <url>
@@ -125,6 +131,12 @@
   </url>
   <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/is.mynumeric.html</loc>
+  </url>
+  <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/loglogplot.html</loc>
   </url>
   <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/maxnchar.html</loc>
@@ -188,5 +200,8 @@
   </url>
   <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/shorten.html</loc>
+  </url>
+  <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/survfit2df.html</loc>
   </url>
 </urlset>
