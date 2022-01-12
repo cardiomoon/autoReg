@@ -2,24 +2,28 @@
 % Please edit documentation in R/residualPlot.R
 \name{residualPlot}
 \alias{residualPlot}
-\title{Draw a martingale residual plot with an object of class coxph}
+\title{Draw a residual plot with an object of class coxph}
 \usage{
-residualPlot(fit, mode = 1)
+residualPlot(fit, type = "martingale")
 }
 \arguments{
 \item{fit}{An object of class coxph}
 
-\item{mode}{Integer If mode is 1, draw martingale residual plot.
-If mode is 2, draw dfbeta plot. if mode is 3, draw risk score plot}
+\item{type}{character One of the c("martingale","deviance","score","schoenfeld",
+"dfbeta","dfbetas","scaledsch","partial"). Default value is "martingale".}
 }
 \value{
-A ggplot
+A patchwork object
 }
 \description{
-Draw a martingale residual plot with an object of class coxph
+Draw a residual plot with an object of class coxph
 }
 \examples{
 require(survival)
+data(cancer)
 fit=coxph(Surv(time,status==2)~log(bili)+age+cluster(edema),data=pbc)
 residualPlot(fit)
+fit=coxph(Surv(time,status==2)~age,data=pbc)
+residualPlot(fit)
+residualPlot(fit,"partial")
 }

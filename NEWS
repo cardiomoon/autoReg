@@ -1,3 +1,10 @@
+autoReg 0.1.2
+=============
+(2022-Jan-12)
+
+* New function loglogplot, OEplot, fit2newdata added
+* Rewrite function residualPlot
+
 autoReg 0.1.1
 =============
 (2022-Jan-10)
