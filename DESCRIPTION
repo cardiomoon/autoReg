@@ -1,7 +1,7 @@
 Package: autoReg
 Type: Package
 Title: Automatic Linear and Logistic Regression and Survival Analysis
-Version: 0.1.2
+Version: 0.1.3
 Authors@R: person("Keon-Woong","Moon", email="cardiomoon@gmail.com",
     role=c("aut", "cre"))
 URL: https://github.com/cardiomoon/autoReg,
@@ -33,7 +33,8 @@ Imports:
    boot,
    broom,
    cmprsk,
-   scales
+   scales,
+   dabestr
 Suggests:
     knitr,
     finalfit,
@@ -41,6 +42,7 @@ Suggests:
     TH.data,
     rmarkdown,
     survminer,
-    asaur
+    asaur,
+    PairedData
 RoxygenNote: 7.1.2
 VignetteBuilder: knitr
