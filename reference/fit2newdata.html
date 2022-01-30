@@ -10,14 +10,14 @@
     
     <a class="navbar-brand me-2" href="../index.html">autoReg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
@@ -58,17 +58,19 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">fit2newdata</span><span class="op">(</span><span class="va">fit</span>, xname <span class="op">=</span> <span class="cn">NULL</span>, maxy.lev <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">fit2newdata</span><span class="op">(</span><span class="va">fit</span>, xnames <span class="op">=</span> <span class="cn">NULL</span>, maxy.lev <span class="op">=</span> <span class="fl">5</span>, digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>fit</dt>
 <dd><p>An object of class "coxph"</p></dd>
-<dt>xname</dt>
-<dd><p>A character Name of explanatory variable to plot</p></dd>
+<dt>xnames</dt>
+<dd><p>character Names of explanatory variable to plot</p></dd>
 <dt>maxy.lev</dt>
 <dd><p>Integer Maximum unique length of a numeric variable to be treated as categorical variables</p></dd>
+<dt>digits</dt>
+<dd><p>integer indicating the number of decimal places</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -80,11 +82,12 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cancer</span>,package<span class="op">=</span><span class="st">"survival"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">sex</span><span class="op">+</span><span class="va">age</span>,data<span class="op">=</span><span class="va">colon</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/strata.html" class="external-link">strata</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>,data<span class="op">=</span><span class="va">colon</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">fit2newdata</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        rx sex      age</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     Obs   1 59.75457</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     Lev   1 59.75457</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Lev+5FU   1 59.75457</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        rx  age sex</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     Obs 59.8   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     Lev 59.8   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Lev+5FU 59.8   1</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -96,7 +99,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
     </footer></div>
