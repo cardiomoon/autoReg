@@ -84,10 +84,10 @@
 <span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">sex</span><span class="op">+</span><span class="va">age</span>,data<span class="op">=</span><span class="va">colon</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/strata.html" class="external-link">strata</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>,data<span class="op">=</span><span class="va">colon</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">fit2newdata</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        rx  age sex</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     Obs 59.8   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     Lev 59.8   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Lev+5FU 59.8   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        rx age sex</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     Obs  68   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     Lev  68   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Lev+5FU  68   1</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
