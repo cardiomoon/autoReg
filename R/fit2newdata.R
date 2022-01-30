@@ -13,10 +13,12 @@
 #' fit2newdata(fit)
 fit2newdata=function(fit,xnames=NULL,maxy.lev=5,digits=1){
 
-      # xnames=NULL;maxy.lev=5;
+       #  xnames=NULL;maxy.lev=5;digits=1
+       # fit=coxph(Surv(time,status)~sex*age,data=colon)
      df=fit2model(fit)
      xvars = attr(fit$terms, "term.labels")
-     xvars
+
+     xvars=xvars[!str_detect(xvars,":")]
      if(is.null(xnames)) {
              xnames=xvars[1]
      }
