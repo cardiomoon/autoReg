@@ -4,14 +4,14 @@
 \alias{expectedPlot}
 \title{Draw an expected plot}
 \usage{
-expectedPlot(fit, xnames = NULL, ...)
+expectedPlot(fit, xnames = NULL, maxy.lev = 5)
 }
 \arguments{
 \item{fit}{An object of class "coxph"}
 
 \item{xnames}{Character Names of explanatory variable to plot}
 
-\item{...}{Further arguments to be passed to fit2newdata()}
+\item{maxy.lev}{Integer Maximum unique length of a numeric variable to be treated as categorical variables}
 }
 \value{
 No return value, called for side effects
@@ -23,5 +23,5 @@ Draw an expected plot
 library(survival)
 data(cancer,package="survival")
 fit=coxph(Surv(time,status)~rx+strata(sex)+age,data=colon)
-expectedPlot(fit,xnames=c("sex"))
+expectedPlot(fit,xnames=c("sex","rx"))
 }

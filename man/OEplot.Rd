@@ -23,5 +23,6 @@ Draw an Observed vs Expected plot
 library(survival)
 data(cancer,package="survival")
 fit=coxph(Surv(time,status)~rx,data=colon)
+fit=coxph(Surv(time,status)~rx+age+strata(sex),data=colon)
 OEplot(fit)
 }

@@ -52,9 +52,10 @@ fit2newdata=function(fit,xnames=NULL,maxy.lev=5,digits=1){
 
      xvars
      for( i in seq_along(xvars)){
-          if(is.mynumeric(df[[xvars[i]]],maxy.lev=maxy.lev)){
-               result[[no+i]]=round(mean(df[[xvars[i]]],na.rm=TRUE),digits)
-          } else if(is.numeric(df[[xvars[i]]])){
+          # if(is.mynumeric(df[[xvars[i]]],maxy.lev=maxy.lev)){
+          #      result[[no+i]]=round(mean(df[[xvars[i]]],na.rm=TRUE),digits)
+          # } else
+          if(is.numeric(df[[xvars[i]]])){
 
                        y=table(df[[xvars[i]]])
                        result[[no+i]]=as.numeric(names(y)[which(y==max(y))][1])
