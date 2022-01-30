@@ -4,12 +4,12 @@
 \alias{loglogplot}
 \title{Draw log-log plot}
 \usage{
-loglogplot(fit, xname = NULL, main = NULL, labels = NULL, maxy.lev = 5)
+loglogplot(fit, xnames = NULL, main = NULL, labels = NULL, maxy.lev = 5)
 }
 \arguments{
 \item{fit}{An object of class "coxph"}
 
-\item{xname}{A character Name of explanatory variable to plot}
+\item{xnames}{character Names of explanatory variable to plot}
 
 \item{main}{String Title of plot}
 

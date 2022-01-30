@@ -1,6 +1,6 @@
 #' Draw an Observed vs Expected plot
 #' @param fit An object of class "coxph"
-#' @param xname A character Name of explanatory variable to plot
+#' @param xnames Character Names of explanatory variable to plot
 #' @param maxy.lev Integer Maximum unique length of a numeric variable to be treated as categorical variables
 #' @return  No return value, called for side effects
 #' @importFrom dplyr semi_join as_tibble
@@ -12,19 +12,19 @@
 #'data(cancer,package="survival")
 #'fit=coxph(Surv(time,status)~rx,data=colon)
 #'OEplot(fit)
-OEplot=function(fit,xname=NULL,maxy.lev=5){
+OEplot=function(fit,xnames=NULL,maxy.lev=5){
      #     xname="grp";maxy.lev=5
-     newdata=fit2newdata(fit,xname=xname,maxy.lev=maxy.lev)
+     newdata=fit2newdata(fit,xnames=xnames,maxy.lev=maxy.lev)
 
      data=fit2model(fit)
      xvars = attr(fit$terms, "term.labels")
-     if(is.null(xname)) xname=xvars[1]
+     if(is.null(xnames)) xnames=xvars[1]
      labels=attr(newdata,"labels")
      no=length(labels)
      col=scales::hue_pal()(no)
      fit1=survfit(fit,newdata=newdata)
      plot(fit1,lty=2,col=col,lwd=1,
-          main=paste0("Observed versus Expected Plot by ",xname))
+          main=paste0("Observed versus Expected Plot by ",paste0(xnames,collapse=",")))
      legend("bottomleft",legend=labels,col=col,lwd=2)
      fit2=survfit(fit$terms,data=data)
      survdata=survfit2df(fit2)
@@ -38,4 +38,30 @@ OEplot=function(fit,xname=NULL,maxy.lev=5){
 
 }
 
+#' Draw an expected plot
+#' @param fit An object of class "coxph"
+#' @param xnames Character Names of explanatory variable to plot
+#' @param ... Further arguments to be passed to fit2newdata()
+#' @return  No return value, called for side effects
+#' @importFrom graphics legend lines
+#' @importFrom scales hue_pal
+#' @export
+#' @examples
+#' library(survival)
+#'data(cancer,package="survival")
+#'fit=coxph(Surv(time,status)~rx+strata(sex)+age,data=colon)
+#'expectedPlot(fit,xnames=c("sex"))
+expectedPlot=function(fit,xnames=NULL,...){
 
+        newdata=fit2newdata(fit,xnames=xnames,...)
+        data=fit2model(fit)
+        xvars = attr(fit$terms, "term.labels")
+        if(is.null(xnames)) xnames=xvars[1]
+        labels=attr(newdata,"labels")
+        no=length(labels)
+        col=scales::hue_pal()(no)
+        fit1=survfit(fit,newdata=newdata)
+        plot(fit1,col=col,lwd=1,
+             main=paste0("Expected Plot by ",paste0(xnames,collapse=",")))
+        legend("bottomleft",legend=labels,col=col,lwd=2)
+}
