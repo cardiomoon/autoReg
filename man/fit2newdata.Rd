@@ -13,9 +13,9 @@ fit2newdata(fit, xnames = NULL, maxy.lev = 5, median = TRUE, digits = 1)
 
 \item{maxy.lev}{Integer Maximum unique length of a numeric variable to be treated as categorical variables}
 
-\item{digits}{integer indicating the number of decimal places}
+\item{median}{logical If TRUE, select median value for numerical variable. Otherwise select most frequent value}
 
-\item{medican}{logical If TRUE, select median value for numerical variable. Otherwise select most frequent value}
+\item{digits}{integer indicating the number of decimal places}
 }
 \value{
 A data.frame

@@ -9,6 +9,7 @@
 #' @export
 print.autoReg=function(x,...){
      printdf(x)
+     if(!is.null(attr(x,"lik"))) cat(paste0(attr(x,"lik")," "))
      if(!is.null(attr(x,"add"))) cat(paste0(attr(x,"add"),collapse=","),"\n")
 }
 

@@ -74,8 +74,11 @@ myft=function(x,vanilla=TRUE,fontsize=10,digits,showid=FALSE,...){
 
 
      }
-     if(("autoReg" %in% class(x))&(!is.null(attr(x,"add")))) {
-          ft=footnote(ft,i=1,j=1,value=as_paragraph(paste0(attr(x,"add"),collapse=",")),ref_symbols="",part="body")
+     if("autoReg" %in% class(x)){
+             temp=attr(x,"lik")
+             if(!is.null(attr(x,"add"))) { temp=paste(temp,paste0(attr(x,"add"),collapse=","))}
+
+          ft=footnote(ft,i=1,j=1:2,value=as_paragraph(temp),ref_symbols="",part="body")
      }
      ft %>%
           flextable::align(align="center",part="header") %>%

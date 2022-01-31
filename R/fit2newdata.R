@@ -2,7 +2,7 @@
 #' @param fit An object of class "coxph"
 #' @param xnames  character Names of explanatory variable to plot
 #' @param maxy.lev Integer Maximum unique length of a numeric variable to be treated as categorical variables
-#' @param medican logical If TRUE, select median value for numerical variable. Otherwise select most frequent value
+#' @param median logical If TRUE, select median value for numerical variable. Otherwise select most frequent value
 #' @param digits integer indicating the number of decimal places
 #' @return A data.frame
 #' @export

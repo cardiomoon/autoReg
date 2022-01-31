@@ -36,7 +36,7 @@ autoReg.coxph=function(x,...){
 #' @export
 autoRegCox=function(x,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FALSE,keepstats=FALSE,...){
      # x=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon);data=colon
-     # threshold=0.2;uni=TRUE;multi=TRUE;final=FALSE;imputed=FALSE;keepstats=FALSE
+      # threshold=0.2;uni=FALSE;multi=TRUE;final=FALSE;imputed=FALSE;keepstats=FALSE
      if(uni==FALSE) threshold=1
      fit=x
      # dataname = as.character(fit$call)[3]
@@ -67,7 +67,7 @@ autoRegCox=function(x,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FAL
      myformula
      mylist=list()
      mylist[[1]]=gaze(as.formula(myformula),data=data,...)
-     # mylist[[1]]=gaze(as.formula(myformula),data=data)
+      # mylist[[1]]=gaze(as.formula(myformula),data=data)
      # names(mylist[[1]])[1:3]=c(paste0("Dependent: Surv(",timevar,",",statusvar,")")," ","all")
      # names(mylist[[1]])[1:3]
      mylist[[1]]
@@ -152,6 +152,12 @@ autoRegCox=function(x,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FAL
      }
      attr(Final,"yvars")=attr(attr(fit$terms,"dataClasses"),"names")[1]
      attr(Final,"model")="coxph"
+     temp=summary(fit)$logtest
+     attr(Final,"lik")=paste0("n=",fit$n,", events=",fit$nevent,
+                              ", Likelihood=",format(round(temp[1], 2))," on ",temp[2]," df(",
+                              p2character2(temp[3],add.p=TRUE),")")
+
      Final
+
 
 }
