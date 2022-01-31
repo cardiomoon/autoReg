@@ -4,7 +4,7 @@
 \alias{fit2newdata}
 \title{Make a new data of mean value or most frequent value}
 \usage{
-fit2newdata(fit, xnames = NULL, maxy.lev = 5, digits = 1)
+fit2newdata(fit, xnames = NULL, maxy.lev = 5, median = TRUE, digits = 1)
 }
 \arguments{
 \item{fit}{An object of class "coxph"}
@@ -14,6 +14,8 @@ fit2newdata(fit, xnames = NULL, maxy.lev = 5, digits = 1)
 \item{maxy.lev}{Integer Maximum unique length of a numeric variable to be treated as categorical variables}
 
 \item{digits}{integer indicating the number of decimal places}
+
+\item{medican}{logical If TRUE, select median value for numerical variable. Otherwise select most frequent value}
 }
 \value{
 A data.frame

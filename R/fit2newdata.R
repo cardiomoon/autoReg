@@ -2,6 +2,7 @@
 #' @param fit An object of class "coxph"
 #' @param xnames  character Names of explanatory variable to plot
 #' @param maxy.lev Integer Maximum unique length of a numeric variable to be treated as categorical variables
+#' @param medican logical If TRUE, select median value for numerical variable. Otherwise select most frequent value
 #' @param digits integer indicating the number of decimal places
 #' @return A data.frame
 #' @export
@@ -11,7 +12,7 @@
 #' fit=coxph(Surv(time,status)~rx+sex+age,data=colon)
 #' fit=coxph(Surv(time,status)~rx+age+strata(sex),data=colon)
 #' fit2newdata(fit)
-fit2newdata=function(fit,xnames=NULL,maxy.lev=5,digits=1){
+fit2newdata=function(fit,xnames=NULL,maxy.lev=5,median=TRUE,digits=1){
 
        #  xnames=NULL;maxy.lev=5;digits=1
        # fit=coxph(Surv(time,status)~sex*age,data=colon)
@@ -58,9 +59,13 @@ fit2newdata=function(fit,xnames=NULL,maxy.lev=5,digits=1){
           #      result[[no+i]]=round(mean(df[[xvars[i]]],na.rm=TRUE),digits)
           # } else
           if(is.numeric(df[[xvars[i]]])){
+                  if(median) {
+                          result[[no+i]]=median(df[[xvars[i]]],na.rm=TRUE)
+                  } else{
 
                        y=table(df[[xvars[i]]])
                        result[[no+i]]=as.numeric(names(y)[which(y==max(y))][1])
+                  }
 
           } else{
                result[[no+i]]=names(which.max(table(df[[xvars[i]]])))[1]
