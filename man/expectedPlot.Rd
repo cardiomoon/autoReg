@@ -4,7 +4,7 @@
 \alias{expectedPlot}
 \title{Draw an expected plot}
 \usage{
-expectedPlot(fit, xnames = NULL, maxy.lev = 5)
+expectedPlot(fit, xnames = NULL, maxy.lev = 5, median = TRUE)
 }
 \arguments{
 \item{fit}{An object of class "coxph"}
@@ -12,6 +12,8 @@ expectedPlot(fit, xnames = NULL, maxy.lev = 5)
 \item{xnames}{Character Names of explanatory variable to plot}
 
 \item{maxy.lev}{Integer Maximum unique length of a numeric variable to be treated as categorical variables}
+
+\item{median}{Logical}
 }
 \value{
 No return value, called for side effects

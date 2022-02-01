@@ -4,7 +4,7 @@
 \alias{OEplot}
 \title{Draw an Observed vs Expected plot}
 \usage{
-OEplot(fit, xnames = NULL, maxy.lev = 5)
+OEplot(fit, xnames = NULL, maxy.lev = 5, median = TRUE)
 }
 \arguments{
 \item{fit}{An object of class "coxph"}
@@ -12,6 +12,8 @@ OEplot(fit, xnames = NULL, maxy.lev = 5)
 \item{xnames}{Character Names of explanatory variable to plot}
 
 \item{maxy.lev}{Integer Maximum unique length of a numeric variable to be treated as categorical variables}
+
+\item{median}{logical}
 }
 \value{
 No return value, called for side effects

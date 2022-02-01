@@ -2,6 +2,7 @@
 #' @param fit An object of class "coxph"
 #' @param xnames Character Names of explanatory variable to plot
 #' @param maxy.lev Integer Maximum unique length of a numeric variable to be treated as categorical variables
+#' @param median logical
 #' @return  No return value, called for side effects
 #' @importFrom dplyr semi_join as_tibble
 #' @importFrom graphics legend lines title
@@ -14,10 +15,10 @@
 #'fit=coxph(Surv(time,status)~rx,data=colon)
 #'fit=coxph(Surv(time,status)~rx+age+strata(sex),data=colon)
 #'OEplot(fit)
-OEplot=function(fit,xnames=NULL,maxy.lev=5){
+OEplot=function(fit,xnames=NULL,maxy.lev=5,median=TRUE){
      #     xname="grp";maxy.lev=5
            # xnames=NULL;maxy.lev=5
-     newdata=fit2newdata(fit,xnames=xnames,maxy.lev=maxy.lev)
+     newdata=fit2newdata(fit,xnames=xnames,maxy.lev=maxy.lev,median=median)
 
      data=fit2model(fit)
      xvars = attr(fit$terms, "term.labels")
@@ -64,6 +65,7 @@ OEplot=function(fit,xnames=NULL,maxy.lev=5){
 #' @param fit An object of class "coxph"
 #' @param xnames Character Names of explanatory variable to plot
 #' @param maxy.lev Integer Maximum unique length of a numeric variable to be treated as categorical variables
+#' @param median Logical
 #' @return  No return value, called for side effects
 #' @importFrom graphics legend lines
 #' @importFrom scales hue_pal
@@ -73,9 +75,9 @@ OEplot=function(fit,xnames=NULL,maxy.lev=5){
 #'data(cancer,package="survival")
 #'fit=coxph(Surv(time,status)~rx+strata(sex)+age,data=colon)
 #'expectedPlot(fit,xnames=c("sex","rx"))
-expectedPlot=function(fit,xnames=NULL,maxy.lev=5){
+expectedPlot=function(fit,xnames=NULL,maxy.lev=5,median=TRUE){
         # xnames=NULL;maxy.lev=5
-        newdata=fit2newdata(fit,xnames=xnames,maxy.lev=maxy.lev)
+        newdata=fit2newdata(fit,xnames=xnames,maxy.lev=maxy.lev,median=median)
         data=fit2model(fit)
         xvars = attr(fit$terms, "term.labels")
         if(is.null(xnames)) xnames=xvars[1]
