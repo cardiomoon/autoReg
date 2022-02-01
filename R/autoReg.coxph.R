@@ -154,7 +154,7 @@ autoRegCox=function(x,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=FAL
      attr(Final,"model")="coxph"
      temp=summary(fit)$logtest
      attr(Final,"lik")=paste0("n=",fit$n,", events=",fit$nevent,
-                              ", Likelihood=",format(round(temp[1], 2))," on ",temp[2]," df(",
+                              ", Likelihood ratio test=",format(round(temp[1], 2))," on ",temp[2]," df(",
                               p2character2(temp[3],add.p=TRUE),")")
 
      Final
