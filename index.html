@@ -162,11 +162,11 @@
 </h3>
 <p>You can get a table summarizing baseline characteristics with two or more grouping variables.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/gaze.html">gaze</a></span><span class="op">(</span><span class="va">sex</span><span class="op">+</span><span class="va">Dx</span><span class="op">~</span><span class="va">.</span>,data<span class="op">=</span><span class="va">acs</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="reference/gaze.html">gaze</a></span><span class="op">(</span><span class="va">sex</span><span class="op">+</span><span class="va">Dx</span><span class="op">~</span><span class="va">.</span>,data<span class="op">=</span><span class="va">acs</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-8-1.png"></p>
 <p>You can also use three or more grouping variables.The resultant table will be too long to review, but you can try.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/gaze.html">gaze</a></span><span class="op">(</span><span class="va">sex</span><span class="op">+</span><span class="va">DM</span><span class="op">+</span><span class="va">HBP</span><span class="op">~</span><span class="va">age</span>,data<span class="op">=</span><span class="va">acs</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="reference/gaze.html">gaze</a></span><span class="op">(</span><span class="va">sex</span><span class="op">+</span><span class="va">DM</span><span class="op">+</span><span class="va">HBP</span><span class="op">~</span><span class="va">age</span>,data<span class="op">=</span><span class="va">acs</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-9-1.png"></p>
 </div>
 <div class="section level3">
@@ -224,7 +224,7 @@
 <span id="cb12-13"><a href="#cb12-13"></a>——————————————————————————————————————————————————————————————————————————————————</span></code></pre></div>
 <p>Or you can make a publication-ready table.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="reference/autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-12-1.png"></p>
 <p>If you want make a table with more explanation, you can make categorical variables with numeric variables. For example, the explanatory variables obstruct(obstruction of colon by tumor) and perfor(perforation of colon) is coded as 0 or 1, but it is “No” or “Yes” actually. Also the dependent variable status is coded as 0 or 1, it is “Alive” or “Died”.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
@@ -235,7 +235,7 @@
 
 <span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">status.factor</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">sex.factor</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">obstruct.factor</span><span class="op">+</span><span class="va">perfor.factor</span><span class="op">+</span><span class="va">nodes</span>,data<span class="op">=</span><span class="va">colon</span>,family<span class="op">=</span><span class="st">"binomial"</span><span class="op">)</span>
 <span class="va">result</span><span class="op">=</span><span class="fu"><a href="reference/autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span> 
-<span class="va">result</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="va">result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-13-1.png"></p>
 <p>You can add labels to the names of variables with setLabel() function.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
@@ -249,11 +249,11 @@
 
 <span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">status.factor</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">sex.factor</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">obstruct.factor</span><span class="op">+</span><span class="va">perfor.factor</span><span class="op">+</span><span class="va">nodes</span>,data<span class="op">=</span><span class="va">colon</span>,family<span class="op">=</span><span class="st">"binomial"</span><span class="op">)</span>
 <span class="va">result</span><span class="op">=</span><span class="fu"><a href="reference/autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span> 
-<span class="va">result</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="va">result</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-14-1.png"></p>
 <p>If you do not want to show the reference values in table, you can shorten the table.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/shorten.html">shorten</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="reference/shorten.html">shorten</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-15-1.png"></p>
 </div>
 <div class="section level3">
@@ -261,22 +261,22 @@
 </h3>
 <p>You can add the results of univariate analyses to the table. At this time, the autoReg() function automatically select explanatory variables below the threshold(default value 0.2) and perform multivariate analysis. In this table, the p values of explanatory variables sex.factor and age is above the default threshold(0.2), they are excluded in multivariate model.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>, uni<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="reference/autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>, uni<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-16-1.png"></p>
 <p>If you want to include all explanatory variables in the multivariate model, just set the threshold 1.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>, uni<span class="op">=</span><span class="cn">TRUE</span>,threshold<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="reference/autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>, uni<span class="op">=</span><span class="cn">TRUE</span>,threshold<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-17-1.png"></p>
 <p>You can perform stepwise backward elimination to select variables and make a final model. Just set final=TRUE.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>, uni<span class="op">=</span><span class="cn">TRUE</span>,threshold<span class="op">=</span><span class="fl">1</span>, final<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="reference/autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>, uni<span class="op">=</span><span class="cn">TRUE</span>,threshold<span class="op">=</span><span class="fl">1</span>, final<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-18-1.png"></p>
 <div class="section level4">
 <h4 id="multiple-imputation-with-mice">Multiple imputation with mice()<a class="anchor" aria-label="anchor" href="#multiple-imputation-with-mice"></a>
 </h4>
 <p>When the argument imputed=TRUE, autoReg() function make a multiple imputed model using mice::mice() function. By default, 20 imputations performed. If you want, you can change the number of imputations with m argument.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>, imputed<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="reference/autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>, imputed<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="reference/myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-19-1.png"></p>
 </div>
 </div>
