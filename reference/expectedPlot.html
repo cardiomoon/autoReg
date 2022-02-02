@@ -58,7 +58,15 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">expectedPlot</span><span class="op">(</span><span class="va">fit</span>, xnames <span class="op">=</span> <span class="cn">NULL</span>, maxy.lev <span class="op">=</span> <span class="fl">5</span>, median <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">expectedPlot</span><span class="op">(</span>
+  <span class="va">fit</span>,
+  xnames <span class="op">=</span> <span class="cn">NULL</span>,
+  maxy.lev <span class="op">=</span> <span class="fl">5</span>,
+  median <span class="op">=</span> <span class="cn">TRUE</span>,
+  facet <span class="op">=</span> <span class="cn">NULL</span>,
+  se <span class="op">=</span> <span class="cn">FALSE</span>,
+  <span class="va">...</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -71,6 +79,12 @@
 <dd><p>Integer Maximum unique length of a numeric variable to be treated as categorical variables</p></dd>
 <dt>median</dt>
 <dd><p>Logical</p></dd>
+<dt>facet</dt>
+<dd><p>Character Name of facet variable</p></dd>
+<dt>se</dt>
+<dd><p>logical Whether or not show se</p></dd>
+<dt>...</dt>
+<dd><p>further arguments to be passed to plot.survfit</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -82,8 +96,10 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cancer</span>,package<span class="op">=</span><span class="st">"survival"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/strata.html" class="external-link">strata</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span><span class="op">+</span><span class="va">age</span>,data<span class="op">=</span><span class="va">colon</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">expectedPlot</span><span class="op">(</span><span class="va">fit</span>,xnames<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sex"</span>,<span class="st">"rx"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">expectedPlot</span><span class="op">(</span><span class="va">fit</span>,xnames<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sex"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="expectedPlot-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="fu">expectedPlot</span><span class="op">(</span><span class="va">fit</span>,xnames<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rx"</span>,<span class="st">"sex"</span><span class="op">)</span>,facet<span class="op">=</span><span class="st">"sex"</span><span class="op">)</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in element_rect(fill = NA):</span> could not find function "element_rect"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
