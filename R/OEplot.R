@@ -72,6 +72,7 @@ OEplot=function(fit,xnames=NULL,maxy.lev=5,median=TRUE){
 #' @return  No return value, called for side effects
 #' @importFrom graphics legend lines
 #' @importFrom scales hue_pal
+#' @importFrom ggplot2 element_rect facet_wrap label_both ylim
 #' @export
 #' @examples
 #' library(survival)
@@ -116,10 +117,11 @@ expectedPlot=function(fit,xnames=NULL,maxy.lev=5,median=TRUE,facet=NULL,se=FALSE
                 df$newstrata=apply(res,1,paste,collapse=", ")
                 df
 
-                p= ggplot(df,aes(x=time,y=surv,group=newstrata,color=newstrata))+
+                p= ggplot(df,aes_string(x="time",y="surv",group="newstrata",
+                                        color="newstrata"))+
                         geom_line()
                 if(se==TRUE) {
-                        p=p+geom_ribbon(aes(ymin=lower,ymax=upper,fill=newstrata,color=NULL),alpha=0.3)
+                        p=p+geom_ribbon(aes_string(ymin="lower",ymax="upper",fill="newstrata",color=NULL),alpha=0.3)
 
                 }
                  p+ theme_classic()+
