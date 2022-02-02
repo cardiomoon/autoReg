@@ -18,6 +18,6 @@ Extract survival data from an object of class "survfit"
 \examples{
 library(survival)
 data(cancer,package="survival")
-fit=survfit(Surv(time,status)~rx,data=colon)
+fit=survfit(Surv(time,status)~rx+sex+age,data=colon)
 survfit2df(fit)
 }

@@ -6,7 +6,7 @@
 #' @examples
 #' library(survival)
 #'data(cancer,package="survival")
-#'fit=survfit(Surv(time,status)~rx,data=colon)
+#'fit=survfit(Surv(time,status)~rx+sex+age,data=colon)
 #'survfit2df(fit)
 survfit2df=function(fit){
      cols=c("time","n.risk","n.event","n.censor","surv","std.err","upper","lower")

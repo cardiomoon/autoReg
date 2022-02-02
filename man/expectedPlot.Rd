@@ -4,7 +4,15 @@
 \alias{expectedPlot}
 \title{Draw an expected plot}
 \usage{
-expectedPlot(fit, xnames = NULL, maxy.lev = 5, median = TRUE)
+expectedPlot(
+  fit,
+  xnames = NULL,
+  maxy.lev = 5,
+  median = TRUE,
+  facet = NULL,
+  se = FALSE,
+  ...
+)
 }
 \arguments{
 \item{fit}{An object of class "coxph"}
@@ -14,6 +22,12 @@ expectedPlot(fit, xnames = NULL, maxy.lev = 5, median = TRUE)
 \item{maxy.lev}{Integer Maximum unique length of a numeric variable to be treated as categorical variables}
 
 \item{median}{Logical}
+
+\item{facet}{Character Name of facet variable}
+
+\item{se}{logical Whether or not show se}
+
+\item{...}{further arguments to be passed to plot.survfit}
 }
 \value{
 No return value, called for side effects
@@ -25,5 +39,6 @@ Draw an expected plot
 library(survival)
 data(cancer,package="survival")
 fit=coxph(Surv(time,status)~rx+strata(sex)+age,data=colon)
-expectedPlot(fit,xnames=c("sex","rx"))
+expectedPlot(fit,xnames=c("sex"))
+expectedPlot(fit,xnames=c("rx","sex"),facet="sex")
 }

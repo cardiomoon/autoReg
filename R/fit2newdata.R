@@ -43,7 +43,7 @@ fit2newdata=function(fit,xnames=NULL,maxy.lev=5,median=TRUE,digits=1){
      suppressMessages(df2<-map2_dfc(names(df1),df1,function(x,y){
              paste0(x,"=",y)
      }))
-     labels=apply(df2,1,paste0,collapse=",")
+     labels=apply(df2,1,paste0,collapse=", ")
 
      add=xvars[str_detect(xvars,"strata\\(|cluster\\(|frailty\\(")]
      if(length(add)>0){

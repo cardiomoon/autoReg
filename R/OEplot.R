@@ -66,6 +66,9 @@ OEplot=function(fit,xnames=NULL,maxy.lev=5,median=TRUE){
 #' @param xnames Character Names of explanatory variable to plot
 #' @param maxy.lev Integer Maximum unique length of a numeric variable to be treated as categorical variables
 #' @param median Logical
+#' @param facet Character Name of facet variable
+#' @param se logical Whether or not show se
+#' @param ... further arguments to be passed to plot.survfit
 #' @return  No return value, called for side effects
 #' @importFrom graphics legend lines
 #' @importFrom scales hue_pal
@@ -74,25 +77,57 @@ OEplot=function(fit,xnames=NULL,maxy.lev=5,median=TRUE){
 #' library(survival)
 #'data(cancer,package="survival")
 #'fit=coxph(Surv(time,status)~rx+strata(sex)+age,data=colon)
-#'expectedPlot(fit,xnames=c("sex","rx"))
-expectedPlot=function(fit,xnames=NULL,maxy.lev=5,median=TRUE){
-        # xnames=NULL;maxy.lev=5
+#'expectedPlot(fit,xnames=c("sex"))
+#'expectedPlot(fit,xnames=c("rx","sex"),facet="sex")
+expectedPlot=function(fit,xnames=NULL,maxy.lev=5,median=TRUE,facet=NULL,se=FALSE,...){
+           # xnames=c("sex","rx");maxy.lev=5;median=TRUE;facet="rx";se=TRUE
         newdata=fit2newdata(fit,xnames=xnames,maxy.lev=maxy.lev,median=median)
         data=fit2model(fit)
         xvars = attr(fit$terms, "term.labels")
         if(is.null(xnames)) xnames=xvars[1]
         labels=attr(newdata,"labels")
+        labels
         no=length(labels)
         col=scales::hue_pal()(no)
         fit1=survfit(fit,newdata=newdata)
-        plot(fit1,col=col,lwd=1,
-             main=paste0("Expected Survival by ",paste0(xnames,collapse=",")))
-        legend("bottomleft",legend=labels,col=col,lwd=2)
         df1=as_tibble(newdata %>% select(-all_of(xnames)))
         df1=df1[1,]
         label=map2_chr(names(df1),df1,function(x,y){
                 paste0(x,"=",y)
         })
         label=paste0(label,collapse=", ")
-        title(sub=label)
+
+        if(is.null(facet)){
+                plot(fit1,col=col,lwd=1,conf.int=se,...,
+                     main=paste0("Expected Survival by ",paste0(xnames,collapse=",")))
+                legend("bottomleft",legend=labels,col=col,lwd=2)
+
+                title(sub=label)
+        } else{
+                names(fit1$strata)=labels
+                df=survfit2df(fit1)
+                newvar=setdiff(xnames,facet)
+
+                suppressMessages(res<-map_dfc(newvar,function(x){
+                        paste0(x,"=",df[[x]])
+                }))
+                res
+                names(res)=newvar
+                df$newstrata=apply(res,1,paste,collapse=", ")
+                df
+
+                p= ggplot(df,aes(x=time,y=surv,group=newstrata,color=newstrata))+
+                        geom_line()
+                if(se==TRUE) {
+                        p=p+geom_ribbon(aes(ymin=lower,ymax=upper,fill=newstrata,color=NULL),alpha=0.3)
+
+                }
+                 p+ theme_classic()+
+                        theme(legend.title=element_blank(),panel.border=element_rect(fill=NA))+
+                        ylim(c(0,1))+
+                        facet_wrap(as.formula(paste0("~",facet)),labeller=label_both)
+        }
 }
+
+
+
