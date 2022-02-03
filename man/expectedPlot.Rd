@@ -38,7 +38,7 @@ Draw an expected plot
 \examples{
 library(survival)
 data(cancer,package="survival")
-fit=coxph(Surv(time,status)~rx+strata(sex)+age,data=colon)
+fit=coxph(Surv(time,status)~rx+strata(sex)+age+differ,data =colon)
 expectedPlot(fit,xnames=c("sex"))
-expectedPlot(fit,xnames=c("rx","sex"),facet="sex")
+expectedPlot(fit,xnames=c("rx","sex","differ"),facet=c("sex","rx"))
 }

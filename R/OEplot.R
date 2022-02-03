@@ -72,16 +72,16 @@ OEplot=function(fit,xnames=NULL,maxy.lev=5,median=TRUE){
 #' @return  No return value, called for side effects
 #' @importFrom graphics legend lines
 #' @importFrom scales hue_pal
-#' @importFrom ggplot2 element_rect facet_wrap label_both ylim
+#' @importFrom ggplot2 element_rect facet_wrap label_both ylim facet_grid
 #' @export
 #' @examples
 #' library(survival)
 #'data(cancer,package="survival")
-#'fit=coxph(Surv(time,status)~rx+strata(sex)+age,data=colon)
+#'fit=coxph(Surv(time,status)~rx+strata(sex)+age+differ,data =colon)
 #'expectedPlot(fit,xnames=c("sex"))
-#'expectedPlot(fit,xnames=c("rx","sex"),facet="sex")
+#'expectedPlot(fit,xnames=c("rx","sex","differ"),facet=c("sex","rx"))
 expectedPlot=function(fit,xnames=NULL,maxy.lev=5,median=TRUE,facet=NULL,se=FALSE,...){
-           # xnames=c("sex","rx");maxy.lev=5;median=TRUE;facet="rx";se=TRUE
+            # xnames=c("sex","rx","differ");maxy.lev=5;median=TRUE;facet=c("rx","sex");se=TRUE
         newdata=fit2newdata(fit,xnames=xnames,maxy.lev=maxy.lev,median=median)
         data=fit2model(fit)
         xvars = attr(fit$terms, "term.labels")
@@ -114,7 +114,12 @@ expectedPlot=function(fit,xnames=NULL,maxy.lev=5,median=TRUE,facet=NULL,se=FALSE
                 }))
                 res
                 names(res)=newvar
-                df$newstrata=apply(res,1,paste,collapse=", ")
+                newvar
+                if(length(newvar)>0){
+                   df$newstrata=apply(res,1,paste,collapse=", ")
+                } else{
+                    df$newstrata=1
+                }
                 df
 
                 p= ggplot(df,aes_string(x="time",y="surv",group="newstrata",
@@ -124,10 +129,17 @@ expectedPlot=function(fit,xnames=NULL,maxy.lev=5,median=TRUE,facet=NULL,se=FALSE
                         p=p+geom_ribbon(aes_string(ymin="lower",ymax="upper",fill="newstrata",color=NULL),alpha=0.3)
 
                 }
-                 p+ theme_classic()+
+                 p=p+ theme_classic()+
                         theme(legend.title=element_blank(),panel.border=element_rect(fill=NA))+
-                        ylim(c(0,1))+
-                        facet_wrap(as.formula(paste0("~",facet)),labeller=label_both)
+                        ylim(c(0,1))
+                 if(length(facet)==1){
+                      p=p+facet_wrap(as.formula(paste0("~",facet)),labeller=label_both)
+                 } else {
+                      myformula=as.formula(paste0(facet[1],"~",facet[2]))
+                      p=p+facet_grid(myformula,labeller=label_both)
+                 }
+                 p=p+labs(subtitle=label)
+                 p
         }
 }
 

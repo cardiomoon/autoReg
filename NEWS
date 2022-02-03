@@ -1,3 +1,10 @@
+autoReg 0.1.5
+=============
+(2022-Feb-3)
+
+* New function expectedPlot2 added
+* delete function bootCompare
+
 autoReg 0.1.4
 =============
 (2022-Jan-30)
