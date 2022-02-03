@@ -34,6 +34,12 @@
     <loc>https://cardiomoon.github.io/autoReg/reference/addFitSummary.html</loc>
   </url>
   <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/anderson.html</loc>
+  </url>
+  <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/anderson1.html</loc>
+  </url>
+  <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/autoReg.html</loc>
   </url>
   <url>
@@ -44,9 +50,6 @@
   </url>
   <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/beNumeric.html</loc>
-  </url>
-  <url>
-    <loc>https://cardiomoon.github.io/autoReg/reference/bootCompare.html</loc>
   </url>
   <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/bootPredict.html</loc>
@@ -71,6 +74,9 @@
   </url>
   <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/expectedPlot.html</loc>
+  </url>
+  <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/expectedPlot2.html</loc>
   </url>
   <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/filldown.html</loc>
