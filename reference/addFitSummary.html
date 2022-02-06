@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">autoReg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,19 +94,18 @@
 <span class="r-in"><span class="va">final</span><span class="op">=</span><span class="fu"><a href="fit2final.html">fit2final</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu">addFitSummary</span><span class="op">(</span><span class="va">final</span>,statsname<span class="op">=</span><span class="st">"HR (final)"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a flextable object.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> col_keys: `Dependent: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Surv(time, status)`, ` `, `all`, `HR (multivariable)`, `HR (final)` </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> col_keys: `Dependent: Surv(time, status)`, ` `, `all`, `HR (multivariable)`, `HR (final)` </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> header has 1 row(s) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> body has 8 row(s) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> original dataset sample: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Dependent: Surv(time, status)                 all         HR (multivariable)            HR (final)         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rx                             Obs          624 (34.2%)                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                Lev          608 (33.4%)  0.94 (0.81-1.09, p=.409)  0.94 (0.80-1.09, p=.408) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                Lev+5FU      590 (32.4%)  0.63 (0.54-0.75, p&lt;.001)  0.64 (0.54-0.75, p&lt;.001) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age                            Mean ± SD    59.8 ± 11.9  1.00 (1.00-1.01, p=.571)                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex                            Mean ± SD      0.5 ± 0.5  0.92 (0.81-1.05, p=.242)                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rx                                     Obs  624 (34.2%)                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  608 (33.4%)  0.94 (0.81-1.09, p=.409)  0.94 (0.80-1.09, p=.408) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  590 (32.4%)  0.63 (0.54-0.75, p&lt;.001)  0.64 (0.54-0.75, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (1.00-1.01, p=.571)                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  0.92 (0.81-1.05, p=.242)                           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> n=1822, events=897, Likelihood ratio test=178.71 on 7 df(p&lt;.001) </span>
 </code></pre></div>

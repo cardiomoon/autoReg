@@ -14,7 +14,7 @@ methods were used(t-test, ANOVA, Kruskal-Wallis, chi-squared, Fisher's,...)"><!-
     
     <a class="navbar-brand me-2" href="../index.html">autoReg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,7 +52,7 @@ methods were used(t-test, ANOVA, Kruskal-Wallis, chi-squared, Fisher's,...)"><!-
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Produce table for descriptive statistics</h1>
-      <small class="dont-index">Source: <a href="https://github.com/cardiomoon/autoReg/blob/HEAD/R/gaze.R" class="external-link"><code>R/gaze.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/cardiomoon/autoReg/blob/HEAD/R/gaze.R" class="external-link"><code>R/gaze.R</code></a>, <a href="https://github.com/cardiomoon/autoReg/blob/HEAD/R/gaze.coxph.R" class="external-link"><code>R/gaze.coxph.R</code></a></small>
       <div class="d-none name"><code>gaze.Rd</code></div>
     </div>
 
@@ -70,6 +70,15 @@ methods were used(t-test, ANOVA, Kruskal-Wallis, chi-squared, Fisher's,...)</p>
 <span class="fu">gaze</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="co"># S3 method for data.frame</span>
+<span class="fu">gaze</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span>
+
+<span class="co"># S3 method for coxph</span>
+<span class="fu">gaze</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span>
+
+<span class="co"># S3 method for glm</span>
+<span class="fu">gaze</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span>
+
+<span class="co"># S3 method for lm</span>
 <span class="fu">gaze</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
 
@@ -93,6 +102,9 @@ with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
     
 <ul><li><p><code>formula</code>: S3 method for formula</p></li>
 <li><p><code>data.frame</code>: default S3 method</p></li>
+<li><p><code>coxph</code>: default S3 method</p></li>
+<li><p><code>glm</code>: default S3 method</p></li>
+<li><p><code>lm</code>: default S3 method</p></li>
 </ul></div>
 
     <div class="section level2">
@@ -328,6 +340,48 @@ with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
 <span class="r-out co"><span class="r-pr">#&gt;</span> carb          Mean ± SD       1.7 ± 0.6    1.5 ± 0.5  .662     2.5 ± 1.7     4.7 ± 1.2  .122     3.1 ± 0.9     6.0 ± 2.8   .379 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-in"><span class="co"># }</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span> <span class="op">~</span><span class="va">rx</span><span class="op">*</span><span class="va">logWBC</span>,data<span class="op">=</span><span class="va">anderson1</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">gaze</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ————————————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                     coef   se(coef)    z     Pr(&gt;|z|)   HR    lower  upper   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ————————————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rxControl            2.375     1.705   1.393      .164  10.75   0.38  304.16 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> logWBC               1.872     0.451   4.148     &lt;.001   6.50   2.69   15.75 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rxControl:logWBC    -0.318     0.526  -0.604      .546   0.73   0.26    2.04 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ————————————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> n=42, events=30, Likelihood ratio test=47.07 on 3 df (p&lt;.001) </span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cancer</span>,package<span class="op">=</span><span class="st">"survival"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">status</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">sex</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">obstruct</span><span class="op">+</span><span class="va">nodes</span>,data<span class="op">=</span><span class="va">colon</span>,family<span class="op">=</span><span class="st">"binomial"</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">gaze</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ——————————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate  Std. Error  z value  Pr(&gt;|z|)   OR   lower  upper  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ——————————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      -0.641       0.285   -2.247      .025  0.53   0.30   0.92 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rxLev            -0.067       0.119   -0.560      .576  0.94   0.74   1.18 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rxLev+5FU        -0.627       0.122   -5.153     &lt;.001  0.53   0.42   0.68 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex              -0.054       0.099   -0.541      .588  0.95   0.78   1.15 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age               0.002       0.004    0.550      .583  1.00   0.99   1.01 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct          0.296       0.125    2.370      .018  1.34   1.05   1.72 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> nodes             0.191       0.018   10.457     &lt;.001  1.21   1.17   1.26 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ——————————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Null deviance: 2525.4(df: 1821), Residual deviance: 2343.6(df: 1815) AIC:2357.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   (36 observations deleted due to missingness)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of Fisher Scoring iterations: 4 </span>
+<span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span><span class="op">~</span><span class="va">wt</span><span class="op">*</span><span class="va">hp</span><span class="op">+</span><span class="va">am</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="va">wt</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>,data<span class="op">=</span><span class="va">mtcars</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">gaze</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate  Std. Error  t value  Pr(&gt;|t|)   lower   upper   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      49.262       5.523    8.920     &lt;.001   37.910  60.614 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> wt               -7.674       3.341   -2.297      .030  -14.542  -0.807 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hp               -0.127       0.059   -2.164      .040   -0.248  -0.006 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> am                0.167       1.385    0.120      .905   -2.681   3.015 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> I(wt^2)          -0.108       0.712   -0.152      .880   -1.572   1.356 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> wt:hp             0.030       0.017    1.705      .100   -0.006   0.066 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Residual SE: 2.233 on 26 DF, Multiple R^2: 0.8849, Adjusted R^2: 0.8628</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F-statistic: 39.98 on 5 and 26 DF,  p-value: 2.124e-11 </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
