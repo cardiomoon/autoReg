@@ -5,7 +5,7 @@
 #' @param digits integer indicating the position of decimal place
 #' @param showid logical if TRUE, show id
 #' @param ... Further arguments to be passed to df2flextable()
-#' @importFrom flextable align autofit hline hline_top footnote as_paragraph
+#' @importFrom flextable align autofit hline hline_top footnote as_paragraph merge_at
 #' @importFrom officer fp_border
 #' @importFrom purrr map_chr
 #' @examples
@@ -99,6 +99,11 @@ myft=function(x,vanilla=TRUE,fontsize=10,digits,showid=FALSE,...){
              temp=paste(temp,collapse="\n")
 
           ft=footnote(ft,i=1,j=1:2,value=as_paragraph(temp),ref_symbols="",part="body")
+          if(!is.null(attr(x,"model"))){
+                 if(attr(x,"model")=="coxph") {
+                      ft=merge_at(ft,i=1,j=1:2,part="header")
+                 }
+          }
      }
      ft<- ft %>%
           flextable::align(align="center",part="header")

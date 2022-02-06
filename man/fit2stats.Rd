@@ -4,7 +4,7 @@
 \alias{fit2stats}
 \title{Summarize statistics with a model}
 \usage{
-fit2stats(fit, method = "likelihood", digits = 2)
+fit2stats(fit, method = "default", digits = 2)
 }
 \arguments{
 \item{fit}{An object of class lm or glm}

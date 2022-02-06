@@ -37,7 +37,7 @@ fit2summary=function(fit,...){
 #' fit2stats(fit)
 #' fit=lm(mpg~wt*hp+am,data=mtcars)
 #' fit2stats(fit)
-fit2stats=function(fit,method="likelihood",digits=2){
+fit2stats=function(fit,method="default",digits=2){
      # method="likelihood";digits=2
      mode=1
      if("glm" %in% attr(fit,"class")) {

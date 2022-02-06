@@ -16,17 +16,30 @@ gaze.coxph=function(x,...){
      df$var=rownames(summary(x)$coef)
      df
      df<-df %>% dplyr::select(.data$var,everything())
-
+     attr(df,"call")=gsub(" ","",paste0(deparse(x$call),collapse=""))
      attr(df,"yvars")=attr(attr(x$terms,"dataClasses"),"names")[1]
      attr(df,"model")="coxph"
-     temp=summary(x)$logtest
-     temp1=paste0("n=",x$n,", events=",x$nevent,
-                              ", Likelihood ratio test=",format(round(temp[1], 2))," on ",temp[2]," df (",
-                              p2character2(temp[3],add.p=TRUE),")")
-     attr(df,"lik")=temp1
+     attr(df,"lik")=fit2lik(x)
      attr(df,"summary")=TRUE
      class(df)=c("autoReg","data.frame")
      df
+}
+
+#' extract likelihood information with a coxph object
+#' @param x An object of class "coxph"
+#' @return A string
+#' @export
+#' @examples
+#' library(survival)
+#' fit=coxph(Surv(time,status) ~rx,data=anderson)
+#' fit2lik(fit)
+fit2lik=function(x){
+
+     temp=summary(x)$logtest
+     temp1=paste0("n=",x$n,", events=",x$nevent,
+                  ", Likelihood ratio test=",format(round(temp[1], 2))," on ",temp[2]," df (",
+                  p2character2(temp[3],add.p=TRUE),")")
+     temp1
 }
 
 
