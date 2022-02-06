@@ -109,37 +109,37 @@ with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
 <span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">==</span><span class="fl">2</span><span class="op">)</span><span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">bili</span><span class="op">)</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/cluster.html" class="external-link">cluster</a></span><span class="op">(</span><span class="va">edema</span><span class="op">)</span>,data<span class="op">=</span><span class="va">pbc</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ——————————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Dependent: Surv(time, status == 2)                 all         HR (multivariable)     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status == 2)             all          HR (multivariable)         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ——————————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> log(bili)                             Mean ± SD    0.6 ± 1.0  2.76 (2.59-2.94, p&lt;.001) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age                                   Mean ± SD  50.7 ± 10.4  1.04 (1.03-1.06, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> log(bili)                           Mean ± SD  0.6 ± 1.0    2.76 (2.59-2.94, p&lt;.001)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age                                 Mean ± SD  50.7 ± 10.4  1.04 (1.03-1.06, p&lt;.001)   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ——————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> n=418, events=161, Likelihood ratio test=186.62 on 2 df(p&lt;.001) cluster=edema </span>
 <span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">sex</span><span class="op">+</span><span class="va">obstruct</span><span class="op">+</span><span class="va">perfor</span>,data<span class="op">=</span><span class="va">colon</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Dependent: Surv(time, status)                 all         HR (multivariable)     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)             all          HR (multivariable)         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rx                                     Obs  630 (33.9%)                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  0.98 (0.84-1.14, p=.802) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  0.65 (0.55-0.76, p&lt;.001) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (0.99-1.00, p=.660) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  0.96 (0.84-1.09, p=.507) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                         Mean ± SD    0.2 ± 0.4  1.24 (1.05-1.45, p=.009) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perfor                           Mean ± SD    0.0 ± 0.2  1.22 (0.85-1.74, p=.275) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rx                             Obs        630 (33.9%)                             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                Lev        620 (33.4%)  0.98 (0.84-1.14, p=.802)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                Lev+5FU    608 (32.7%)  0.65 (0.55-0.76, p&lt;.001)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age                            Mean ± SD  59.8 ± 11.9  1.00 (0.99-1.00, p=.660)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex                            Mean ± SD  0.5 ± 0.5    0.96 (0.84-1.09, p=.507)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                       Mean ± SD  0.2 ± 0.4    1.24 (1.05-1.45, p=.009)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> perfor                         Mean ± SD  0.0 ± 0.2    1.22 (0.85-1.74, p=.275)   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> n=1858, events=920, Likelihood ratio test=44.77 on 6 df(p&lt;.001) </span>
 <span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,threshold<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Dependent: Surv(time, status)                 all          HR (univariable)         HR (multivariable)     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)             all          HR (univariable)          HR (multivariable)         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rx                                     Obs  630 (33.9%)                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  0.98 (0.84-1.14, p=.786)  0.98 (0.84-1.14, p=.802) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  0.64 (0.55-0.76, p&lt;.001)  0.65 (0.55-0.76, p&lt;.001) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (0.99-1.00, p=.382)  1.00 (0.99-1.00, p=.660) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  0.97 (0.85-1.10, p=.610)  0.96 (0.84-1.09, p=.507) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                         Mean ± SD    0.2 ± 0.4  1.27 (1.09-1.49, p=.003)  1.24 (1.05-1.45, p=.009) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perfor                           Mean ± SD    0.0 ± 0.2  1.30 (0.92-1.85, p=.142)  1.22 (0.85-1.74, p=.275) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rx                             Obs        630 (33.9%)                                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                Lev        620 (33.4%)  0.98 (0.84-1.14, p=.786)  0.98 (0.84-1.14, p=.802)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                Lev+5FU    608 (32.7%)  0.64 (0.55-0.76, p&lt;.001)  0.65 (0.55-0.76, p&lt;.001)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age                            Mean ± SD  59.8 ± 11.9  1.00 (0.99-1.00, p=.382)  1.00 (0.99-1.00, p=.660)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex                            Mean ± SD  0.5 ± 0.5    0.97 (0.85-1.10, p=.610)  0.96 (0.84-1.09, p=.507)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                       Mean ± SD  0.2 ± 0.4    1.27 (1.09-1.49, p=.003)  1.24 (1.05-1.45, p=.009)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> perfor                         Mean ± SD  0.0 ± 0.2    1.30 (0.92-1.85, p=.142)  1.22 (0.85-1.74, p=.275)   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> n=1858, events=920, Likelihood ratio test=44.77 on 6 df(p&lt;.001) </span>
 <span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,final<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -149,45 +149,45 @@ with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
 <span class="r-out co"><span class="r-pr">#&gt;</span> body has 7 row(s) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> original dataset sample: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Dependent: Surv(time, status)                 all          HR (univariable)         HR (multivariable)            HR (final)         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)             all          HR (univariable)          HR (multivariable)        HR (final)                 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rx                                     Obs  630 (33.9%)                                                                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  0.98 (0.84-1.14, p=.786)  0.98 (0.84-1.14, p=.781)  0.98 (0.84-1.14, p=.795) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  0.64 (0.55-0.76, p&lt;.001)  0.65 (0.55-0.76, p&lt;.001)  0.65 (0.55-0.76, p&lt;.001) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (0.99-1.00, p=.382)                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  0.97 (0.85-1.10, p=.610)                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rx                             Obs        630 (33.9%)                                                                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                Lev        620 (33.4%)  0.98 (0.84-1.14, p=.786)  0.98 (0.84-1.14, p=.781)  0.98 (0.84-1.14, p=.795)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                Lev+5FU    608 (32.7%)  0.64 (0.55-0.76, p&lt;.001)  0.65 (0.55-0.76, p&lt;.001)  0.65 (0.55-0.76, p&lt;.001)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age                            Mean ± SD  59.8 ± 11.9  1.00 (0.99-1.00, p=.382)                                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex                            Mean ± SD  0.5 ± 0.5    0.97 (0.85-1.10, p=.610)                                                       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> n=1858, events=920, Likelihood ratio test=44.14 on 4 df(p&lt;.001) </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">colon_s</span>,package<span class="op">=</span><span class="st">"finalfit"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">age.factor</span><span class="op">+</span><span class="va">sex.factor</span><span class="op">+</span><span class="va">obstruct.factor</span><span class="op">+</span><span class="va">perfor.factor</span>,data<span class="op">=</span><span class="va">colon_s</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,threshold<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Dependent: Surv(time, status)                   all          HR (univariable)         HR (multivariable)     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)               all          HR (univariable)          HR (multivariable)         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Age                                &lt;40 years    69 (7.6%)                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                  40-59 years  337 (37.1%)  0.76 (0.53-1.09, p=.132)  0.79 (0.55-1.13, p=.196) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    60+ years  502 (55.3%)  0.93 (0.66-1.31, p=.668)  0.98 (0.69-1.40, p=.926) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Sex                                   Female  437 (48.1%)                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                         Male  471 (51.9%)  1.01 (0.84-1.22, p=.888)  1.02 (0.85-1.23, p=.812) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Obstruction                               No  732 (80.6%)                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                          Yes  176 (19.4%)  1.29 (1.03-1.62, p=.028)  1.30 (1.03-1.64, p=.026) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Perforation                               No  881 (97.0%)                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                          Yes    27 (3.0%)  1.17 (0.70-1.95, p=.556)  1.08 (0.64-1.81, p=.785) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Age                            &lt;40 years    69 (7.6%)                                                         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                40-59 years  337 (37.1%)  0.76 (0.53-1.09, p=.132)  0.79 (0.55-1.13, p=.196)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                60+ years    502 (55.3%)  0.93 (0.66-1.31, p=.668)  0.98 (0.69-1.40, p=.926)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sex                            Female       437 (48.1%)                                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                Male         471 (51.9%)  1.01 (0.84-1.22, p=.888)  1.02 (0.85-1.23, p=.812)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Obstruction                    No           732 (80.6%)                                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                Yes          176 (19.4%)  1.29 (1.03-1.62, p=.028)  1.30 (1.03-1.64, p=.026)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Perforation                    No           881 (97.0%)                                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                Yes          27 (3.0%)    1.17 (0.70-1.95, p=.556)  1.08 (0.64-1.81, p=.785)   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> n=908, events=441, Likelihood ratio test=9.86 on 5 df(p=.079) </span>
 <span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,imputed<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Dependent: Surv(time, status)                   all          HR (univariable)         HR (multivariable)           HR (imputed)        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)               all          HR (univariable)          HR (multivariable)        HR (imputed)               </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Age                                &lt;40 years    69 (7.6%)                                                                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                  40-59 years  337 (37.1%)  0.76 (0.53-1.09, p=.132)  0.79 (0.55-1.14, p=.203)  0.77 (0.54-1.11, p=.163) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    60+ years  502 (55.3%)  0.93 (0.66-1.31, p=.668)  0.99 (0.70-1.40, p=.943)  0.96 (0.68-1.36, p=.818) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Sex                                   Female  437 (48.1%)                                                                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                         Male  471 (51.9%)  1.01 (0.84-1.22, p=.888)                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Obstruction                               No  732 (80.6%)                                                                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                          Yes  176 (19.4%)  1.29 (1.03-1.62, p=.028)  1.31 (1.04-1.64, p=.022)  1.31 (1.04-1.64, p=.021) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Perforation                               No  881 (97.0%)                                                                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                          Yes    27 (3.0%)  1.17 (0.70-1.95, p=.556)                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Age                            &lt;40 years    69 (7.6%)                                                                                   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                40-59 years  337 (37.1%)  0.76 (0.53-1.09, p=.132)  0.79 (0.55-1.14, p=.203)  0.77 (0.54-1.11, p=.163)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                60+ years    502 (55.3%)  0.93 (0.66-1.31, p=.668)  0.99 (0.70-1.40, p=.943)  0.96 (0.68-1.36, p=.818)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sex                            Female       437 (48.1%)                                                                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                Male         471 (51.9%)  1.01 (0.84-1.22, p=.888)                                                       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Obstruction                    No           732 (80.6%)                                                                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                Yes          176 (19.4%)  1.29 (1.03-1.62, p=.028)  1.31 (1.04-1.64, p=.022)  1.31 (1.04-1.64, p=.021)   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Perforation                    No           881 (97.0%)                                                                                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                Yes          27 (3.0%)    1.17 (0.70-1.95, p=.556)                                                       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> n=908, events=441, Likelihood ratio test=9.73 on 3 df(p=.021) </span>
 </code></pre></div>
