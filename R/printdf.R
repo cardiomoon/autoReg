@@ -10,6 +10,7 @@
 print.autoReg=function(x,...){
      printdf(x)
      if(!is.null(attr(x,"lik"))) cat(paste0(attr(x,"lik")," "))
+     if(!is.null(attr(x,"dev"))) cat(paste0(attr(x,"dev")," "))
      if(!is.null(attr(x,"add"))) cat(paste0(attr(x,"add"),collapse=","),"\n")
 }
 
@@ -21,11 +22,31 @@ print.autoReg=function(x,...){
 #'@return No return value, called for side effects
 printdf=function(x,showid=FALSE){
 
-     if(("autoReg" %in% class(x))&(showid==FALSE)) x$id=NULL
      if("autoReg" %in% class(x)) {
-          names(x)[1]=paste0("Dependent: ",attr(x,"yvars"))
-          names(x)[2]=" "
-          if(attr(x,"model")=="coxph") names(x)[3]="all"
+          if(is.null(attr(x,"summary"))){
+               if(showid==FALSE) x$id=NULL
+               names(x)[1]=paste0("Dependent: ",attr(x,"yvars"))
+               names(x)[2]=" "
+               if(attr(x,"model")=="coxph") names(x)[3]="all"
+          } else if(attr(x,"model") %in% c("coxph","glm")){
+               names(x)[1]=" "
+               for(i in 2:4){
+                    x[[i]]=sprintf("%.03f",x[[i]])
+               }
+               x[[5]]=p2character2(x[[5]],add.p=FALSE)
+               for(i in 6:8){
+                    x[[i]]=sprintf("%.02f",x[[i]])
+               }
+          } else{
+               names(x)[1]=" "
+               for(i in 2:4){
+                    x[[i]]=sprintf("%.03f",x[[i]])
+               }
+               x[[5]]=p2character2(x[[5]],add.p=FALSE)
+               for(i in 6:7){
+                    x[[i]]=sprintf("%.03f",x[[i]])
+               }
+          }
      }
      lengths1=map_int(x,maxnchar)
      lengths2=map_int(names(x),maxnchar)
@@ -39,7 +60,9 @@ printdf=function(x,showid=FALSE){
      drawline(lineno);cat("\n")
      if("imputedReg" %in% class(x)) {
           side=c(rep("right",1),rep("left",no-1))
-     } else {
+     } else if(!is.null(attr(x,"mode"))){
+          side=c(rep("right",1),rep("left",no-1))
+     } else{
           side=c(rep("right",2),rep("left",no-2))
      }
      list(x,lengths,side) %>% pmap_dfc(str_pad) ->x1
