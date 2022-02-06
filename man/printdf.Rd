@@ -36,6 +36,7 @@ Print function for data.frame
 x=mtcars[1:5,1:5]
 printdf(x)
 printdf(x,cols=2)
-printdf(x,rows=c(1,3),highlight=inverse)
 printdf(x,rows=c(1,3),cols=c(1,3))
+library(crayon)
+printdf(x,rows=c(1,3),highlight=inverse)
 }

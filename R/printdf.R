@@ -29,8 +29,9 @@ print.autoReg=function(x,...){
 #' x=mtcars[1:5,1:5]
 #' printdf(x)
 #' printdf(x,cols=2)
-#' printdf(x,rows=c(1,3),highlight=inverse)
 #' printdf(x,rows=c(1,3),cols=c(1,3))
+#' library(crayon)
+#' printdf(x,rows=c(1,3),highlight=inverse)
 #'@return No return value, called for side effects
 printdf=function(x,showid=FALSE,cols=NULL,rows=NULL,highlight=NULL,highlight.header=FALSE){
        # cols=NULL;rows=NULL;highlight=NULL;row=3;cols=2:3
