@@ -91,6 +91,9 @@
     <loc>https://cardiomoon.github.io/autoReg/reference/fit2final.html</loc>
   </url>
   <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/fit2lik.html</loc>
+  </url>
+  <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/fit2list.html</loc>
   </url>
   <url>
@@ -155,6 +158,12 @@
   </url>
   <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/modelPlot.html</loc>
+  </url>
+  <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/modelsSummary.html</loc>
+  </url>
+  <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/modelsSummaryTable.html</loc>
   </url>
   <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/my.chisq.test2.html</loc>
