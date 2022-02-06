@@ -1,16 +1,22 @@
 #'@describeIn gaze default S3 method
+#'@importFrom tibble as_tibble
 #'@export
 #'@examples
 #'library(survival)
-#'fit=coxph(Surv(time,status) ~rx*logWBC,data=anderson1)
-#'gaze(fit)
+#'x=coxph(Surv(time,status) ~rx,data=anderson1)
+#'gaze(x)
+#'x=coxph(Surv(time,status) ~rx*logWBC,data=anderson1)
+#'gaze(x)
 gaze.coxph=function(x,...){
-     df=as.data.frame(summary(x)$coef[,c(1,3,4,5)])
-     df1=as.data.frame(summary(x)$conf.int)
+     df=as_tibble(summary(x)$coef)
+     df=df[-2]
+     df
+     df1=as_tibble(summary(x)$conf.int)
      df$HR=df1[[1]]
      df$lower=df1[[3]]
      df$upper=df1[[4]]
-     df$var=rownames(df)
+     df$var=rownames(summary(x)$coef)
+     df
      df<-df %>% dplyr::select(.data$var,everything())
 
      attr(df,"yvars")=attr(attr(x$terms,"dataClasses"),"names")[1]
