@@ -4,16 +4,38 @@
 \alias{printdf}
 \title{Print function for data.frame}
 \usage{
-printdf(x, showid = FALSE)
+printdf(
+  x,
+  showid = FALSE,
+  cols = NULL,
+  rows = NULL,
+  highlight = NULL,
+  highlight.header = FALSE
+)
 }
 \arguments{
 \item{x}{A data.frame}
 
 \item{showid}{logical if TRUE, show id}
+
+\item{cols}{Numeric Columns to be hightlighted}
+
+\item{rows}{Numeric Rows to be hightlighted}
+
+\item{highlight}{style of highlight}
+
+\item{highlight.header}{logical Whether or not highlight header}
 }
 \value{
 No return value, called for side effects
 }
 \description{
 Print function for data.frame
+}
+\examples{
+x=mtcars[1:5,1:5]
+printdf(x)
+printdf(x,cols=2)
+printdf(x,rows=c(1,3),highlight=inverse)
+printdf(x,rows=c(1,3),cols=c(1,3))
 }

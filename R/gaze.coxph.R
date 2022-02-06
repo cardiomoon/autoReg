@@ -1,5 +1,4 @@
 #'@describeIn gaze default S3 method
-#'@importFrom tibble as_tibble
 #'@export
 #'@examples
 #'library(survival)
@@ -8,10 +7,9 @@
 #'x=coxph(Surv(time,status) ~rx*logWBC,data=anderson1)
 #'gaze(x)
 gaze.coxph=function(x,...){
-     df=as_tibble(summary(x)$coef)
+     df=as.data.frame(summary(x)$coef)
      df=df[-2]
-     df
-     df1=as_tibble(summary(x)$conf.int)
+     df1=as.data.frame(summary(x)$conf.int)
      df$HR=df1[[1]]
      df$lower=df1[[3]]
      df$upper=df1[[4]]

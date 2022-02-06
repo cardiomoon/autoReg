@@ -19,7 +19,7 @@ Imports:
    moonBook(>= 0.3.0),
    nortest,
    dplyr,
-   tibble,
+   crayon,
    stringr,
    tidyselect,
    tidyr,
