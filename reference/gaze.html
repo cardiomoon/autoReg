@@ -343,20 +343,20 @@ with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="va">x</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span> <span class="op">~</span><span class="va">rx</span>,data<span class="op">=</span><span class="va">anderson1</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">gaze</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               coef  se(coef)      z  Pr(&gt;|z|)    HR  lower  upper </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rxControl    1.572     0.412  3.812     &lt;.001  4.82   2.15  10.81 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  coef  se(coef)       z  Pr(&gt;|z|)    HR  lower  upper </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rxTreatment    -1.572     0.412  -3.812     &lt;.001  0.21   0.09   0.47 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> n=42, events=30, Likelihood ratio test=16.35 on 1 df (p&lt;.001) </span>
 <span class="r-in"><span class="va">x</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span> <span class="op">~</span><span class="va">rx</span><span class="op">*</span><span class="va">logWBC</span>,data<span class="op">=</span><span class="va">anderson1</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">gaze</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                       coef  se(coef)       z  Pr(&gt;|z|)     HR  lower   upper </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                         coef  se(coef)       z  Pr(&gt;|z|)    HR  lower  upper </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rxControl            2.375     1.705   1.393      .164  10.75   0.38  304.16 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> logWBC               1.872     0.451   4.148     &lt;.001   6.50   2.69   15.75 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rxControl:logWBC    -0.318     0.526  -0.604      .546   0.73   0.26    2.04 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rxTreatment           -2.375     1.705  -1.393      .164  0.09   0.00   2.63 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> logWBC                 1.555     0.399   3.900     &lt;.001  4.73   2.17  10.34 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rxTreatment:logWBC     0.318     0.526   0.604      .546  1.37   0.49   3.85 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> n=42, events=30, Likelihood ratio test=47.07 on 3 df (p&lt;.001) </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cancer</span>,package<span class="op">=</span><span class="st">"survival"</span><span class="op">)</span></span>
