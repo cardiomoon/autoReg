@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">autoReg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.7</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,13 +58,15 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">modelsSummary</span><span class="op">(</span><span class="va">fitlist</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">modelsSummary</span><span class="op">(</span><span class="va">fitlist</span>, show.lik <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>fitlist</dt>
 <dd><p>A list of objects of class "coxph"</p></dd>
+<dt>show.lik</dt>
+<dd><p>logical Whether or not show likelihood test results</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -79,24 +81,23 @@
 <span class="r-in"><span class="va">fit3</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span> <span class="op">~</span><span class="va">rx</span><span class="op">*</span><span class="va">logWBC</span>,data<span class="op">=</span><span class="va">anderson</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">fitlist</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit1</span>,<span class="va">fit2</span>,<span class="va">fit3</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">modelsSummary</span><span class="op">(</span><span class="va">fitlist</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                coef  se(coef)       z  Pr(&gt;|z|)    HR  lower  upper </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status), data=anderson </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                coef  se(coef)       z  Pr(&gt;|z|)     HR  lower   upper </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model 1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rx           -1.572     0.412  -3.812     &lt;.001  0.21   0.09   0.47 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rx           -1.572     0.412  -3.812     &lt;.001  0.208  0.093   0.466 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model 2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rx           -1.386     0.425  -3.263      .001  0.25   0.11   0.57 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> logWBC        1.691     0.336   5.034     &lt;.001  5.42   2.81  10.48 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rx           -1.386     0.425  -3.263      .001  0.250  0.109   0.575 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> logWBC        1.691     0.336   5.034     &lt;.001  5.424  2.808  10.478 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model 3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rx           -2.375     1.705  -1.393      .164  0.09   0.00   2.63 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> logWBC        1.555     0.399   3.900     &lt;.001  4.73   2.17  10.34 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rx:logWBC     0.318     0.526   0.604      .546  1.37   0.49   3.85 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model  1 : coxph(formula=Surv(time,status)~rx,data=anderson) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model  2 : coxph(formula=Surv(time,status)~rx+logWBC,data=anderson) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model  3 : coxph(formula=Surv(time,status)~rx*logWBC,data=anderson) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rx           -2.375     1.705  -1.393      .164  0.093  0.003   2.632 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> logWBC        1.555     0.399   3.900     &lt;.001  4.735  2.167  10.342 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rx:logWBC     0.318     0.526   0.604      .546  1.374  0.490   3.850 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
