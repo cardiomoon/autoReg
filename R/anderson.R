@@ -8,7 +8,7 @@
 #' \item{status}{censoring status 1=failure 0=censored}
 #' \item{sex}{sex 1=Female 0=Male}
 #' \item{logWBC}{log white blood cell count}
-#' \item{rx}{treatment status 1=treatment 0 =control}
+#' \item{rx}{treatment status 1=control 0 =treatment}
 #' }
 #' @source David G. Kleinbaum and Mitchel Klein. Survival Analysis. A Self-Learning Text(3rd ed)(Springer,2012) ISBN: 978-1441966452
 "anderson"
