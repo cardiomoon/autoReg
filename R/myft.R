@@ -13,6 +13,11 @@
 #' library(dplyr)
 #' gaze(acs) %>% myft()
 #' gaze(sex~.,acs) %>% myft()
+#' fit=lm(mpg~hp*wt,data=mtcars)
+#' gaze(fit) %>% myft()
+#' library(survival)
+#' fit=coxph(Surv(time,status) ~rx,data=anderson1)
+#' gaze(fit) %>% myft()
 #' \donttest{
 #' gaze(sex+Dx~.,data=acs,show.p=TRUE,show.total=TRUE,show.n=TRUE,shiw.missing=TRUE) %>% myft()
 #' gaze(Dx+sex~cardiogenicShock,data=acs,show.p=TRUE) %>% myft()
@@ -21,7 +26,7 @@
 #' @return An object of class \code{\link[flextable]{flextable}}
 #' @export
 myft=function(x,vanilla=TRUE,fontsize=10,digits,showid=FALSE,...){
-
+      # vanilla=TRUE;fontsize=10;digits=2;showid=FALSE
      if("imputedReg" %in% class(x)){
           if(missing(digits)) digits=c(1,4,4,4,2,4,4,4,4,4,4,1)
      } else if("autoReg" %in% class(x)) {
@@ -33,25 +38,26 @@ myft=function(x,vanilla=TRUE,fontsize=10,digits,showid=FALSE,...){
                names(x)[2]=" "
                if(attr(x,"model")=="coxph") names(x)[3]="all"
 
-          } else if(attr(x,"model") %in% c("coxph","glm")){
-               names(x)[1]=" "
-               for(i in 2:4){
-                    x[[i]]=sprintf("%.03f",x[[i]])
-               }
-               x[[5]]=p2character2(x[[5]],add.p=FALSE)
-               for(i in 6:8){
-                    x[[i]]=sprintf("%.02f",x[[i]])
-               }
-          } else{
-               names(x)[1]=" "
-               for(i in 2:4){
-                    x[[i]]=sprintf("%.03f",x[[i]])
-               }
-               x[[5]]=p2character2(x[[5]],add.p=FALSE)
-               for(i in 6:7){
-                    x[[i]]=sprintf("%.03f",x[[i]])
-               }
           }
+          # else if(attr(x,"model") %in% c("coxph","glm")){
+          #      names(x)[1]=" "
+          #      for(i in 2:4){
+          #           x[[i]]=sprintf("%.03f",x[[i]])
+          #      }
+          #      x[[5]]=p2character2(x[[5]],add.p=FALSE)
+          #      for(i in 6:8){
+          #           x[[i]]=sprintf("%.02f",x[[i]])
+          #      }
+          # } else{
+          #      names(x)[1]=" "
+          #      for(i in 2:4){
+          #           x[[i]]=sprintf("%.03f",x[[i]])
+          #      }
+          #      x[[5]]=p2character2(x[[5]],add.p=FALSE)
+          #      for(i in 6:7){
+          #           x[[i]]=sprintf("%.03f",x[[i]])
+          #      }
+          # }
 
 
      } else if(("gaze" %in% class(x))&(showid==FALSE)) {
@@ -101,7 +107,7 @@ myft=function(x,vanilla=TRUE,fontsize=10,digits,showid=FALSE,...){
           ft=footnote(ft,i=1,j=1:2,value=as_paragraph(temp),ref_symbols="",part="body")
           if(!is.null(attr(x,"model"))){
                  if(attr(x,"model")=="coxph") {
-                      ft=merge_at(ft,i=1,j=1:2,part="header")
+                      if(is.null(attr(x,"summary"))) ft=merge_at(ft,i=1,j=1:2,part="header")
                  }
           }
      }
