@@ -22,7 +22,7 @@ gaze.coxph=function(x,...){
      attr(df,"lik")=fit2lik(x)
      attr(df,"summary")=TRUE
      class(df)=c("autoReg","data.frame")
-     df
+     myformat(df)
 }
 
 #' extract likelihood information with a coxph object
@@ -69,7 +69,7 @@ gaze.glm=function(x,...){
      attr(df,"dev")=temp
      attr(df,"summary")=TRUE
      class(df)=c("autoReg","data.frame")
-     df
+     myformat(df)
 }
 
 #'@describeIn gaze default S3 method
@@ -102,5 +102,5 @@ gaze.lm=function(x,...){
      attr(df,"add")=temp
      attr(df,"summary")=TRUE
      class(df)=c("autoReg","data.frame")
-     df
+     myformat(df)
 }

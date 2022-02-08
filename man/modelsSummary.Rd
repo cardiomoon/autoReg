@@ -4,10 +4,12 @@
 \alias{modelsSummary}
 \title{Makes table summarizing list of models}
 \usage{
-modelsSummary(fitlist)
+modelsSummary(fitlist, show.lik = FALSE)
 }
 \arguments{
 \item{fitlist}{A list of objects of class "coxph"}
+
+\item{show.lik}{logical Whether or not show likelihood test results}
 }
 \value{
 No return value, called for side effects

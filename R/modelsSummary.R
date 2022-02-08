@@ -1,5 +1,6 @@
 #' Makes table summarizing list of models
 #' @param fitlist A list of objects of class "coxph"
+#' @param show.lik logical Whether or not show likelihood test results
 #' @return No return value, called for side effects
 #' @export
 #' @examples
@@ -9,7 +10,7 @@
 #'fit3=coxph(Surv(time,status) ~rx*logWBC,data=anderson)
 #'fitlist=list(fit1,fit2,fit3)
 #'modelsSummary(fitlist)
-modelsSummary=function(fitlist){
+modelsSummary=function(fitlist,show.lik=FALSE){
      dflist=map(fitlist,gaze)
      count=length(fitlist)
      lik=map_chr(fitlist,fit2lik)
@@ -17,31 +18,23 @@ modelsSummary=function(fitlist){
      df=reduce(dflist,rbind)
      df=as.data.frame(df)
      df
-     names(df)[1]=" "
-     for(i in 2:4){
-          df[[i]]=sprintf("%.03f",df[[i]])
-     }
-     df[[5]]=p2character2(df[[5]],add.p=FALSE)
-     for(i in 6:8){
-          df[[i]]=sprintf("%.02f",df[[i]])
-     }
-     df
+      class(df)=c("autoReg","data.frame")
+      attr(df,"summary")=TRUE
 
-     no=lapply(dflist,nrow)
-     lengths1=map_int(df,maxnchar)
-     lengths2=map_int(names(df),maxnchar)
-     lengths=pmax(lengths1,lengths2)+2
-     lineno=sum(lengths)
+     no=unlist(lapply(dflist,nrow))
+     no
 
-     collength=ncol(df)
-     side=c(rep("right",1),rep("left",collength-1))
-
-     list(names(df),lengths,side) %>% pmap_chr(str_pad) -> header
+     df1=as_printable(df)
+     df1
+     temp=paste0(deparse(fitlist[[1]]$call),collapse="")
+     dataname=gsub(")","",unlist(strsplit(temp,"data = "))[2])
+     temp=paste0("\nDependent: ", attr(dflist[[3]],"yvar"),", data=",dataname)
+     cat(temp,"\n")
+     lineno=sum(nchar(names(df1)))
      drawline(lineno);cat("\n")
-     cat(paste0(header,collapse=""),"\n")
+     cat(paste0(names(df1),collapse=""),"\n")
      drawline(lineno);cat("\n")
 
-     list(df,lengths,side) %>% pmap_dfc(str_pad) ->df1
      start=1
      i=1
      for(i in 1:count){
@@ -53,8 +46,9 @@ modelsSummary=function(fitlist){
           drawline(lineno);cat("\n")
           start=start+no[[i]]
      }
-     for(i in 1:count){
-          cat("Model ",i,":",attr(dflist[[i]],"call"),"\n")
+     if(show.lik){
+          footer=paste0(paste("Model",1:3,":",map_chr(fitlist,fit2lik),collapse="\n"))
+          cat(footer,"\n")
      }
 }
 
@@ -86,14 +80,6 @@ modelsSummaryTable=function(fitlist,labels=NULL,show.lik=FALSE){
      df=reduce(dflist,rbind)
      df=as.data.frame(df)
      df
-     names(df)[1]=" "
-     for(i in 2:4){
-          df[[i]]=sprintf("%.03f",df[[i]])
-     }
-     df[[5]]=p2character2(df[[5]],add.p=FALSE)
-     for(i in 6:8){
-          df[[i]]=sprintf("%.02f",df[[i]])
-     }
      no=unlist(lapply(dflist,nrow))
      no
      no1=cumsum(no)+(1:length(no))

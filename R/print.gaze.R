@@ -1,5 +1,6 @@
 #'Return maximum character number except NA
 #'@param x a vector
+#'@importFrom crayon col_nchar
 #'@examples
 #'x=c(1,2,"sadf",NA)
 #'maxnchar(x)
@@ -9,7 +10,7 @@
 #'@export
 maxnchar=function(x){
     x[is.na(x)]=""
-    max(nchar(x))
+    max(col_nchar(x))
 }
 
 #' S3 method print for an object of class gaze

@@ -5,6 +5,7 @@
 #'@return A character vector
 #'@export
 p2character2=function(x,digits=3,add.p=TRUE){
+     if(is.numeric(x)){
      cut = 1/(10^digits)
      temp = sprintf(paste0("%.", digits, "f"), x)
      temp = stringr::str_replace(temp, "^0", "")
@@ -27,6 +28,10 @@ p2character2=function(x,digits=3,add.p=TRUE){
                     temp[i]
                }
           }
+     }
+     temp
+     } else{
+         temp=x
      }
      temp
 }
