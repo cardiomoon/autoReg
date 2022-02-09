@@ -58,7 +58,17 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">expectedPlot2</span><span class="op">(</span><span class="va">fit</span>, xname <span class="op">=</span> <span class="cn">NULL</span>, maxy.lev <span class="op">=</span> <span class="fl">5</span>, median <span class="op">=</span> <span class="cn">TRUE</span>, se <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">expectedPlot2</span><span class="op">(</span>
+  <span class="va">fit</span>,
+  xname <span class="op">=</span> <span class="cn">NULL</span>,
+  no <span class="op">=</span> <span class="fl">2</span>,
+  maxy.lev <span class="op">=</span> <span class="fl">5</span>,
+  median <span class="op">=</span> <span class="cn">TRUE</span>,
+  mark.time <span class="op">=</span> <span class="cn">FALSE</span>,
+  se <span class="op">=</span> <span class="cn">FALSE</span>,
+  type <span class="op">=</span> <span class="st">"ggplot"</span>,
+  <span class="va">...</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -67,12 +77,18 @@
 <dd><p>An object of class "coxph"</p></dd>
 <dt>xname</dt>
 <dd><p>Character Name of explanatory variable to plot</p></dd>
+<dt>no</dt>
+<dd><p>integer Number of groups to be made</p></dd>
 <dt>maxy.lev</dt>
 <dd><p>Integer Maximum unique length of a numeric variable to be treated as categorical variables</p></dd>
 <dt>median</dt>
 <dd><p>Logical</p></dd>
+<dt>mark.time</dt>
+<dd><p>logical Whether or not mark time</p></dd>
 <dt>se</dt>
 <dd><p>logical Whether or not show se</p></dd>
+<dt>type</dt>
+<dd><p>Character "plot" or "ggplot"</p></dd>
 <dt>...</dt>
 <dd><p>further arguments to be passed to plot.survfit</p></dd>
 </dl></div>
@@ -88,6 +104,9 @@
 <span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">age</span><span class="op">+</span><span class="va">sex</span>,data <span class="op">=</span><span class="va">colon</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">expectedPlot2</span><span class="op">(</span><span class="va">fit</span>,xname<span class="op">=</span><span class="st">"age"</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="expectedPlot2-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">logWBC</span>,data<span class="op">=</span><span class="va">anderson</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">expectedPlot2</span><span class="op">(</span><span class="va">fit</span>,xname<span class="op">=</span><span class="st">"logWBC"</span>,no<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="expectedPlot2-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
