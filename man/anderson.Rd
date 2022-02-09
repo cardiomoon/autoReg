@@ -11,7 +11,7 @@ A data.frame with 42 rows and 5 variables
 \item{status}{censoring status 1=failure 0=censored}
 \item{sex}{sex 1=Female 0=Male}
 \item{logWBC}{log white blood cell count}
-\item{rx}{treatment status 1=treatment 0 =control}
+\item{rx}{treatment status 1=control 0 =treatment}
 }
 }
 \source{
