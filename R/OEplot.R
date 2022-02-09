@@ -1,6 +1,7 @@
 #' Draw an Observed vs Expected plot
 #' @param fit An object of class "coxph"
 #' @param xnames Character Names of explanatory variable to plot
+#' @param no integer Number of groups to be made
 #' @param maxy.lev Integer Maximum unique length of a numeric variable to be treated as categorical variables
 #' @param median logical
 #' @return  No return value, called for side effects
@@ -8,6 +9,7 @@
 #' @importFrom graphics legend lines title
 #' @importFrom purrr map2_chr
 #' @importFrom scales hue_pal
+#' @importFrom moonBook rank2group
 #' @export
 #' @examples
 #' library(survival)
@@ -15,16 +17,38 @@
 #'fit=coxph(Surv(time,status)~rx,data=colon)
 #'fit=coxph(Surv(time,status)~rx+age+strata(sex),data=colon)
 #'OEplot(fit)
-OEplot=function(fit,xnames=NULL,maxy.lev=5,median=TRUE){
+#'fit=coxph(Surv(time,status)~age,data=colon)
+#'OEplot(fit)
+#'fit=coxph(Surv(time,status)~logWBC,data=anderson)
+#'OEplot(fit)
+OEplot=function(fit,xnames=NULL,no=3,maxy.lev=5,median=TRUE){
      #     xname="grp";maxy.lev=5
-           # xnames=NULL;maxy.lev=5
-     newdata=fit2newdata(fit,xnames=xnames,maxy.lev=maxy.lev,median=median)
-
+                 # xnames=NULL;maxy.lev=5;median=TRUE;no=3
      data=fit2model(fit)
      xvars = attr(fit$terms, "term.labels")
      xvars
      if(is.null(xnames)) xnames=xvars[1]
+     newdata=fit2newdata(fit,xnames=xnames,maxy.lev=maxy.lev,median=median)
      labels=attr(newdata,"labels")
+
+     if((length(xnames)==1) &(is.mynumeric(data[[xnames]]))){
+          data$temp=rank2group(data[[xnames]],no)
+          if(no==3) {
+               labs=c("Low","Medum","High")
+          } else{
+               labs=1:no
+          }
+          data$temp = factor(data$temp, levels = 1:no, labels = labs)
+          data[[xnames]]=data$temp
+           string=paste(unlist(strsplit(deparse(fit$terms),"~"))[1],"~",xnames)
+           temp=paste0("coxph(",string,",data=data)")
+           fit=eval(parse(text=temp))
+           newdata=data.frame(labs)
+           names(newdata)=xnames
+           labels=labs
+     }
+
+
      no=length(labels)
      col=scales::hue_pal()(no)
      fit1=survfit(fit,newdata=newdata)

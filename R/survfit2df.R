@@ -1,5 +1,6 @@
 #' Extract survival data from an object of class "survfit"
 #' @param fit An object of class "survfit"
+#' @param labels Character
 #' @importFrom purrr map_dfc
 #' @return A data.frame
 #' @export
@@ -8,11 +9,15 @@
 #'data(cancer,package="survival")
 #'fit=survfit(Surv(time,status)~rx+sex+age,data=colon)
 #'survfit2df(fit)
-survfit2df=function(fit){
-     cols=c("time","n.risk","n.event","n.censor","surv","std.err","upper","lower")
-     suppressMessages(res<-map_dfc(cols,~fit[[.]]))
-     names(res)=cols
+survfit2df=function(fit,labels=NULL){
      if(!is.null(fit$strata)){
+          if(!is.null(labels)) {
+               names(fit$strata)=labels
+          }
+         cols=c("time","n.risk","n.event","n.censor","surv","std.err","upper","lower")
+         suppressMessages(res<-map_dfc(cols,~fit[[.]]))
+         names(res)=cols
+
           strata=c()
           for(i in seq_along(fit$strata)){
                x=fit$strata[i]
@@ -26,6 +31,36 @@ survfit2df=function(fit){
                stratalist[[x]]=stringr::str_replace(temp[i,],".*=","")
           }
           res=cbind(res,as.data.frame(stratalist))
+     } else{
+          cols=c("time","n.risk","n.event","n.censor")
+          suppressMessages(res<-map_dfc(cols,~fit[[.]]))
+          df=data.frame(time=0,n.risk=fit$n,n.event=0,n.censor=0)
+          names(res)=cols
+          res=rbind(df,res)
+          cols=c("surv","std.err","upper","lower")
+          strata=attr(fit$surv,"dimnames")[[2]]
+          no=length(strata)
+          suppressMessages(df<-map_dfc(cols,function(x){
+               temp=c()
+               for(j in 1:no){
+                   temp=c(temp,ifelse(x=="std.err",0,1))
+                   temp=c(temp,fit[[x]][,j])
+               }
+               temp
+          }))
+          names(df)=cols
+          temp=rep(strata,each=nrow(res))
+          df$strata=temp
+          df1=res
+          for(i in 2:no){
+               df1=rbind(df1,res)
+          }
+          res=cbind(df1,df)
+          if(!is.null(labels)) {
+               res$strata=rep(labels,each=nrow(res)/no)
+          }
+          res
+
      }
      res
 }

@@ -30,7 +30,7 @@ fit2newdata=function(fit,xnames=NULL,maxy.lev=5,median=TRUE,digits=1){
      no=length(xnames)
      for(i in seq_along(xnames)){
      if(is.mynumeric(df[[xnames[i]]],maxy.lev=maxy.lev)){
-          result[[i]]=fivenum(df[[xnames[i]]])[c(1,3,5)]
+          result[[i]]=fivenum(df[[xnames[i]]])[c(2,3,4)]
 
      } else{
           result[[i]]=sort(unique(df[[xnames[i]]]))

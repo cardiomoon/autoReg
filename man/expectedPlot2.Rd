@@ -4,18 +4,34 @@
 \alias{expectedPlot2}
 \title{Draw an expected plot for a numeric predictor}
 \usage{
-expectedPlot2(fit, xname = NULL, maxy.lev = 5, median = TRUE, se = FALSE, ...)
+expectedPlot2(
+  fit,
+  xname = NULL,
+  no = 2,
+  maxy.lev = 5,
+  median = TRUE,
+  mark.time = FALSE,
+  se = FALSE,
+  type = "ggplot",
+  ...
+)
 }
 \arguments{
 \item{fit}{An object of class "coxph"}
 
 \item{xname}{Character Name of explanatory variable to plot}
 
+\item{no}{integer Number of groups to be made}
+
 \item{maxy.lev}{Integer Maximum unique length of a numeric variable to be treated as categorical variables}
 
 \item{median}{Logical}
 
+\item{mark.time}{logical Whether or not mark time}
+
 \item{se}{logical Whether or not show se}
+
+\item{type}{Character "plot" or "ggplot"}
 
 \item{...}{further arguments to be passed to plot.survfit}
 }
@@ -30,4 +46,6 @@ library(survival)
 data(cancer,package="survival")
 fit=coxph(Surv(time,status)~age+sex,data =colon)
 expectedPlot2(fit,xname="age")
+fit=coxph(Surv(time,status)~rx+logWBC,data=anderson)
+expectedPlot2(fit,xname="logWBC",no=3)
 }

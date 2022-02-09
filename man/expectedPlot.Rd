@@ -11,6 +11,7 @@ expectedPlot(
   median = TRUE,
   facet = NULL,
   se = FALSE,
+  mark.time = FALSE,
   type = "ggplot",
   ...
 )
@@ -28,6 +29,8 @@ expectedPlot(
 
 \item{se}{logical Whether or not show se}
 
+\item{mark.time}{logical Whether or not mark time}
+
 \item{type}{Character plot type}
 
 \item{...}{further arguments to be passed to plot.survfit}
@@ -40,8 +43,12 @@ Draw an expected plot
 }
 \examples{
 library(survival)
+fit=coxph(Surv(time,status)~rx+logWBC,data=anderson)
+expectedPlot(fit,type="plot")
+expectedPlot(fit)
 data(cancer,package="survival")
 fit=coxph(Surv(time,status)~rx+strata(sex)+age+differ,data =colon)
 expectedPlot(fit,xnames=c("sex"))
+expectedPlot(fit,xnames=c("sex","rx"))
 expectedPlot(fit,xnames=c("rx","sex","differ"),facet=c("sex","rx"))
 }

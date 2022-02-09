@@ -4,12 +4,14 @@
 \alias{OEplot}
 \title{Draw an Observed vs Expected plot}
 \usage{
-OEplot(fit, xnames = NULL, maxy.lev = 5, median = TRUE)
+OEplot(fit, xnames = NULL, no = 3, maxy.lev = 5, median = TRUE)
 }
 \arguments{
 \item{fit}{An object of class "coxph"}
 
 \item{xnames}{Character Names of explanatory variable to plot}
+
+\item{no}{integer Number of groups to be made}
 
 \item{maxy.lev}{Integer Maximum unique length of a numeric variable to be treated as categorical variables}
 
@@ -26,5 +28,9 @@ library(survival)
 data(cancer,package="survival")
 fit=coxph(Surv(time,status)~rx,data=colon)
 fit=coxph(Surv(time,status)~rx+age+strata(sex),data=colon)
+OEplot(fit)
+fit=coxph(Surv(time,status)~age,data=colon)
+OEplot(fit)
+fit=coxph(Surv(time,status)~logWBC,data=anderson)
 OEplot(fit)
 }

@@ -4,10 +4,12 @@
 \alias{survfit2df}
 \title{Extract survival data from an object of class "survfit"}
 \usage{
-survfit2df(fit)
+survfit2df(fit, labels = NULL)
 }
 \arguments{
 \item{fit}{An object of class "survfit"}
+
+\item{labels}{Character}
 }
 \value{
 A data.frame
