@@ -2,6 +2,9 @@
 #'@param fit An object of class coxph
 #'@param type character One of the c("martingale","deviance","score","schoenfeld",
 #'"dfbeta","dfbetas","scaledsch","partial"). Default value is "martingale".
+#'@param vars character Names of variables to plot. default value is NULL
+#'@param show.point logical Whether or not show point
+#'@param se logical Whether or not show se
 #'@importFrom patchwork wrap_plots plot_annotation
 #'@importFrom graphics legend lines
 #'@importFrom stats residuals
@@ -14,14 +17,16 @@
 #'data(cancer)
 #'fit=coxph(Surv(time,status==2)~log(bili)+age+cluster(edema),data=pbc)
 #'residualPlot(fit)
+#'residualPlot(fit,var="age")
 #'fit=coxph(Surv(time,status==2)~age,data=pbc)
 #'residualPlot(fit)
 #'residualPlot(fit,"partial")
-residualPlot=function(fit,type="martingale"){
+residualPlot=function(fit,type="martingale",vars=NULL,show.point=TRUE,se=TRUE){
        # type="partial"
      data=fit2model(fit)
      r1=residuals(fit,type=type)
      xvars=attr(fit$term,"term.labels")
+     if(!is.null(vars)) xvars=intersect(xvars,vars)
 
      y = as.character(fit$formula)[2]
      temp1=str_remove_all(y,"Surv\\(|\\)| ")
@@ -53,28 +58,30 @@ residualPlot=function(fit,type="martingale"){
                    df=data.frame(x=data[[x]],y=r1[[x]])
 
                    if(is.mynumeric(df$x)){
-                        ggplot(df,aes_string(x="x",y="y"))+
-                             geom_point(alpha=0.3)+
-                             stat_smooth(method="loess",formula="y~x")+
-                             labs(y=type,x=x)+
+                        p=ggplot(df,aes_string(x="x",y="y"))
+                        if(show.point) p=p+geom_point(alpha=0.3)
+                        if(se) p=p+stat_smooth(method="loess",formula="y~x")
+                        p=p+labs(y=type,x=x)+
                              theme_classic()
+                        p
                    } else{
                         if(is.numeric(df$x)){
                              df$x=factor(df$x)
                         }
-                        ggplot(df,aes_string(x="x",y="y"))+
-                             geom_boxplot()+
-                             geom_jitter(width=0.2,alpha=0.1)+
-                             labs(y=type,x=x)+
+                        p=ggplot(df,aes_string(x="x",y="y"))+
+                             geom_boxplot()
+                        if(show.point) p=p+geom_jitter(width=0.2,alpha=0.1)
+                        p=p+labs(y=type,x=x)+
                              theme_classic()
+                        p
                    }
                } else{
 
                     colnames(r1)[colnames(r1)==x]="y"
-                    p=ggplot(data=r1,aes_string(x="index",y="y"))+
-                         geom_point(alpha=0.2)+
-                         stat_smooth(method="loess",formula="y~x")+
-                         labs(y=paste0(type,"(",x,")"))+
+                    p=ggplot(data=r1,aes_string(x="index",y="y"))
+                    if(show.point) p=p+ geom_point(alpha=0.2)
+                    if(se) p=p+ stat_smooth(method="loess",formula="y~x")
+                    p=p+ labs(y=paste0(type,"(",x,")"))+
                          theme_classic()
                     colnames(r1)[colnames(r1)=="y"]=x
                     p
@@ -90,21 +97,23 @@ residualPlot=function(fit,type="martingale"){
      data
      p=map(xvars,function(x){
               if(is.mynumeric(data[[x]])){
-                   ggplot(data,aes_string(x=x,y="r1"))+
-                        geom_point(alpha=0.3)+
-                        stat_smooth(method="loess",formula="y~x")+
-                        labs(y=paste0(type," residual"))+
+                   p=ggplot(data,aes_string(x=x,y="r1"))
+                   if(show.point) p=p+geom_point(alpha=0.3)
+                   if(se) p=p+ stat_smooth(method="loess",formula="y~x")
+                   p=p+ labs(y=paste0(type," residual"))+
                         theme_classic()
+                   p
 
               } else{
                    if(is.numeric(data[[x]])){
                         data[[x]]=factor(data[[x]])
                    }
-                   ggplot(data,aes_string(x,y="r1"))+
-                        geom_boxplot()+
-                        geom_jitter(width=0.2,alpha=0.1)+
-                        labs(y=paste0(type," residual"))+
+                   p=p+ggplot(data,aes_string(x,y="r1"))+
+                        geom_boxplot()
+                  if(show.point) p=p+ geom_jitter(width=0.2,alpha=0.1)
+                  p=p+ labs(y=paste0(type," residual"))+
                         theme_classic()
+                  p
               }
           })
 

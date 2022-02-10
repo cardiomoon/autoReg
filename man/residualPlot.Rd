@@ -4,13 +4,25 @@
 \alias{residualPlot}
 \title{Draw a residual plot with an object of class coxph}
 \usage{
-residualPlot(fit, type = "martingale")
+residualPlot(
+  fit,
+  type = "martingale",
+  vars = NULL,
+  show.point = TRUE,
+  se = TRUE
+)
 }
 \arguments{
 \item{fit}{An object of class coxph}
 
 \item{type}{character One of the c("martingale","deviance","score","schoenfeld",
 "dfbeta","dfbetas","scaledsch","partial"). Default value is "martingale".}
+
+\item{vars}{character Names of variables to plot. default value is NULL}
+
+\item{show.point}{logical Whether or not show point}
+
+\item{se}{logical Whether or not show se}
 }
 \value{
 A patchwork object
@@ -23,6 +35,7 @@ require(survival)
 data(cancer)
 fit=coxph(Surv(time,status==2)~log(bili)+age+cluster(edema),data=pbc)
 residualPlot(fit)
+residualPlot(fit,var="age")
 fit=coxph(Surv(time,status==2)~age,data=pbc)
 residualPlot(fit)
 residualPlot(fit,"partial")
