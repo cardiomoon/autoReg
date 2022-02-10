@@ -39,4 +39,6 @@ residualPlot(fit,var="age")
 fit=coxph(Surv(time,status==2)~age,data=pbc)
 residualPlot(fit)
 residualPlot(fit,"partial")
+fit=coxph(Surv(time,status)~rx+sex+logWBC,data=anderson)
+residualPlot(fit)
 }

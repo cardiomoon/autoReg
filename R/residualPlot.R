@@ -21,8 +21,11 @@
 #'fit=coxph(Surv(time,status==2)~age,data=pbc)
 #'residualPlot(fit)
 #'residualPlot(fit,"partial")
+#'fit=coxph(Surv(time,status)~rx+sex+logWBC,data=anderson)
+#'residualPlot(fit)
 residualPlot=function(fit,type="martingale",vars=NULL,show.point=TRUE,se=TRUE){
        # type="partial"
+     #type="martingale";vars=NULL;show.point=TRUE;se=TRUE
      data=fit2model(fit)
      r1=residuals(fit,type=type)
      xvars=attr(fit$term,"term.labels")
@@ -108,7 +111,7 @@ residualPlot=function(fit,type="martingale",vars=NULL,show.point=TRUE,se=TRUE){
                    if(is.numeric(data[[x]])){
                         data[[x]]=factor(data[[x]])
                    }
-                   p=p+ggplot(data,aes_string(x,y="r1"))+
+                   p=ggplot(data,aes_string(x,y="r1"))+
                         geom_boxplot()
                   if(show.point) p=p+ geom_jitter(width=0.2,alpha=0.1)
                   p=p+ labs(y=paste0(type," residual"))+
