@@ -21,7 +21,7 @@
 #'data(cancer,package="survival")
 #'fit=coxph(Surv(time,status)~rx+strata(sex)+age+differ,data =colon)
 #'expectedPlot(fit,xnames=c("sex"))
-#'expectedPlot(fit,xnames=c("sex","rx"))
+#'expectedPlot(fit,xnames=c("sex","rx"),facet="sex")
 #'expectedPlot(fit,xnames=c("rx","sex","differ"),facet=c("sex","rx"))
 expectedPlot=function(fit,xnames=NULL,maxy.lev=5,median=TRUE,facet=NULL,se=FALSE,mark.time=FALSE,type="ggplot",...){
      # xnames=c("sex","rx","differ");maxy.lev=5;median=TRUE;facet=c("rx","sex");se=TRUE
@@ -69,7 +69,7 @@ expectedPlot=function(fit,xnames=NULL,maxy.lev=5,median=TRUE,facet=NULL,se=FALSE
           p=p+ theme_classic()+
                theme(legend.title=element_blank(),panel.border=element_rect(fill=NA))+
                ylim(c(0,1))
-          p=p+labs(subtitle=label,y="Expected Survival")
+          p=p+labs(subtitle=label,y="Survival Rate")
           p
           }
 
@@ -108,7 +108,7 @@ expectedPlot=function(fit,xnames=NULL,maxy.lev=5,median=TRUE,facet=NULL,se=FALSE
                myformula=as.formula(paste0(facet[1],"~",facet[2]))
                p=p+facet_grid(myformula,labeller=label_both)
           }
-          p=p+labs(subtitle=label)
+          p=p+labs(subtitle=label,y="Survival Rate")
           p
      }
 }

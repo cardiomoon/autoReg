@@ -83,12 +83,13 @@ expectedPlot2=function(fit,xname=NULL,no=2,maxy.lev=5,median=TRUE,mark.time=FALS
      if(type=="plot"){
 
           plot(fit1,col=col,lwd=1,conf.int=se,mark.time=mark.time,...,
-               main=paste0("Expected Survival by ",paste0(xname,collapse=",")))
+               main=paste0("Survival Rate by ",paste0(xname,collapse=",")))
           legend("bottomleft",legend=labels,col=col,lwd=2)
           title(sub=label)
      } else{
           df=survfit2df(fit1,labels=labels)
-          df
+
+          df$strata=factor(df$strata, levels = labs)
           p= ggplot(df,aes_string(x="time",y="surv",group="strata",
                                   color="strata"))+
                geom_step()
@@ -101,7 +102,7 @@ expectedPlot2=function(fit,xname=NULL,no=2,maxy.lev=5,median=TRUE,mark.time=FALS
           p=p+ theme_classic()+
                theme(legend.title=element_blank(),panel.border=element_rect(fill=NA))+
                ylim(c(0,1))
-          p=p+labs(subtitle=label,y="Expected Survival")
+          p=p+labs(subtitle=label,y="Survival Rate")
           p
      }
 }
