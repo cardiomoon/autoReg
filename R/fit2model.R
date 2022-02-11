@@ -23,19 +23,26 @@ fit2model=function(fit){
           xvars
           timevar
 
+          if(!is.na(statusvar)){
           if(str_detect(statusvar,"==")) {
                statusvar=unlist(strsplit(statusvar,"=="))[1]
           } else if(str_detect(statusvar,"!=")) {
                   statusvar=unlist(strsplit(statusvar,"!="))[1]
 
           }
+          }
+
           add=xvars[str_detect(xvars,"strata\\(|cluster\\(|frailty\\(")]
           if(length(add)>0){
                xvars=setdiff(xvars,add)
                add=str_remove_all(add,"strata\\(|cluster\\(|frailty\\(|\\)")
                xvars=c(xvars,add)
           }
+          if(is.na(statusvar)){
+               myformula=paste0(timevar,"~",paste0(xvars,collapse="+"))
+          } else{
           myformula=paste0(timevar,"~",paste0(c(statusvar,xvars),collapse="+"))
+          }
           myformula
           fit0=lm(myformula,data=data)
           modelData=fit0$model

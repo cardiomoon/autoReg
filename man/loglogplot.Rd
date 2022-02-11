@@ -4,18 +4,16 @@
 \alias{loglogplot}
 \title{Draw log-log plot}
 \usage{
-loglogplot(fit, xnames = NULL, main = NULL, labels = NULL, maxy.lev = 5)
+loglogplot(fit, xnames = NULL, main = NULL, labels = NULL)
 }
 \arguments{
-\item{fit}{An object of class "coxph"}
+\item{fit}{An object of class "coxph" or "survfit"}
 
 \item{xnames}{character Names of explanatory variable to plot}
 
 \item{main}{String Title of plot}
 
 \item{labels}{String vector Used as legend in legend}
-
-\item{maxy.lev}{Integer Maximum unique length of a numeric variable to be treated as categorical variables}
 }
 \value{
 No return value, called for side effects
@@ -27,5 +25,6 @@ Draw log-log plot
 require(survival)
 data(cancer,package="survival")
 fit=coxph(Surv(time,status)~x,data=leukemia)
+fit=survfit(Surv(time,status)~sex,data=anderson)
 loglogplot(fit)
 }

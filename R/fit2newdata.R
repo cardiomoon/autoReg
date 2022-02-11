@@ -16,7 +16,7 @@
 #' fit2newdata(fit,pred.values=list(sex=0,age=58))
 fit2newdata=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,digits=1){
 
-         # xnames=NULL;maxy.lev=5;digits=1;pred.values=list(sex=1,age=58)
+          # xnames=NULL;maxy.lev=5;digits=1;pred.values=list(sex=1,age=58)
        # fit=coxph(Surv(time,status)~sex*age,data=colon)
      df=fit2model(fit)
      xvars = attr(fit$terms, "term.labels")
