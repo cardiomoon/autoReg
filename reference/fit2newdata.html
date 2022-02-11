@@ -58,7 +58,14 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">fit2newdata</span><span class="op">(</span><span class="va">fit</span>, xnames <span class="op">=</span> <span class="cn">NULL</span>, maxy.lev <span class="op">=</span> <span class="fl">5</span>, median <span class="op">=</span> <span class="cn">TRUE</span>, digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">fit2newdata</span><span class="op">(</span>
+  <span class="va">fit</span>,
+  xnames <span class="op">=</span> <span class="cn">NULL</span>,
+  pred.values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
+  maxy.lev <span class="op">=</span> <span class="fl">5</span>,
+  median <span class="op">=</span> <span class="cn">TRUE</span>,
+  digits <span class="op">=</span> <span class="fl">1</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -67,6 +74,8 @@
 <dd><p>An object of class "coxph"</p></dd>
 <dt>xnames</dt>
 <dd><p>character Names of explanatory variable to plot</p></dd>
+<dt>pred.values</dt>
+<dd><p>A list A list of predictor values</p></dd>
 <dt>maxy.lev</dt>
 <dd><p>Integer Maximum unique length of a numeric variable to be treated as categorical variables</p></dd>
 <dt>median</dt>
@@ -90,6 +99,11 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1     Obs  61   1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2     Lev  61   1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3 Lev+5FU  61   1</span>
+<span class="r-in"><span class="fu">fit2newdata</span><span class="op">(</span><span class="va">fit</span>,pred.values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sex<span class="op">=</span><span class="fl">0</span>,age<span class="op">=</span><span class="fl">58</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        rx age sex</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     Obs  58   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     Lev  58   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Lev+5FU  58   0</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
