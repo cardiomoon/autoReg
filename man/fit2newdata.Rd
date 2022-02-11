@@ -4,12 +4,21 @@
 \alias{fit2newdata}
 \title{Make a new data of mean value or most frequent value}
 \usage{
-fit2newdata(fit, xnames = NULL, maxy.lev = 5, median = TRUE, digits = 1)
+fit2newdata(
+  fit,
+  xnames = NULL,
+  pred.values = list(),
+  maxy.lev = 5,
+  median = TRUE,
+  digits = 1
+)
 }
 \arguments{
 \item{fit}{An object of class "coxph"}
 
 \item{xnames}{character Names of explanatory variable to plot}
+
+\item{pred.values}{A list A list of predictor values}
 
 \item{maxy.lev}{Integer Maximum unique length of a numeric variable to be treated as categorical variables}
 
@@ -29,4 +38,5 @@ data(cancer,package="survival")
 fit=coxph(Surv(time,status)~rx+sex+age,data=colon)
 fit=coxph(Surv(time,status)~rx+age+strata(sex),data=colon)
 fit2newdata(fit)
+fit2newdata(fit,pred.values=list(sex=0,age=58))
 }

@@ -1,6 +1,7 @@
 #' Make a new data of mean value or most frequent value
 #' @param fit An object of class "coxph"
 #' @param xnames  character Names of explanatory variable to plot
+#' @param pred.values A list A list of predictor values
 #' @param maxy.lev Integer Maximum unique length of a numeric variable to be treated as categorical variables
 #' @param median logical If TRUE, select median value for numerical variable. Otherwise select most frequent value
 #' @param digits integer indicating the number of decimal places
@@ -12,9 +13,10 @@
 #' fit=coxph(Surv(time,status)~rx+sex+age,data=colon)
 #' fit=coxph(Surv(time,status)~rx+age+strata(sex),data=colon)
 #' fit2newdata(fit)
-fit2newdata=function(fit,xnames=NULL,maxy.lev=5,median=TRUE,digits=1){
+#' fit2newdata(fit,pred.values=list(sex=0,age=58))
+fit2newdata=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,digits=1){
 
-       #  xnames=NULL;maxy.lev=5;digits=1
+         # xnames=NULL;maxy.lev=5;digits=1;pred.values=list(sex=1,age=58)
        # fit=coxph(Surv(time,status)~sex*age,data=colon)
      df=fit2model(fit)
      xvars = attr(fit$terms, "term.labels")
@@ -29,13 +31,14 @@ fit2newdata=function(fit,xnames=NULL,maxy.lev=5,median=TRUE,digits=1){
 
      no=length(xnames)
      for(i in seq_along(xnames)){
-     if(is.mynumeric(df[[xnames[i]]],maxy.lev=maxy.lev)){
-          result[[i]]=fivenum(df[[xnames[i]]])[c(2,3,4)]
+          if(xnames[i] %in% names(pred.values)){
+                  result[[i]]=pred.values[[which(xnames[i] %in% names(pred.values))]]
+          } else if(is.mynumeric(df[[xnames[i]]],maxy.lev=maxy.lev)){
+               result[[i]]=fivenum(df[[xnames[i]]])[c(2,3,4)]
+          } else{
+               result[[i]]=sort(unique(df[[xnames[i]]]))
 
-     } else{
-          result[[i]]=sort(unique(df[[xnames[i]]]))
-
-     }
+          }
      }
      df1=expand.grid(result)
      names(df1)=xnames
@@ -58,7 +61,9 @@ fit2newdata=function(fit,xnames=NULL,maxy.lev=5,median=TRUE,digits=1){
           # if(is.mynumeric(df[[xvars[i]]],maxy.lev=maxy.lev)){
           #      result[[no+i]]=round(mean(df[[xvars[i]]],na.rm=TRUE),digits)
           # } else
-          if(is.numeric(df[[xvars[i]]])){
+          if(xvars[i] %in% names(pred.values)){
+               result[[no+i]]=pred.values[[which(names(pred.values)==xvars[i])]]
+          } else if(is.numeric(df[[xvars[i]]])){
                   if(median) {
                           result[[no+i]]=median(df[[xvars[i]]],na.rm=TRUE)
                   } else{

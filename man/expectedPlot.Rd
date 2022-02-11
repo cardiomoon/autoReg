@@ -2,16 +2,16 @@
 % Please edit documentation in R/expectedPlot.R
 \name{expectedPlot}
 \alias{expectedPlot}
-\title{Draw an expected plot}
+\title{Draw an adjusted Plot for a numeric predictor}
 \usage{
 expectedPlot(
   fit,
-  xnames = NULL,
+  xname = NULL,
+  no = 2,
   maxy.lev = 5,
   median = TRUE,
-  facet = NULL,
-  se = FALSE,
   mark.time = FALSE,
+  se = FALSE,
   type = "ggplot",
   ...
 )
@@ -19,19 +19,19 @@ expectedPlot(
 \arguments{
 \item{fit}{An object of class "coxph"}
 
-\item{xnames}{Character Names of explanatory variable to plot}
+\item{xname}{Character Name of explanatory variable to plot}
+
+\item{no}{integer Number of groups to be made}
 
 \item{maxy.lev}{Integer Maximum unique length of a numeric variable to be treated as categorical variables}
 
 \item{median}{Logical}
 
-\item{facet}{Character Name of facet variable}
+\item{mark.time}{logical Whether or not mark time}
 
 \item{se}{logical Whether or not show se}
 
-\item{mark.time}{logical Whether or not mark time}
-
-\item{type}{Character plot type}
+\item{type}{Character "plot" or "ggplot"}
 
 \item{...}{further arguments to be passed to plot.survfit}
 }
@@ -39,16 +39,13 @@ expectedPlot(
 No return value, called for side effects
 }
 \description{
-Draw an expected plot
+Select cutpoint for a numeric predictor with maxstat.test() and draw survival plot with this cutpoint
 }
 \examples{
 library(survival)
-fit=coxph(Surv(time,status)~rx+logWBC,data=anderson)
-expectedPlot(fit,type="plot")
-expectedPlot(fit)
 data(cancer,package="survival")
-fit=coxph(Surv(time,status)~rx+strata(sex)+age+differ,data =colon)
-expectedPlot(fit,xnames=c("sex"))
-expectedPlot(fit,xnames=c("sex","rx"))
-expectedPlot(fit,xnames=c("rx","sex","differ"),facet=c("sex","rx"))
+fit=coxph(Surv(time,status)~age+sex,data =colon)
+expectedPlot(fit,xname="age")
+fit=coxph(Surv(time,status)~rx+logWBC,data=anderson)
+expectedPlot(fit,xname="logWBC",no=3)
 }

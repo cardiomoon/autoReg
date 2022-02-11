@@ -3,6 +3,8 @@ autoReg 0.1.8
 (2022-Feb-10)
 
 * New function coxzphplot added
+* change the function name of expectedPlot to adjustedPlot
+* change the function name of expected2Plot to expectedPlot
 
 
 autoReg 0.1.7
