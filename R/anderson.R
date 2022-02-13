@@ -6,7 +6,7 @@
 #' \describe{
 #' \item{time}{survival time in weeks}
 #' \item{status}{censoring status 1=failure 0=censored}
-#' \item{sex}{sex 1=Female 0=Male}
+#' \item{sex}{sex 0=Female 1=Male}
 #' \item{logWBC}{log white blood cell count}
 #' \item{rx}{treatment status 1=control 0 =treatment}
 #' }
@@ -22,7 +22,7 @@
 #' \describe{
 #' \item{time}{survival time in weeks}
 #' \item{status}{censoring status 1=failure 0=censored}
-#' \item{sex}{sex "Male" or "Female}
+#' \item{sex}{sex "Female" or "Male}
 #' \item{logWBC}{log white blood cell count}
 #' \item{rx}{treatment status "treatment" or "control"}
 #' }
