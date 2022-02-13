@@ -4,7 +4,7 @@
 \alias{coxzphplot}
 \title{Graphical Test of Proportional Hazards}
 \usage{
-coxzphplot(x, resid = TRUE, se = TRUE, var = NULL, hr = FALSE)
+coxzphplot(x, resid = TRUE, se = TRUE, var = NULL, hr = FALSE, add.lm = FALSE)
 }
 \arguments{
 \item{x}{result of the cox.zph function.}
@@ -16,6 +16,8 @@ coxzphplot(x, resid = TRUE, se = TRUE, var = NULL, hr = FALSE)
 \item{var}{The set of variables for which plots are desired. It can be integer or variable names}
 
 \item{hr}{logical If true, plot for hazard ratio, If false, plot for coefficients}
+
+\item{add.lm}{logical If true, add lenear regression line}
 }
 \value{
 A facetted ggplot
@@ -29,4 +31,5 @@ library(survival)
 vfit <- coxph(Surv(time,status) ~ trt + factor(celltype) + karno + age, data=veteran, x=TRUE)
 x <- cox.zph(vfit)
 coxzphplot(x)
+coxzphplot(x,var="karno",add.lm=TRUE)
 }

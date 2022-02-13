@@ -7,6 +7,7 @@
 #' @param se	a logical value, if TRUE, confidence bands at two standard errors will be added.
 #' @param var The set of variables for which plots are desired. It can be integer or variable names
 #' @param hr logical If true, plot for hazard ratio, If false, plot for coefficients
+#' @param add.lm logical If true, add lenear regression line
 #' @return A facetted ggplot
 #' @importFrom tidyr pivot_longer
 #' @importFrom stats approx
@@ -17,8 +18,9 @@
 #' vfit <- coxph(Surv(time,status) ~ trt + factor(celltype) + karno + age, data=veteran, x=TRUE)
 #' x <- cox.zph(vfit)
 #' coxzphplot(x)
-coxzphplot=function(x,resid=TRUE,se=TRUE,var=NULL,hr=FALSE){
-
+#' coxzphplot(x,var="karno",add.lm=TRUE)
+coxzphplot=function(x,resid=TRUE,se=TRUE,var=NULL,hr=FALSE,add.lm=FALSE){
+     #resid=TRUE;se=TRUE;var="karno";hr=FALSE;add.lm=TRUE
      if(is.null(var)){
           var=1:ncol(x$y)
      } else if (is.character(var)) {
@@ -29,7 +31,7 @@ coxzphplot=function(x,resid=TRUE,se=TRUE,var=NULL,hr=FALSE){
      df=as.data.frame(x$y)[var]
      df=cbind(df,data.frame(x=x$x))
 
-     longdf=df %>% pivot_longer(cols=all_of(var))
+     longdf=df %>% pivot_longer(cols=all_of(varnames))
 
      if (x$transform == "log") {
           longdf$x <- exp(longdf$x)
@@ -56,6 +58,7 @@ coxzphplot=function(x,resid=TRUE,se=TRUE,var=NULL,hr=FALSE){
      p=ggplot(longdf,aes_string(x="x",y="value"))
      if(resid) p=p+geom_point(alpha=0.5)
      if(se) p=p+stat_smooth(method="loess",formula="y~x")
+     if(add.lm) p=p+stat_smooth(method="lm",formula="y~x",color="red",se=FALSE)
 
      pvalue=x$table[nrow(x$table),ncol(x$table)]
 
