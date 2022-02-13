@@ -33,33 +33,16 @@ expectedPlot=function(fit,xname=NULL,no=2,maxy.lev=5,median=TRUE,mark.time=FALSE
      f = fit$formula
      myt = fit$terms
      y = as.character(f)[2]
-     s = paste(y, xname, sep = "~")
-     if(no==2){
-          mstat = maxstat.test(as.formula(s), data = data, smethod = "LogRank",
-                               pmethod = "condMC", B = 300)
-          cutpoint = mstat$estimate
-          data$temp = ifelse(data[[xname]] <= cutpoint, 0, 1)
+     data=num2factor(data,call=fit$call,name=xname,no=no)
 
-          labs = paste(xname, c("\U2264", ">"), cutpoint)
-          data$temp = factor(data$temp, levels = c(0, 1), labels = labs)
-     } else{
-          data$temp=rank2group(data[[xname]],no)
-          if(no==3) {
-               labs=c("Low","Medum","High")
-          } else{
-               labs=1:no
-          }
-          data$temp = factor(data$temp, levels = 1:no, labels = labs)
-
-     }
-     call = paste0(y, "~", "temp")
+     call = paste0(y, "~", xname)
      call
      temp=paste0("coxph(",call,",data=data)")
      fit=eval(parse(text=temp))
 
-
+     labs=levels(data[[xname]])
      newdata1=data.frame(temp=labs)
-     newdata1
+     names(newdata1)=xname
      if(ncol(newdata)>1){
           for(i in 2:ncol(newdata)){
                newdata1[[colnames(newdata)[i]]]=newdata[1,i]
@@ -71,7 +54,7 @@ expectedPlot=function(fit,xname=NULL,no=2,maxy.lev=5,median=TRUE,mark.time=FALSE
      no=length(labels)
      col=scales::hue_pal()(no)
      fit1=survfit(fit,newdata=newdata1)
-     df1=as_tibble(newdata1 %>% select(-all_of("temp")))
+     df1=as_tibble(newdata1 %>% select(-all_of(xname)))
      df1=df1[1,]
      label=map2_chr(names(df1),df1,function(x,y){
           paste0(x,"=",y)
@@ -84,6 +67,7 @@ expectedPlot=function(fit,xname=NULL,no=2,maxy.lev=5,median=TRUE,mark.time=FALSE
 
           plot(fit1,col=col,lwd=1,conf.int=se,mark.time=mark.time,...,
                main=paste0("Survival Rate by ",paste0(xname,collapse=",")))
+
           legend("bottomleft",legend=labels,col=col,lwd=2)
           title(sub=label)
      } else{
@@ -102,7 +86,51 @@ expectedPlot=function(fit,xname=NULL,no=2,maxy.lev=5,median=TRUE,mark.time=FALSE
           p=p+ theme_classic()+
                theme(legend.title=element_blank(),panel.border=element_rect(fill=NA))+
                ylim(c(0,1))
-          p=p+labs(subtitle=label,y="Survival Rate")
+          p=p+labs(subtitle=label,y="Survival Rate",title=paste0("Expected plot by ",xname))
           p
      }
+}
+
+#' Convert a numeric column in a data.frame to a factor
+#' @param data A data.frame
+#' @param call a function call
+#' @param name character Name of numeric column
+#' @param no numeric
+#' @importFrom maxstat maxstat.test
+#' @importFrom moonBook rank2group
+#' @return A data.frame
+#' @export
+#' @examples
+#' num2factor(anderson,name="logWBC")
+#' library(survival)
+#' fit=coxph(Surv(time,status)~logWBC+rx,data=anderson)
+#' num2factor(anderson,call=fit$call,name="logWBC",no=2)
+num2factor=function(data,call,name,no=3){
+    if(no==2){
+          call=paste0(deparse(call),collapse="")
+          temp=c(", data =.*$",".[^\\(]*\\(","^.*=","~.*")
+          for(i in seq_along(temp)){
+               call=sub(temp[i],"",call)
+          }
+          call=paste0(call,"~",name)
+          mstat = maxstat.test(as.formula(call), data = data, smethod = "LogRank",
+                               pmethod = "condMC",B=300)
+          cutpoint = mstat$estimate
+          data$temp = ifelse(data[[name]] <= cutpoint, 0, 1)
+
+          labs = paste(name,c("\U2264", ">"), cutpoint)
+          data$temp = factor(data$temp, levels = c(0, 1), labels = labs)
+     } else{
+          data$temp=rank2group(data[[name]],no)
+          if(no==3) {
+               labs=c("Low","Medum","High")
+          } else{
+               labs=1:no
+          }
+          data$temp = factor(data$temp, levels = 1:no, labels = labs)
+
+     }
+     data[[name]]=data$temp
+     data$temp=NULL
+     data
 }

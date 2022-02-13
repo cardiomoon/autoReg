@@ -3,6 +3,7 @@
 #' @param xnames character Names of explanatory variable to plot
 #' @param main String Title of plot
 #' @param labels String vector Used as legend in legend
+#' @param no Numeric The number of groups to be converted
 #' @return  No return value, called for side effects
 #' @importFrom scales hue_pal
 #' @export
@@ -12,21 +13,47 @@
 #'fit=coxph(Surv(time,status)~x,data=leukemia)
 #'fit=survfit(Surv(time,status)~sex,data=anderson)
 #'loglogplot(fit)
-loglogplot=function(fit,xnames=NULL,main=NULL,labels=NULL){
-
+#'fit=survfit(Surv(time,status)~logWBC,data=anderson)
+#'loglogplot(fit)
+#'fit=survfit(Surv(time,status)~logWBC+rx,data=anderson)
+#'loglogplot(fit,no=2)
+loglogplot=function(fit,xnames=NULL,main=NULL,labels=NULL,no=3){
+     #xnames=NULL;main=NULL;labels=NULL;no=2
+     data=fit2model(fit)
      if("coxph" %in% class(fit)){
-          data=fit2model(fit)
-          fit=survfit(fit$terms,data=data)
+         fit=survfit(fit$terms,data=data)
+     }
+     call=paste0(deparse(fit$call),collapse="")
+     temp=c(", data =.*$",".[^\\(]*\\(","^.*=")
+     for(i in seq_along(temp)){
+          call=sub(temp[i],"",call)
+     }
+     labels=names(fit$strata)
+
+     if(length(grep(", ",labels[1]))>0){
+          xnames=unlist(strsplit(labels[1],", "))
+
+     } else{
+          xnames=labels[1]
+     }
+     xnames=gsub("=.*","",xnames)
+     for(i in seq_along(xnames)){
+          if(is.mynumeric(data[[xnames[i]]])){
+
+             data=num2factor(data,call=fit$call,xnames[i],no=no)
+
+             fit=survfit(as.formula(call),data=data)
+             temp=paste0(xnames[i],"=",xnames[i])
+             names(fit$strata)=gsub(temp,xnames[i],names(fit$strata))
+
+          }
      }
      labels=names(fit$strata)
      no=length(labels)
+
      col=scales::hue_pal()(no)
-
-
      if(is.null(main)) {
-          temp=unlist(strsplit(labels[1],","))
-          temp=gsub("=.*$","",temp)
-          temp=paste0(temp,collapse=",")
+          temp=paste0(xnames,collapse=",")
           main=paste0(paste0("log-log plot by ",temp))
      }
      plot(fit,fun="cloglog",log="x",col=col,lwd=2,
