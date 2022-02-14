@@ -27,16 +27,34 @@
 #'residualPlot(fit,"partial")
 #'fit=coxph(Surv(time,status)~rx+sex+logWBC,data=anderson)
 #'residualPlot(fit,ncol=3)
+#'data(pharmacoSmoking,package="asaur")
+#'fit=coxph(Surv(ttr,relapse)~grp+employment+age,data=pharmacoSmoking)
+#'residualPlot(fit)
+#'residualPlot(fit,var="age")
+#'residualPlot(fit,type="dfbeta")
+#'residualPlot(fit,type="dfbeta",var="age")
+#'residualPlot(fit,type="dfbeta",var="employment")
+#'residualPlot(fit,type="dfbeta",var="employmentother")
 residualPlot=function(fit,type="martingale",vars=NULL,ncol=2,show.point=TRUE,se=TRUE,topn=5,labelsize=4){
        # type="partial"
-     #type="partial";vars=NULL;show.point=TRUE;se=TRUE
+     #type="dfbeta";vars="employmentother";show.point=TRUE;se=TRUE;topn=5;labelsize=4
      data=fit2model(fit)
      r1=residuals(fit,type=type)
      xvars=attr(fit$term,"term.labels")
-     if(!is.null(vars)) {  xvars=intersect(xvars,vars)}
+
+     if(!is.null(vars)) {
+          xvars2 = attr(fit$coefficients, "names")
+          xvars=intersect(union(xvars,xvars2),vars)
+     }
      if(type %in% c("score","schoenfeld","dfbeta","dfbetas","scaledsch")){
-     xvars2 = attr(fit$coefficients, "names")
-     xvars=xvars2[unlist(map(xvars,~fit$assign[[.]]))]
+        xvars2 = attr(fit$coefficients, "names")
+        xvars=unlist(map(xvars,function(x) {
+             if(x %in% xvars2){
+                  x
+             } else{
+                  xvars2[fit$assign[[x]]]
+             }
+        }))
      }
 
 
@@ -117,7 +135,7 @@ residualPlot=function(fit,type="martingale",vars=NULL,ncol=2,show.point=TRUE,se=
                     if(show.point) p=p+ geom_point(alpha=0.2)
                     if(se) p=p+ stat_smooth(method="loess",formula="y~x")
                     }
-                    p=p+ labs(y=paste0(type,"(",x,")"))+
+                    p=p+ labs(y=paste("Change in coefficient for",x))+
                          theme_classic()
                     colnames(r1)[colnames(r1)=="y"]=x
                     p
@@ -125,7 +143,8 @@ residualPlot=function(fit,type="martingale",vars=NULL,ncol=2,show.point=TRUE,se=
           })
 
           do.call(wrap_plots,list(p,ncol=ncol))+
-               plot_annotation(title=paste0(type," residual plot"))
+               plot_annotation(title=paste("Case deletion",type,"residuals"),
+                               theme=theme(plot.title=element_text(size=16,hjust=0.5)))
 
      } else{
 
@@ -156,6 +175,7 @@ residualPlot=function(fit,type="martingale",vars=NULL,ncol=2,show.point=TRUE,se=
           })
 
           do.call(wrap_plots,list(p,ncol=ncol))+
-                plot_annotation(title=paste0(type," residual plot"))
+                plot_annotation(title=paste0(type," residual plot"),
+                                theme=theme(plot.title=element_text(size=16,hjust=0.5)))
      }
 }
