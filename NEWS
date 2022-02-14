@@ -1,3 +1,11 @@
+autoReg 0.2.0
+=============
+(2022-Feb-15)
+
+* New function residualNull added
+* rewrite the function residualPlot
+
+
 autoReg 0.1.9
 =============
 (2022-Feb-13)

@@ -10,7 +10,9 @@ residualPlot(
   vars = NULL,
   ncol = 2,
   show.point = TRUE,
-  se = TRUE
+  se = TRUE,
+  topn = 5,
+  labelsize = 4
 )
 }
 \arguments{
@@ -26,6 +28,10 @@ residualPlot(
 \item{show.point}{logical Whether or not show point}
 
 \item{se}{logical Whether or not show se}
+
+\item{topn}{numeric number of data to be labelled}
+
+\item{labelsize}{numeric size of label}
 }
 \value{
 A patchwork object
@@ -38,7 +44,7 @@ require(survival)
 data(cancer)
 fit=coxph(Surv(time,status==2)~log(bili)+age+cluster(edema),data=pbc)
 residualPlot(fit)
-residualPlot(fit,var="age")
+residualPlot(fit,vars="age")
 fit=coxph(Surv(time,status==2)~age,data=pbc)
 residualPlot(fit)
 residualPlot(fit,"partial")
