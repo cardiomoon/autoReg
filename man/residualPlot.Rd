@@ -8,6 +8,7 @@ residualPlot(
   fit,
   type = "martingale",
   vars = NULL,
+  ncol = 2,
   show.point = TRUE,
   se = TRUE
 )
@@ -19,6 +20,8 @@ residualPlot(
 "dfbeta","dfbetas","scaledsch","partial"). Default value is "martingale".}
 
 \item{vars}{character Names of variables to plot. default value is NULL}
+
+\item{ncol}{numeric number of columns}
 
 \item{show.point}{logical Whether or not show point}
 
@@ -40,5 +43,5 @@ fit=coxph(Surv(time,status==2)~age,data=pbc)
 residualPlot(fit)
 residualPlot(fit,"partial")
 fit=coxph(Surv(time,status)~rx+sex+logWBC,data=anderson)
-residualPlot(fit)
+residualPlot(fit,ncol=3)
 }

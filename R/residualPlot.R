@@ -5,6 +5,7 @@
 #'@param vars character Names of variables to plot. default value is NULL
 #'@param show.point logical Whether or not show point
 #'@param se logical Whether or not show se
+#'@param ncol numeric number of columns
 #'@importFrom patchwork wrap_plots plot_annotation
 #'@importFrom graphics legend lines
 #'@importFrom stats residuals
@@ -22,8 +23,8 @@
 #'residualPlot(fit)
 #'residualPlot(fit,"partial")
 #'fit=coxph(Surv(time,status)~rx+sex+logWBC,data=anderson)
-#'residualPlot(fit)
-residualPlot=function(fit,type="martingale",vars=NULL,show.point=TRUE,se=TRUE){
+#'residualPlot(fit,ncol=3)
+residualPlot=function(fit,type="martingale",vars=NULL,ncol=2,show.point=TRUE,se=TRUE){
        # type="partial"
      #type="martingale";vars=NULL;show.point=TRUE;se=TRUE
      data=fit2model(fit)
@@ -98,6 +99,7 @@ residualPlot=function(fit,type="martingale",vars=NULL,show.point=TRUE,se=TRUE){
 
      data$r1=r1
      data
+     if(length(xvars)==1) ncol=1
      p=map(xvars,function(x){
               if(is.mynumeric(data[[x]])){
                    p=ggplot(data,aes_string(x=x,y="r1"))
@@ -120,7 +122,7 @@ residualPlot=function(fit,type="martingale",vars=NULL,show.point=TRUE,se=TRUE){
               }
           })
 
-          do.call(wrap_plots,p)+
+          do.call(wrap_plots,list(p,ncol=ncol))+
                 plot_annotation(title=paste0(type," residual plot"))
      }
 }
