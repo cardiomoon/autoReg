@@ -4,6 +4,7 @@
 #' @param main String Title of plot
 #' @param labels String vector Used as legend in legend
 #' @param no Numeric The number of groups to be converted
+#' @param ... Furhter arguments to be passed to plot()
 #' @return  No return value, called for side effects
 #' @importFrom scales hue_pal
 #' @export
@@ -11,13 +12,16 @@
 #' require(survival)
 #'data(cancer,package="survival")
 #'fit=coxph(Surv(time,status)~x,data=leukemia)
+#'loglogplot(fit)
+#'fit=survfit(Surv(time,status)~1,data=anderson)
+#'loglogplot(fit)
 #'fit=survfit(Surv(time,status)~sex,data=anderson)
 #'loglogplot(fit)
 #'fit=survfit(Surv(time,status)~logWBC,data=anderson)
 #'loglogplot(fit)
 #'fit=survfit(Surv(time,status)~logWBC+rx,data=anderson)
 #'loglogplot(fit,no=2)
-loglogplot=function(fit,xnames=NULL,main=NULL,labels=NULL,no=3){
+loglogplot=function(fit,xnames=NULL,main=NULL,labels=NULL,no=3,...){
      #xnames=NULL;main=NULL;labels=NULL;no=2
      data=fit2model(fit)
      if("coxph" %in% class(fit)){
@@ -50,13 +54,20 @@ loglogplot=function(fit,xnames=NULL,main=NULL,labels=NULL,no=3){
      }
      labels=names(fit$strata)
      no=length(labels)
-
-     col=scales::hue_pal()(no)
-     if(is.null(main)) {
-          temp=paste0(xnames,collapse=",")
-          main=paste0(paste0("log-log plot by ",temp))
+     if(no==0) {
+          col=scales::hue_pal()(1)
+     } else{
+          col=scales::hue_pal()(no)
      }
-     plot(fit,fun="cloglog",log="x",col=col,lwd=2,
+     if(is.null(main)) {
+          if(no>0){
+            temp=paste0(xnames,collapse=",")
+             main=paste0(paste0("log-log plot by ",temp))
+          } else{
+               main="log-log plot"
+          }
+     }
+     plot(fit,fun="cloglog",log="x",col=col,lwd=2,...,
           main=main,xlab="Log Time",ylab="Complementary log-log survival")
-     legend("topleft",legend=labels,col=col,lwd=2)
+     if(no>0) legend("topleft",legend=labels,col=col,lwd=2)
 }

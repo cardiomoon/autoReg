@@ -4,7 +4,7 @@
 \alias{loglogplot}
 \title{Draw log-log plot}
 \usage{
-loglogplot(fit, xnames = NULL, main = NULL, labels = NULL, no = 3)
+loglogplot(fit, xnames = NULL, main = NULL, labels = NULL, no = 3, ...)
 }
 \arguments{
 \item{fit}{An object of class "coxph" or "survfit"}
@@ -16,6 +16,8 @@ loglogplot(fit, xnames = NULL, main = NULL, labels = NULL, no = 3)
 \item{labels}{String vector Used as legend in legend}
 
 \item{no}{Numeric The number of groups to be converted}
+
+\item{...}{Furhter arguments to be passed to plot()}
 }
 \value{
 No return value, called for side effects
@@ -27,6 +29,9 @@ Draw log-log plot
 require(survival)
 data(cancer,package="survival")
 fit=coxph(Surv(time,status)~x,data=leukemia)
+loglogplot(fit)
+fit=survfit(Surv(time,status)~1,data=anderson)
+loglogplot(fit)
 fit=survfit(Surv(time,status)~sex,data=anderson)
 loglogplot(fit)
 fit=survfit(Surv(time,status)~logWBC,data=anderson)
