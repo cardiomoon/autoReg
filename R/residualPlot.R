@@ -1,5 +1,5 @@
 #'Draw a residual plot with an object of class coxph
-#'@param fit An object of class coxph
+#'@param fit An object of class coxph or survreg
 #'@param type character One of the c("martingale","deviance","score","schoenfeld",
 #'"dfbeta","dfbetas","scaledsch","partial"). Default value is "martingale".
 #'@param vars character Names of variables to plot. default value is NULL
@@ -35,10 +35,18 @@
 #'residualPlot(fit,type="dfbeta",var="age")
 #'residualPlot(fit,type="dfbeta",var="employment")
 #'residualPlot(fit,type="dfbeta",var="employmentother")
+#'pharmacoSmoking$ttr[pharmacoSmoking$ttr==0]=0.5
+#'fit=survreg(Surv(ttr,relapse)~grp+age+employment,data=pharmacoSmoking,dist="weibull")
+#'residualPlot(fit,type="response")
+#'residualPlot(fit,type="deviance")
+#'residualPlot(fit,type="dfbeta",vars="age")
 residualPlot=function(fit,type="martingale",vars=NULL,ncol=2,show.point=TRUE,se=TRUE,topn=5,labelsize=4){
        # type="partial"
-     #type="dfbeta";vars="employmentother";show.point=TRUE;se=TRUE;topn=5;labelsize=4
+      # type="dfbeta";vars=NULL;show.point=TRUE;se=TRUE;topn=5;labelsize=4
      data=fit2model(fit)
+     if("survreg" %in% class(fit)) {
+          if(type=="martingale") {type="response"}
+     }
      r1=residuals(fit,type=type)
      xvars=attr(fit$term,"term.labels")
 
@@ -51,8 +59,10 @@ residualPlot=function(fit,type="martingale",vars=NULL,ncol=2,show.point=TRUE,se=
         xvars=unlist(map(xvars,function(x) {
              if(x %in% xvars2){
                   x
-             } else{
+             } else if("coxph" %in% class(fit)){
                   xvars2[fit$assign[[x]]]
+             } else if("survreg" %in% class(fit)){
+                  paste0(x,fit$xlevels[[x]][-1])
              }
         }))
      }
@@ -77,7 +87,14 @@ residualPlot=function(fit,type="martingale",vars=NULL,ncol=2,show.point=TRUE,se=
 
           xvars2 = attr(fit$coefficients, "names")
           r1=as_tibble(r1,.name_repair="minimal" )
-          if(type!="partial") colnames(r1)=xvars2
+          if(type!="partial") {
+               if("survreg" %in% class(fit)) {
+                    colnames(r1)=c(xvars2,"Log(scale)")
+               } else{
+                    colnames(r1)=xvars2
+               }
+          }
+
           r1$index=1:nrow(r1)
           r1
           xvars2

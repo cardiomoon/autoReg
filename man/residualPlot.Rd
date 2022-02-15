@@ -16,7 +16,7 @@ residualPlot(
 )
 }
 \arguments{
-\item{fit}{An object of class coxph}
+\item{fit}{An object of class coxph or survreg}
 
 \item{type}{character One of the c("martingale","deviance","score","schoenfeld",
 "dfbeta","dfbetas","scaledsch","partial"). Default value is "martingale".}
@@ -58,4 +58,9 @@ residualPlot(fit,type="dfbeta")
 residualPlot(fit,type="dfbeta",var="age")
 residualPlot(fit,type="dfbeta",var="employment")
 residualPlot(fit,type="dfbeta",var="employmentother")
+pharmacoSmoking$ttr[pharmacoSmoking$ttr==0]=0.5
+fit=survreg(Surv(ttr,relapse)~grp+age+employment,data=pharmacoSmoking,dist="weibull")
+residualPlot(fit,type="response")
+residualPlot(fit,type="deviance")
+residualPlot(fit,type="dfbeta",vars="age")
 }
