@@ -13,8 +13,6 @@
 #'data(cancer,package="survival")
 #'fit=coxph(Surv(time,status)~x,data=leukemia)
 #'loglogplot(fit)
-#'fit=survfit(Surv(time,status)~1,data=anderson)
-#'loglogplot(fit)
 #'fit=survfit(Surv(time,status)~sex,data=anderson)
 #'loglogplot(fit)
 #'fit=survfit(Surv(time,status)~logWBC,data=anderson)
