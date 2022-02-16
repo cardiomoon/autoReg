@@ -1,5 +1,5 @@
 #' Draw an expected plot
-#' @param fit An object of class "coxph"
+#' @param fit An object of class "coxph" or "survreg"
 #' @param xnames Character Names of explanatory variable to plot
 #' @param pred.values A list A list of predictor values
 #' @param maxy.lev Integer Maximum unique length of a numeric variable to be treated as categorical variables
@@ -29,6 +29,10 @@ adjustedPlot=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,
      # xnames=c("sex","rx","differ");maxy.lev=5;median=TRUE;facet=c("rx","sex");se=TRUE
      #xnames=c("sex");maxy.lev=5;median=TRUE;facet=NULL;se=TRUE
              # xnames=NULL;maxy.lev=5;median=TRUE;facet=NULL;se=TRUE
+     if("survreg" %in% class(fit)) {
+          return(adjustedPlot.survreg(x=fit,xnames=xnames,pred.values=pred.values,maxy.lev=maxy.lev,
+                                      se=se,...))
+     }
      newdata=fit2newdata(fit,xnames=xnames,pred.values=pred.values,maxy.lev=maxy.lev,median=median)
      data=fit2model(fit)
      xvars = attr(fit$terms, "term.labels")

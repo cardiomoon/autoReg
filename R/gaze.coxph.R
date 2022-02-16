@@ -25,8 +25,33 @@ gaze.coxph=function(x,...){
      myformat(df)
 }
 
+#'@describeIn gaze default S3 method
+#'@export
+#'@examples
+#' x=survreg(Surv(time, status) ~ rx, data=anderson,dist="exponential")
+#' gaze(x)
+#' x=survreg(Surv(time, status) ~ ph.ecog + age + strata(sex), lung)
+#' gaze(x)
+gaze.survreg=function(x,...){
+     df=as.data.frame(summary(x)$table)
+     df$id=rownames(df)
+     df1=as.data.frame(confint(x))
+     df1$id=rownames(df1)
+     df=left_join(df,df1,by="id")
+     names(df)[6:7]=c("lower","upper")
+     df<-df %>% dplyr::select(.data$id,everything())
+     attr(df,"call")=gsub(" ","",paste0(deparse(x$call),collapse=""))
+     attr(df,"yvars")=attr(attr(x$terms,"dataClasses"),"names")[1]
+     attr(df,"model")="survreg"
+     attr(df,"lik")=fit2lik(x)
+     attr(df,"summary")=TRUE
+     class(df)=c("autoReg","data.frame")
+     myformat(df)
+}
+
 #' extract likelihood information with a coxph object
-#' @param x An object of class "coxph"
+#' @param x An object of class "coxph" or "survreg"
+#' @importFrom stats pchisq
 #' @return A string
 #' @export
 #' @examples
@@ -35,11 +60,31 @@ gaze.coxph=function(x,...){
 #' fit2lik(fit)
 fit2lik=function(x){
 
+     if("survreg" %in% class(x)){
+          pdig <- max(1, getOption("digits") - 4)
+          nobs <- length(x$linear)
+          chi <- 2 * diff(x$loglik)
+          df <- sum(x$df) - x$idf
+          temp=summary(x)$parms
+          temp=paste(temp,"\nLoglik(model)=", format(round(x$loglik[2], 1)), "  Loglik(intercept only)=",
+              format(round(x$loglik[1], 1)))
+          if (df > 0)
+               temp=paste(temp,"\n\tChisq=", format(round(chi, 2)), "on",
+                          round(df, 1), "degrees of freedom, p=", format.pval(pchisq(chi, df, lower.tail = FALSE), digits = pdig), "\n")
+          else temp=paste(temp,"\n")
+          omit <- x$na.action
+          if (length(omit))
+               temp=paste(temp,"n=", nobs, " (", naprint(omit), ")\n", sep = "")
+          else temp=paste(temp,"n=", nobs, "\n")
+          temp
+     } else{
+
      temp=summary(x)$logtest
      temp1=paste0("n=",x$n,", events=",x$nevent,
                   ", Likelihood ratio test=",format(round(temp[1], 2))," on ",temp[2]," df (",
                   p2character2(temp[3],add.p=TRUE),")")
      temp1
+     }
 }
 
 

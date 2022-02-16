@@ -7,7 +7,7 @@
 fit2lik(x)
 }
 \arguments{
-\item{x}{An object of class "coxph"}
+\item{x}{An object of class "coxph" or "survreg"}
 }
 \value{
 A string

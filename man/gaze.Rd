@@ -5,6 +5,7 @@
 \alias{gaze.formula}
 \alias{gaze.data.frame}
 \alias{gaze.coxph}
+\alias{gaze.survreg}
 \alias{gaze.glm}
 \alias{gaze.lm}
 \title{Produce table for descriptive statistics}
@@ -16,6 +17,8 @@ gaze(x, ...)
 \method{gaze}{data.frame}(x, ...)
 
 \method{gaze}{coxph}(x, ...)
+
+\method{gaze}{survreg}(x, ...)
 
 \method{gaze}{glm}(x, ...)
 
@@ -46,6 +49,8 @@ methods were used(t-test, ANOVA, Kruskal-Wallis, chi-squared, Fisher's,...)
 
 \item \code{coxph}: default S3 method
 
+\item \code{survreg}: default S3 method
+
 \item \code{glm}: default S3 method
 
 \item \code{lm}: default S3 method
@@ -74,6 +79,10 @@ library(survival)
 x=coxph(Surv(time,status) ~rx,data=anderson1)
 gaze(x)
 x=coxph(Surv(time,status) ~rx*logWBC,data=anderson1)
+gaze(x)
+x=survreg(Surv(time, status) ~ rx, data=anderson,dist="exponential")
+gaze(x)
+x=survreg(Surv(time, status) ~ ph.ecog + age + strata(sex), lung)
 gaze(x)
 data(cancer,package="survival")
 fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")

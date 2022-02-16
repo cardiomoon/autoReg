@@ -18,7 +18,7 @@ adjustedPlot(
 )
 }
 \arguments{
-\item{fit}{An object of class "coxph"}
+\item{fit}{An object of class "coxph" or "survreg"}
 
 \item{xnames}{Character Names of explanatory variable to plot}
 

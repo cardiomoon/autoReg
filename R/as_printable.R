@@ -26,6 +26,7 @@ myformat=function(x,showid=FALSE,digits=3){
           } else{
                names(x)[1]=" "
                x[[5]]=p2character2(x[[5]],add.p=FALSE)
+
           }
      }
      if(!is.null(digits)){
@@ -57,6 +58,8 @@ myformat=function(x,showid=FALSE,digits=3){
 as_printable=function(data,align.first="left",align.chr="right",align.num="right"){
      # showid=FALSE; align.first="left";align.chr="left";align.num="right";digits=3
      x=data
+     x[is.na(x)]=""
+     x[x=="NA"]=""
      side=align.first
      if(ncol(x)>1){
      for(i in 2:ncol(x)){
