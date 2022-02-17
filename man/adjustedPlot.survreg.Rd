@@ -7,14 +7,11 @@
 adjustedPlot.survreg(
   x,
   xnames = NULL,
-  pred.values = list(),
+  pred.values = NULL,
   maxy.lev = 5,
   median = TRUE,
   newdata = NULL,
-  fillalpha = 0.3,
-  se = FALSE,
-  legend.position = c(0.8, 0.9),
-  addKM = FALSE
+  addCox = FALSE
 )
 }
 \arguments{
@@ -30,28 +27,24 @@ adjustedPlot.survreg(
 
 \item{newdata}{A data.frame or NULL}
 
-\item{fillalpha}{Numeric alpha value for geom_ribbon}
-
-\item{se}{logical Whether or not show se}
-
-\item{legend.position}{legend position}
-
-\item{addKM}{logical Whether or not add KM}
+\item{addCox}{logical Whether or not add KM}
 }
 \value{
-A ggplot
+No return value, called for side effects
 }
 \description{
 Draw predicted survival curve with an object survreg
 }
 \examples{
 library(survival)
-x=survreg(Surv(time, status) ~ 1, data=anderson,dist="exponential")
-adjustedPlot(x,addKM=TRUE)
-x=survreg(Surv(time, status) ~ 1, data=lung,dist="weibull")
-adjustedPlot(x,addKM=TRUE)
+x=survreg(Surv(time, status) ~ rx, data=anderson,dist="exponential")
+adjustedPlot(x)
+adjustedPlot(x,addCox=TRUE)
+x=survreg(Surv(time, status) ~ sex, data=lung,dist="weibull")
+adjustedPlot(x,addCox=TRUE)
 x=survreg(Surv(time, status) ~ rx, data=anderson,dist="exponential")
 adjustedPlot(x)
 x=survreg(Surv(time, status) ~ ph.ecog + age + strata(sex), lung)
 adjustedPlot(x)
+adjustedPlot(x,addCox=TRUE)
 }

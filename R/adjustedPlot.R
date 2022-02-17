@@ -30,8 +30,7 @@ adjustedPlot=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,
      #xnames=c("sex");maxy.lev=5;median=TRUE;facet=NULL;se=TRUE
              # xnames=NULL;maxy.lev=5;median=TRUE;facet=NULL;se=TRUE
      if("survreg" %in% class(fit)) {
-          return(adjustedPlot.survreg(x=fit,xnames=xnames,pred.values=pred.values,maxy.lev=maxy.lev,
-                                      se=se,...))
+          return(adjustedPlot.survreg(x=fit,xnames=xnames,pred.values=pred.values,maxy.lev=maxy.lev,...))
      }
      newdata=fit2newdata(fit,xnames=xnames,pred.values=pred.values,maxy.lev=maxy.lev,median=median)
      data=fit2model(fit)
