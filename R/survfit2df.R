@@ -9,6 +9,8 @@
 #'data(cancer,package="survival")
 #'fit=survfit(Surv(time,status)~rx+sex+age,data=colon)
 #'survfit2df(fit)
+#'fit=survfit(Surv(time,status)~1,data=colon)
+#'survfit2df(fit)
 survfit2df=function(fit,labels=NULL){
      if(!is.null(fit$strata)){
           if(!is.null(labels)) {
@@ -40,6 +42,7 @@ survfit2df=function(fit,labels=NULL){
           cols=c("surv","std.err","upper","lower")
           strata=attr(fit$surv,"dimnames")[[2]]
           no=length(strata)
+          if(no>0){
           suppressMessages(df<-map_dfc(cols,function(x){
                temp=c()
                for(j in 1:no){
@@ -48,12 +51,22 @@ survfit2df=function(fit,labels=NULL){
                }
                temp
           }))
+               temp=rep(strata,each=nrow(res))
+          } else{
+               strata="all"
+               df1=data.frame(surv=1,std.err=0,upper=1,lower=1)
+               suppressMessages(df<-map_dfc(cols,~fit[[.]]))
+               names(df)=cols
+               df=rbind(df1,df)
+               temp=rep(strata,nrow(df))
+          }
           names(df)=cols
-          temp=rep(strata,each=nrow(res))
           df$strata=temp
           df1=res
+          if(no>1){
           for(i in 2:no){
                df1=rbind(df1,res)
+          }
           }
           res=cbind(df1,df)
           if(!is.null(labels)) {

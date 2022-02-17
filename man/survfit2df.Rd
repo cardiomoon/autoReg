@@ -22,4 +22,6 @@ library(survival)
 data(cancer,package="survival")
 fit=survfit(Surv(time,status)~rx+sex+age,data=colon)
 survfit2df(fit)
+fit=survfit(Surv(time,status)~1,data=colon)
+survfit2df(fit)
 }

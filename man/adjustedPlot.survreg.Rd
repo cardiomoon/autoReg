@@ -13,7 +13,8 @@ adjustedPlot.survreg(
   newdata = NULL,
   fillalpha = 0.3,
   se = FALSE,
-  legend.position = c(0.8, 0.9)
+  legend.position = c(0.8, 0.9),
+  addKM = FALSE
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ adjustedPlot.survreg(
 \item{se}{logical Whether or not show se}
 
 \item{legend.position}{legend position}
+
+\item{addKM}{logical Whether or not add KM}
 }
 \value{
 A ggplot
@@ -43,6 +46,10 @@ Draw predicted survival curve with an object survreg
 }
 \examples{
 library(survival)
+x=survreg(Surv(time, status) ~ 1, data=anderson,dist="exponential")
+adjustedPlot(x,addKM=TRUE)
+x=survreg(Surv(time, status) ~ 1, data=lung,dist="weibull")
+adjustedPlot(x,addKM=TRUE)
 x=survreg(Surv(time, status) ~ rx, data=anderson,dist="exponential")
 adjustedPlot(x)
 x=survreg(Surv(time, status) ~ ph.ecog + age + strata(sex), lung)
