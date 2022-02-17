@@ -17,7 +17,7 @@ coxzphplot(x, resid = TRUE, se = TRUE, var = NULL, hr = FALSE, add.lm = FALSE)
 
 \item{hr}{logical If true, plot for hazard ratio, If false, plot for coefficients}
 
-\item{add.lm}{logical If true, add lenear regression line}
+\item{add.lm}{logical If true, add linear regression line}
 }
 \value{
 A facetted ggplot

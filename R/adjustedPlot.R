@@ -9,7 +9,7 @@
 #' @param mark.time logical Whether or not mark time
 #' @param type Character plot type
 #' @param ... further arguments to be passed to plot.survfit
-#' @return  No return value, called for side effects
+#' @return  A ggplot or no return value(called for side effects)
 #' @importFrom graphics legend lines
 #' @importFrom scales hue_pal
 #' @importFrom ggplot2 element_rect facet_wrap label_both ylim facet_grid geom_step

@@ -7,7 +7,7 @@
 #' @param se	a logical value, if TRUE, confidence bands at two standard errors will be added.
 #' @param var The set of variables for which plots are desired. It can be integer or variable names
 #' @param hr logical If true, plot for hazard ratio, If false, plot for coefficients
-#' @param add.lm logical If true, add lenear regression line
+#' @param add.lm logical If true, add linear regression line
 #' @return A facetted ggplot
 #' @importFrom tidyr pivot_longer
 #' @importFrom stats approx

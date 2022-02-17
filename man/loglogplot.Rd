@@ -4,7 +4,15 @@
 \alias{loglogplot}
 \title{Draw log-log plot}
 \usage{
-loglogplot(fit, xnames = NULL, main = NULL, labels = NULL, no = 3, ...)
+loglogplot(
+  fit,
+  xnames = NULL,
+  main = NULL,
+  labels = NULL,
+  no = 3,
+  add.lm = TRUE,
+  ...
+)
 }
 \arguments{
 \item{fit}{An object of class "coxph" or "survfit"}
@@ -17,10 +25,12 @@ loglogplot(fit, xnames = NULL, main = NULL, labels = NULL, no = 3, ...)
 
 \item{no}{Numeric The number of groups to be converted}
 
+\item{add.lm}{logical If true, add linear regression line}
+
 \item{...}{Furhter arguments to be passed to plot()}
 }
 \value{
-No return value, called for side effects
+A ggplot or no return value, called for side effects
 }
 \description{
 Draw log-log plot
@@ -29,6 +39,8 @@ Draw log-log plot
 require(survival)
 data(cancer,package="survival")
 fit=coxph(Surv(time,status)~x,data=leukemia)
+loglogplot(fit)
+fit=survfit(Surv(time,status)~1,data=anderson)
 loglogplot(fit)
 fit=survfit(Surv(time,status)~sex,data=anderson)
 loglogplot(fit)

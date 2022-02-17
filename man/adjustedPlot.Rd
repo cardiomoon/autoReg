@@ -39,7 +39,7 @@ adjustedPlot(
 \item{...}{further arguments to be passed to plot.survfit}
 }
 \value{
-No return value, called for side effects
+A ggplot or no return value(called for side effects)
 }
 \description{
 Draw an expected plot
