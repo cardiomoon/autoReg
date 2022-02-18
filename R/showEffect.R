@@ -1,0 +1,117 @@
+#' Show effects of covariates
+#' @param fit An object of class survreg
+#' @param x character name of x-axis variable
+#' @param color character name of color variable
+#' @param facet character name of facet variable
+#' @param pred.values list list of values of predictor variables
+#' @param se logical whether or not show se
+#' @param logy logical WHether or not draw y-axis on log scale
+#' @importFrom ggplot2 geom_errorbar position_dodge
+#' @return A ggplot
+#' @export
+#' @examples
+#' library(survival)
+#' fit=survreg(Surv(time,status)~ph.ecog+sex*age,data=lung,dist="weibull")
+#' showEffect(fit)
+#' fit=survreg(Surv(time,status)~ph.ecog+sex,data=lung,dist="weibull")
+#' showEffect(fit)
+#' fit=survreg(Surv(time,status)~ph.ecog+age,data=lung,dist="weibull")
+#' showEffect(fit)
+#' fit=survreg(Surv(time,status)~sex*age,data=lung,dist="weibull")
+#' showEffect(fit)
+#' fit=survreg(Surv(time,status)~age,data=lung,dist="weibull")
+#' showEffect(fit)
+showEffect=function(fit,x=NULL,color=NULL,facet=NULL,pred.values=list(),se=TRUE,logy=TRUE){
+     # x=NULL;color=NULL;facet=NULL;pred.values=list()  ;se=TRUE;logy=TRUE
+     data=fit2model(fit)
+     xvars = attr(fit$terms, "term.labels")
+     xvars=xvars[!str_detect(xvars,":")]
+     for(i in seq_along(xvars)){
+          if(is.mynumeric(data[[xvars[i]]])){
+               if(is.null(x)) x=xvars[i]
+          } else{
+               if(is.null(color)) {
+                    color=xvars[i]
+               } else if(is.null(facet)){
+                    facet=xvars[i]
+               } else{
+                    facet=c(facet,xvars[i])
+               }
+          }
+     }
+     x;color;facet;
+     if(is.null(x)){
+          if(!is.null(color)) {
+               x=color
+               if(!is.null(facet)) {
+                    color=facet[1]
+                    facet=facet[-1]
+               } else{
+                    color=NULL
+               }
+
+          }
+     }
+     if(is.mynumeric(data[[x]])){
+          xvalues=seq(min(data[[x]],na.rm=TRUE),max(data[[x]],na.rm=TRUE))
+     } else{
+          xvalues=sort(unique(data[[x]]))
+
+     }
+
+     temp=c(color,facet)
+     temp
+     res=map(temp,~sort(unique(data[[.]])))
+     res[["x"]]=xvalues
+     names(res)=c(color,facet,x)
+     newdata=expand.grid(res)
+
+     result=predict(fit,newdata=newdata,se.fit=TRUE)
+     newdata$est=result$fit
+     newdata$se=result$se.fit
+
+     newdata$lower=newdata$est-1.96*newdata$se
+     newdata$upper=newdata$est+1.96*newdata$se
+     for(i in seq_along(temp)){
+          if(is.numeric(newdata[[temp[i]]])){
+               newdata[[temp[i]]]=factor(newdata[[temp[i]]])
+          }
+     }
+     if(!is.mynumeric(data[[x]])){
+          newdata[[x]]=factor(newdata[[x]])
+     }
+
+     myformula=NULL
+     if(length(facet)==1) {
+          myformula=paste0("~",facet)
+     } else if(length(facet)==2) {
+          myformula=paste0(facet[1],"~",facet[2])
+     }
+
+     p=ggplot(newdata,aes_string(x=x,y="est"))
+     if(is.mynumeric(data[[x]])){
+          if(!is.null(color)){
+               p=p+geom_line(aes_string(color=color))
+               if(se) p=p+ geom_ribbon(aes_string(ymin="lower",ymax="upper",fill=color),alpha=0.3)
+          } else{
+               p=p+geom_line()
+               if(se) p=p+ geom_ribbon(aes_string(ymin="lower",ymax="upper"),alpha=0.3)
+
+          }
+     } else{
+          if(is.null(color)){
+               p=p+geom_point()
+               if(se) p=p+ geom_errorbar(aes_string(ymin="lower",ymax="upper"),width=0.1)
+          } else{
+               p=p+geom_point(aes_string(color=color),position=position_dodge(width=0.2))
+               if(se) p=p+ geom_errorbar(aes_string(ymin="lower",ymax="upper",color=color),
+                                         position=position_dodge(width=0.2),width=0.1)
+          }
+     }
+     if(!is.null(myformula)) p=p+facet_wrap(as.formula(myformula))
+     p=p+theme_classic()+
+          labs(y="Days")+
+          theme(panel.border = element_rect(fill=NA))
+     if(logy) p=p+scale_y_log10()
+     p
+}
