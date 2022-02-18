@@ -16,15 +16,20 @@
 #' fit2newdata(fit,pred.values=list(sex=0,age=58))
 fit2newdata=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,digits=1){
 
-          # xnames=NULL;maxy.lev=5;digits=1;pred.values=list(sex=1,age=58)
-       # fit=coxph(Surv(time,status)~sex*age,data=colon)
+     # fit=survreg(Surv(time,status)~age+ph.ecog+sex,data=lung,dist="weibull")
+     # pred.values=list(ph.ecog=3,sex=2,age=c(20,40,60,80))
+       # xnames=NULL;maxy.lev=5;digits=1;median=TRUE
+       #fit=coxph(Surv(time,status)~sex*age,data=colon)
      df=fit2model(fit)
      xvars = attr(fit$terms, "term.labels")
-
      xvars=xvars[!str_detect(xvars,":")]
-     if(is.null(xnames)) {
+
+     if(length(pred.values)>0){
+         if(is.null(xnames)) xnames=names(pred.values)
+     } else if(is.null(xnames)) {
              xnames=xvars[1]
      }
+     xnames
      tempnames=c()
      no=length(xvars)
      result=list()
@@ -32,7 +37,7 @@ fit2newdata=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,d
      no=length(xnames)
      for(i in seq_along(xnames)){
           if(xnames[i] %in% names(pred.values)){
-                  result[[i]]=pred.values[[which(xnames[i] %in% names(pred.values))]]
+                  result[[i]]=pred.values[[which(xnames[i] == names(pred.values))]]
           } else if(is.mynumeric(df[[xnames[i]]],maxy.lev=maxy.lev)){
                result[[i]]=fivenum(df[[xnames[i]]])[c(2,3,4)]
           } else{
@@ -44,7 +49,11 @@ fit2newdata=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,d
      names(df1)=xnames
 
      suppressMessages(df2<-map2_dfc(names(df1),df1,function(x,y){
+          if(length(unique(y))>1){
              paste0(x,"=",y)
+          } else{
+               NULL
+          }
      }))
      labels=apply(df2,1,paste0,collapse=", ")
 

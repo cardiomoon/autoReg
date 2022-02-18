@@ -28,7 +28,7 @@
 adjustedPlot=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,facet=NULL,se=FALSE,mark.time=FALSE,type="ggplot",...){
      # xnames=c("sex","rx","differ");maxy.lev=5;median=TRUE;facet=c("rx","sex");se=TRUE
      #xnames=c("sex");maxy.lev=5;median=TRUE;facet=NULL;se=TRUE
-             # xnames=NULL;maxy.lev=5;median=TRUE;facet=NULL;se=TRUE
+     # xnames=NULL;pred.values=list();maxy.lev=5;median=TRUE;facet=NULL;se=TRUE;mark.time=FALSE;type="ggplot"
      if("survreg" %in% class(fit)) {
           return(adjustedPlot.survreg(x=fit,xnames=xnames,pred.values=pred.values,maxy.lev=maxy.lev,...))
      }
