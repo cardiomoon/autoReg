@@ -94,14 +94,22 @@
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cancer</span>,package<span class="op">=</span><span class="st">"survival"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">sex</span><span class="op">+</span><span class="va">age</span>,data<span class="op">=</span><span class="va">colon</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/strata.html" class="external-link">strata</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>,data<span class="op">=</span><span class="va">colon</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html" class="external-link">survreg</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">ph.ecog</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">sex</span>, data<span class="op">=</span><span class="va">lung</span>, dist<span class="op">=</span><span class="st">"weibull"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">fit2newdata</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        rx age sex</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     Obs  61   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     Lev  61   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Lev+5FU  61   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ph.ecog age sex</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1       0  63   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       1  63   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       2  63   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       3  63   1</span>
 <span class="r-in"><span class="fu">fit2newdata</span><span class="op">(</span><span class="va">fit</span>,pred.values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sex<span class="op">=</span><span class="fl">0</span>,age<span class="op">=</span><span class="fl">58</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   sex age  rx</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   0  58 Obs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   sex age ph.ecog</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   0  58       1</span>
+<span class="r-in"><span class="fu">fit2newdata</span><span class="op">(</span><span class="va">fit</span>,pred.values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>age<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">40</span>,<span class="fl">60</span>,<span class="fl">80</span><span class="op">)</span>,sex<span class="op">=</span><span class="fl">2</span>,ph.ecog<span class="op">=</span><span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   age sex ph.ecog</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  20   2       3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  40   2       3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  60   2       3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  80   2       3</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
