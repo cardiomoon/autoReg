@@ -10,7 +10,10 @@ loglogplot(
   main = NULL,
   labels = NULL,
   no = 3,
+  add.loess = FALSE,
   add.lm = TRUE,
+  type = "l",
+  se = TRUE,
   ...
 )
 }
@@ -25,7 +28,13 @@ loglogplot(
 
 \item{no}{Numeric The number of groups to be converted}
 
+\item{add.loess}{logical If true, add loess regression line}
+
 \item{add.lm}{logical If true, add linear regression line}
+
+\item{type}{character "l" or "p"}
+
+\item{se}{logical If true, add se}
 
 \item{...}{Furhter arguments to be passed to plot()}
 }
@@ -48,4 +57,6 @@ fit=survfit(Surv(time,status)~logWBC,data=anderson)
 loglogplot(fit)
 fit=survfit(Surv(time,status)~logWBC+rx,data=anderson)
 loglogplot(fit,no=2)
+fit=survfit(Surv(time,status)~rx,data=anderson)
+loglogplot(fit,type="p")
 }

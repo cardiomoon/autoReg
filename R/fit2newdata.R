@@ -12,8 +12,10 @@
 #' data(cancer,package="survival")
 #' fit=coxph(Surv(time,status)~rx+sex+age,data=colon)
 #' fit=coxph(Surv(time,status)~rx+age+strata(sex),data=colon)
+#' fit=survreg(Surv(time, status) ~ ph.ecog + age + sex, data=lung, dist="weibull")
 #' fit2newdata(fit)
 #' fit2newdata(fit,pred.values=list(sex=0,age=58))
+#' fit2newdata(fit,pred.values=list(age=c(20,40,60,80),sex=2,ph.ecog=3))
 fit2newdata=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,digits=1){
 
      # fit=survreg(Surv(time,status)~age+ph.ecog+sex,data=lung,dist="weibull")

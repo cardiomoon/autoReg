@@ -17,23 +17,41 @@
 #' adjustedPlot(x,addCox=TRUE)
 #' x=survreg(Surv(time, status) ~ rx, data=anderson,dist="exponential")
 #' adjustedPlot(x)
-#' x=survreg(Surv(time, status) ~ ph.ecog + age + strata(sex), lung)
+#' x=survreg(Surv(time, status) ~ ph.ecog + age + sex, data=lung, dist="weibull")
 #' adjustedPlot(x)
 #' adjustedPlot(x,addCox=TRUE)
-adjustedPlot.survreg=function(x,xnames=NULL,pred.values=NULL,maxy.lev=5,median=TRUE,
+#' adjustedPlot(x,pred.values=list(age=c(20,40,60,80),sex=2,ph.ecog=3),addCox=TRUE)
+#' newdata=data.frame(ph.ecog=0:3,sex=c(1,2,2,2),age=c(20,40,60,80))
+#' adjustedPlot(x,newdata=newdata,addCox=TRUE)
+adjustedPlot.survreg=function(x,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,
                               newdata=NULL,addCox=FALSE){
 
-     #xnames=NULL;pred.values=NULL;maxy.lev=5;median=TRUE
-     #newdata=NULL;addCox=FALSE
+     # xnames=NULL;pred.values=list();maxy.lev=5;median=TRUE;addCox=TRUE
+     # newdata=NULL;addCox=FALSE
+     # pred.values=list(age=c(20,40,60,80),sex=2,ph.ecog=3)
      fit=x
      xvars = attr(fit$terms, "term.labels")
      if(length(xvars)>0){
-          if(is.null(xnames)) xnames=xvars[1]
+
           if(is.null(newdata)){
                newdata=fit2newdata(fit,xnames=xnames,pred.values=pred.values,maxy.lev=maxy.lev,median=median)
                labels=attr(newdata,"labels")
+          } else{
+               labels=attr(newdata,"labels")
+               if(is.null(labels)) {
+                    newdata=addLabelData(newdata)
+                    labels=attr(newdata,"labels")
+               }
           }
-          df1=as_tibble(newdata %>% select(-all_of(xnames)))
+          if(is.null(xnames)) {
+               if(length(pred.values)==0) xnames=xvars[1]
+          }
+          newdata
+          temp=map2(newdata,names(newdata),function(x,y){
+               ifelse(length(unique(x))==1,y,"")
+          })
+          temp=unlist(setdiff(temp,""))
+          df1=as_tibble(newdata %>% select(all_of(temp)))
           df1=df1[1,]
           label=map2_chr(names(df1),df1,function(x,y){
                paste0(x,"=",y)

@@ -63,4 +63,7 @@ fit=survreg(Surv(ttr,relapse)~grp+age+employment,data=pharmacoSmoking,dist="weib
 residualPlot(fit,type="response")
 residualPlot(fit,type="deviance")
 residualPlot(fit,type="dfbeta",vars="age")
+fit=survreg(Surv(time,status)~ph.ecog+sex*age,data=lung,dist="weibull")
+residualPlot(fit,"dfbeta")
+residualPlot(fit,"deviance")
 }

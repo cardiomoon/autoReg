@@ -14,6 +14,7 @@
 #'@importFrom ggplot2 stat_smooth geom_boxplot geom_jitter geom_segment geom_hline geom_label
 #'@importFrom dplyr as_tibble semi_join desc arrange
 #'@importFrom grid unit
+#'@importFrom purrr reduce
 #'@return A patchwork object
 #'@export
 #'@examples
@@ -40,16 +41,22 @@
 #'residualPlot(fit,type="response")
 #'residualPlot(fit,type="deviance")
 #'residualPlot(fit,type="dfbeta",vars="age")
+#'fit=survreg(Surv(time,status)~ph.ecog+sex*age,data=lung,dist="weibull")
+#'residualPlot(fit,"dfbeta")
+#'residualPlot(fit,"deviance")
 residualPlot=function(fit,type="martingale",vars=NULL,ncol=2,show.point=TRUE,se=TRUE,topn=5,labelsize=4){
        # type="partial"
-      # type="dfbeta";vars=NULL;show.point=TRUE;se=TRUE;topn=5;labelsize=4
+     #type="deviance";vars=NULL;show.point=TRUE;se=TRUE;topn=5;labelsize=4
      data=fit2model(fit)
      if("survreg" %in% class(fit)) {
           if(type=="martingale") {type="response"}
      }
-     r1=residuals(fit,type=type)
      xvars=attr(fit$term,"term.labels")
-
+     xvars2=setdiff(xvars,xvars[str_detect(xvars,":")])
+     narows=which(apply(data[xvars2],1,function(x) {any(is.na(x))}))
+     narows
+     if(length(narows)>0) data=data[-narows,]
+     r1=residuals(fit,type=type)
      if(!is.null(vars)) {
           xvars2 = attr(fit$coefficients, "names")
           xvars=intersect(union(xvars,xvars2),vars)
@@ -170,7 +177,18 @@ residualPlot=function(fit,type="martingale",vars=NULL,ncol=2,show.point=TRUE,se=
      data
      if(length(xvars)==1) ncol=1
      p=map(xvars,function(x){
-              if(is.mynumeric(data[[x]])){
+              if(str_detect(x,":")){
+                 temp=unlist(strsplit(x,":"))
+                 data$x=reduce(data[temp],`*`)
+                 p=ggplot(data,aes_string(x="x",y="r1"))
+                 if(show.point) p=p+geom_point(alpha=0.3)
+                 if(se) p=p+ stat_smooth(method="loess",formula="y~x")
+                 p=p+ labs(y=paste0(type," residual"),
+                           x=paste0(temp,collapse=":"))+
+                      theme_classic()
+                 p
+
+              } else if(is.mynumeric(data[[x]])){
                    p=ggplot(data,aes_string(x=x,y="r1"))
                    if(show.point) p=p+geom_point(alpha=0.3)
                    if(se) p=p+ stat_smooth(method="loess",formula="y~x")
