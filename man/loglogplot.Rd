@@ -14,6 +14,8 @@ loglogplot(
   add.lm = TRUE,
   type = "l",
   se = TRUE,
+  what = "surv",
+  legend.position = NULL,
   ...
 )
 }
@@ -35,6 +37,10 @@ loglogplot(
 \item{type}{character "l" or "p"}
 
 \item{se}{logical If true, add se}
+
+\item{what}{character One of c("surv","survOdds","failureOdds")}
+
+\item{legend.position}{legend position. One of c("left","top","bottom","right") or numeric vector of length 2.}
 
 \item{...}{Furhter arguments to be passed to plot()}
 }
@@ -59,4 +65,7 @@ fit=survfit(Surv(time,status)~logWBC+rx,data=anderson)
 loglogplot(fit,no=2)
 fit=survfit(Surv(time,status)~rx,data=anderson)
 loglogplot(fit,type="p")
+fit=survfit(Surv(time,status)~WBCCAT,data=anderson2)
+loglogplot(fit,type="p",what="survOdds")
+loglogplot(fit,type="p",what="failureOdds")
 }

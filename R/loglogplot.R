@@ -8,9 +8,12 @@
 #' @param add.lm logical If true, add linear regression line
 #' @param type character "l" or "p"
 #' @param se logical If true, add se
+#' @param what character One of c("surv","survOdds","failureOdds")
+#' @param legend.position legend position. One of c("left","top","bottom","right") or numeric vector of length 2.
 #' @param ... Furhter arguments to be passed to plot()
 #' @return  A ggplot or no return value, called for side effects
 #' @importFrom scales hue_pal
+#' @importFrom ggplot2 ggplot
 #' @export
 #' @examples
 #' require(survival)
@@ -27,7 +30,12 @@
 #'loglogplot(fit,no=2)
 #'fit=survfit(Surv(time,status)~rx,data=anderson)
 #'loglogplot(fit,type="p")
-loglogplot=function(fit,xnames=NULL,main=NULL,labels=NULL,no=3,add.loess=FALSE,add.lm=TRUE,type="l",se=TRUE,...){
+#'fit=survfit(Surv(time,status)~WBCCAT,data=anderson2)
+#'loglogplot(fit,type="p",what="survOdds")
+#'loglogplot(fit,type="p",what="failureOdds")
+loglogplot=function(fit,xnames=NULL,main=NULL,labels=NULL,no=3,
+                    add.loess=FALSE,add.lm=TRUE,type="l",se=TRUE,what="surv",
+                    legend.position=NULL,...){
      #xnames=NULL;main=NULL;labels=NULL;no=2
      data=fit2model(fit)
      if("coxph" %in% class(fit)){
@@ -93,15 +101,30 @@ loglogplot=function(fit,xnames=NULL,main=NULL,labels=NULL,no=3,add.loess=FALSE,a
           if(no>0) legend("topleft",legend=labels,col=col,lwd=2)
      } else{
           df=survfit2df(fit)
-          df$y=log(-log(df$surv))
+          if(what=="surv"){
+               df$y=log(-log(df$surv))
+               if(is.null(legend.position)) legend.position=c(0.2,0.85)
+               ylab="log-log survival estimate"
+          } else if(what=="survOdds"){
+               df$y=log(df$surv/(1-df$surv))
+               if(is.null(legend.position)) legend.position=c(0.8,0.85)
+               ylab="Survival Odds"
+          } else{
+               df$y=log((1-df$surv)/df$surv)
+               if(is.null(legend.position)) legend.position=c(0.2,0.85)
+               ylab="Failure Odds"
+          }
           df$x=log(df$time)
           p=ggplot(df,aes_string(x="x",y="y",color="strata"))+
                geom_point()
-          if(add.loess) p=p+stat_smooth(method="loess",formula=y~x,se=se)
-          if(add.lm) p=p+stat_smooth(method="lm",formula=y~x,se=se)
-          p=p+ labs(x="log survival time",y="log-log survival estimate")+
+          if(add.loess) p=p+stat_smooth(aes_string(fill="strata"),method="loess",formula=y~x,se=se,alpha=0.2)
+          if(add.lm) p=p+stat_smooth(aes_string(fill="strata"),method="lm",formula=y~x,se=se,alpha=0.2)
+          p=p+ labs(x="log survival time",y=ylab)+
                theme_classic()+
-               theme(panel.border=element_rect(fill=NA))
+               theme(panel.border=element_rect(fill=NA),
+                     legend.position=legend.position,
+                     legend.title=element_blank()
+                     )
           p
 
      }
