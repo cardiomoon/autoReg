@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">autoReg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,9 +104,9 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">logWBC</span>,data<span class="op">=</span><span class="va">anderson</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">adjustedPlot</span><span class="op">(</span><span class="va">fit</span>,type<span class="op">=</span><span class="st">"plot"</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="adjustedPlot-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="fu">adjustedPlot</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="adjustedPlot-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="fu">adjustedPlot</span><span class="op">(</span><span class="va">fit</span>,xnames<span class="op">=</span><span class="st">"rx"</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="adjustedPlot-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cancer</span>,package<span class="op">=</span><span class="st">"survival"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/strata.html" class="external-link">strata</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">differ</span>,data <span class="op">=</span><span class="va">colon</span><span class="op">)</span></span>
