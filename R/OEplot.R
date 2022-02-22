@@ -14,16 +14,16 @@
 #' @examples
 #' library(survival)
 #'data(cancer,package="survival")
-#'fit=coxph(Surv(time,status)~rx,data=colon)
-#'fit=coxph(Surv(time,status)~rx+age+strata(sex),data=colon)
+#'fit=coxph(Surv(time,status)~rx+age+sex,data=colon)
 #'OEplot(fit)
+#'OEplot(fit,xnames="sex")
 #'fit=coxph(Surv(time,status)~age,data=colon)
 #'OEplot(fit)
 #'fit=coxph(Surv(time,status)~logWBC,data=anderson)
 #'OEplot(fit)
 OEplot=function(fit,xnames=NULL,no=3,maxy.lev=5,median=TRUE){
-     #     xname="grp";maxy.lev=5
-                 # xnames=NULL;maxy.lev=5;median=TRUE;no=3
+     #  xname="grp";maxy.lev=5
+     #  xnames="rx";maxy.lev=5;median=TRUE;no=3
      data=fit2model(fit)
      xvars = attr(fit$terms, "term.labels")
      xvars

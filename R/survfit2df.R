@@ -7,6 +7,11 @@
 #' @examples
 #' library(survival)
 #'data(cancer,package="survival")
+#'fit=survfit(coxph(Surv(time,status)~sex+age+strata(rx),data=colon))
+#'survfit2df(fit)
+#'fit=coxph(Surv(time,status)~sex+age+strata(rx),data=colon)
+#'fit=survfit(as.formula(deparse(fit$terms)),data=fit2model(fit))
+#'survfit2df(fit)
 #'fit=survfit(Surv(time,status)~rx+sex+age,data=colon)
 #'survfit2df(fit)
 #'fit=survfit(Surv(time,status)~1,data=colon)
@@ -33,6 +38,23 @@ survfit2df=function(fit,labels=NULL){
                stratalist[[x]]=stringr::str_replace(temp[i,],".*=","")
           }
           res=cbind(res,as.data.frame(stratalist))
+
+          start=1
+          for(i in seq_along(fit$strata)){
+               if(i==1){
+                   temp=data.frame(0,fit$n[i],0,0,1,0,1,1)
+                   temp=cbind(temp,res[start,9:ncol(res)])
+                   names(temp)=names(res)
+               } else{
+                    temp1=data.frame(0,fit$n[i],0,0,1,0,1,1)
+                    temp1=cbind(temp1,res[start,9:ncol(res)])
+                    names(temp1)=names(res)
+                    temp=rbind(temp,temp1)
+               }
+               temp=rbind(temp,res[start:(start+fit$strata[i]-1),])
+               start=start+fit$strata[i]
+          }
+          res=temp
      } else{
           cols=c("time","n.risk","n.event","n.censor")
           suppressMessages(res<-map_dfc(cols,~fit[[.]]))

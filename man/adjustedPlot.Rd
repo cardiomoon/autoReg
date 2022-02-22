@@ -47,8 +47,8 @@ Draw an expected plot
 \examples{
 library(survival)
 fit=coxph(Surv(time,status)~rx+logWBC,data=anderson)
-adjustedPlot(fit,type="plot")
 adjustedPlot(fit)
+adjustedPlot(fit,xnames="rx")
 data(cancer,package="survival")
 fit=coxph(Surv(time,status)~rx+strata(sex)+age+differ,data =colon)
 adjustedPlot(fit,xnames=c("sex"))

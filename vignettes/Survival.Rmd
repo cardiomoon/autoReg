@@ -154,7 +154,7 @@ result=cox.zph(fit)
 result
 ```
 ```{r,fig.width=8,fig.height=6}
-survminer::ggcoxzph(result)
+coxzphplot(result)
 ```
 
 ### Disease-specific survival

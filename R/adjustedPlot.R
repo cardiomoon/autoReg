@@ -17,8 +17,8 @@
 #' @examples
 #' library(survival)
 #' fit=coxph(Surv(time,status)~rx+logWBC,data=anderson)
-#' adjustedPlot(fit,type="plot")
 #' adjustedPlot(fit)
+#' adjustedPlot(fit,xnames="rx")
 #'data(cancer,package="survival")
 #'fit=coxph(Surv(time,status)~rx+strata(sex)+age+differ,data =colon)
 #'adjustedPlot(fit,xnames=c("sex"))
@@ -28,9 +28,12 @@
 adjustedPlot=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,facet=NULL,se=FALSE,mark.time=FALSE,type="ggplot",...){
      # xnames=c("sex","rx","differ");maxy.lev=5;median=TRUE;facet=c("rx","sex");se=TRUE
      #xnames=c("sex");maxy.lev=5;median=TRUE;facet=NULL;se=TRUE
-     # xnames=NULL;pred.values=list();maxy.lev=5;median=TRUE;facet=NULL;se=TRUE;mark.time=FALSE;type="ggplot"
+      # xnames=NULL;pred.values=list();maxy.lev=5;median=TRUE;facet=NULL;se=TRUE;mark.time=FALSE;type="ggplot"
      if("survreg" %in% class(fit)) {
           return(adjustedPlot.survreg(x=fit,xnames=xnames,pred.values=pred.values,maxy.lev=maxy.lev,...))
+     }
+     if(is.null(xnames)) {
+          return(adjustedPlot2(fit,se=se,mark.time=mark.time))
      }
      newdata=fit2newdata(fit,xnames=xnames,pred.values=pred.values,maxy.lev=maxy.lev,median=median)
      data=fit2model(fit)
@@ -98,7 +101,7 @@ adjustedPlot=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,
 
           p= ggplot(df,aes_string(x="time",y="surv",group="newstrata",
                                   color="newstrata"))+
-               geom_line()
+               geom_step()
           if(se==TRUE) {
                p=p+geom_ribbon(aes_string(ymin="lower",ymax="upper",fill="newstrata",color=NULL),alpha=0.3)
 
@@ -116,4 +119,36 @@ adjustedPlot=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,
           p=p+labs(subtitle=label,y="Survival Rate")
           p
      }
+}
+
+#' Draw a survfitted plot
+#' @param fit An object of class coxph or survfit
+#' @param se logical Whether or not show se
+#' @param mark.time logical Whether or not mark time
+#' @examples
+#' library(survival)
+#' fit=coxph(Surv(time,status)~rx+logWBC,data=anderson)
+#' adjustedPlot2(fit)
+#' @return a ggplot
+#' @export
+adjustedPlot2=function(fit,se=FALSE,mark.time=FALSE){
+
+     if("survfit" %in% class(fit)){
+          df=survfit2df(fit)
+     } else{
+        df=survfit2df(survfit(fit))
+     }
+     p= ggplot(df,aes_string(x="time",y="surv",group="strata",
+                             color="strata"))+
+          geom_step()
+     if(se==TRUE) {
+          p=p+geom_ribbon(aes_string(ymin="lower",ymax="upper",fill="strata",color=NULL),alpha=0.3)
+
+     }
+     if(mark.time) p<-p+geom_point(data=df[df$n.censor!=0,],shape=3)
+     p=p+ theme_classic()+
+          theme(legend.title=element_blank(),panel.border=element_rect(fill=NA))+
+          guides(color="none",fill="none")+
+          ylim(c(0,1))
+     p
 }
