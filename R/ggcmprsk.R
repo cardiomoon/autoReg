@@ -9,7 +9,7 @@
 #'@examples
 #'data(melanoma,package="boot")
 #'melanoma$status1 = ifelse(melanoma$status==1,1,ifelse(melanoma$status==2,0,2))
-#'ggcmprsk(time/365+status1~1,data=melanoma,id=c("melanoma","other"))
+#'ggcmprsk(time/365+status1~1,data=melanoma,id=c("melanoma","other"),se=TRUE)
 #'@return An object of class "ggplot"
 #'@export
 ggcmprsk=function(x,data,id=NULL,se=FALSE){
@@ -37,8 +37,8 @@ ggcmprsk=function(x,data,id=NULL,se=FALSE){
      })
 
      p=ggplot(result,aes_string(x="time",y="est"))+
-          geom_line(aes_string(color="name"))
-     if(se) p=p+geom_ribbon(aes_string(ymin="lower",ymax="upper",fill="name"),alpha=0.2)
+          geom_step(aes_string(color="name"))
+     if(se) p=p+geom_stepribbon(aes_string(ymin="lower",ymax="upper",fill="name"),alpha=0.2)
      p= p+ labs(x="Time",y="Probability of an event",title="Cumulative incidence Function")+
           theme_classic()+
           theme(legend.position="top")+

@@ -21,7 +21,6 @@ Imports:
    dplyr,
    crayon,
    stringr,
-   tidyselect,
    tidyr,
    purrr,
    survival,
@@ -35,7 +34,8 @@ Imports:
    broom,
    cmprsk,
    scales,
-   maxstat
+   maxstat,
+   pammtools
 Suggests:
     knitr,
     finalfit,

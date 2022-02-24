@@ -92,8 +92,8 @@ ggcmprsk2=function(x,data,id=c("disease","other"),se=FALSE,
 
 
      p<-ggplot(df,aes_string(x="time",y="est"))
-     if(se) p=p+geom_ribbon(aes_string(ymin="lower",ymax="upper",fill="id",linetype="method"),alpha=0.2)
-     p=p+ geom_line(aes_string(color="id",linetype="method"))+theme_bw()+
+     if(se) p=p+geom_stepribbon(aes_string(ymin="lower",ymax="upper",fill="id",linetype="method"),alpha=0.2)
+     p=p+ geom_step(aes_string(color="id",linetype="method"))+theme_bw()+
           scale_y_continuous(
                sec.axis=sec_axis(~1-.,name=ylabs[2]))+
           labs(x=xlab,

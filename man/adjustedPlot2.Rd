@@ -22,5 +22,6 @@ Draw a survfitted plot
 \examples{
 library(survival)
 fit=coxph(Surv(time,status)~rx+logWBC,data=anderson)
-adjustedPlot2(fit)
+plot(survfit(fit),conf.int=TRUE)
+adjustedPlot2(fit,se=TRUE)
 }

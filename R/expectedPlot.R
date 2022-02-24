@@ -14,6 +14,7 @@
 #' @importFrom scales hue_pal
 #' @importFrom maxstat maxstat.test
 #' @importFrom moonBook rank2group
+#' @importFrom pammtools geom_stepribbon
 #' @export
 #' @examples
 #' library(survival)
@@ -78,7 +79,7 @@ expectedPlot=function(fit,xname=NULL,no=2,maxy.lev=5,median=TRUE,mark.time=FALSE
                                   color="strata"))+
                geom_step()
           if(se==TRUE) {
-               p=p+geom_ribbon(aes_string(ymin="lower",ymax="upper",fill="strata",color=NULL),alpha=0.3)
+               p=p+geom_stepribbon(aes_string(ymin="lower",ymax="upper",fill="strata",color=NULL),alpha=0.3)
 
           }
           if(mark.time) p<-p+geom_point(data=df[df$n.censor!=0,],shape=3)

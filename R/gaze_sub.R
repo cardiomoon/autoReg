@@ -209,7 +209,7 @@ gazeCont=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALS
 #' @importFrom dplyr select group_by rename summarise mutate bind_cols count `%>%`
 #' @importFrom stringr str_pad
 #' @importFrom tidyr pivot_wider
-#' @importFrom tidyselect everything
+#' @importFrom dplyr everything
 #' @export
 gazeCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE,show.missing=FALSE,show.stats=TRUE,origData=NULL,show.p=TRUE,method=1,catMethod=2,maxCatLevel=20,...){
 

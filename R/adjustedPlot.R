@@ -13,18 +13,20 @@
 #' @importFrom graphics legend lines
 #' @importFrom scales hue_pal
 #' @importFrom ggplot2 element_rect facet_wrap label_both ylim facet_grid geom_step
+#' @importFrom pammtools geom_stepribbon
 #' @export
 #' @examples
 #' library(survival)
 #' fit=coxph(Surv(time,status)~rx+logWBC,data=anderson)
 #' adjustedPlot(fit)
-#' adjustedPlot(fit,xnames="rx")
-#'data(cancer,package="survival")
+#' adjustedPlot(fit,xnames="rx",se=TRUE,type="plot")
+#' adjustedPlot(fit,xnames="rx",se=TRUE)
+#' data(cancer,package="survival")
 #'fit=coxph(Surv(time,status)~rx+strata(sex)+age+differ,data =colon)
 #'adjustedPlot(fit,xnames=c("sex"))
 #'adjustedPlot(fit,xnames=c("sex"),pred.values=list(age=58,differ=3))
 #'adjustedPlot(fit,xnames=c("sex","rx"),facet="sex")
-#'adjustedPlot(fit,xnames=c("rx","sex","differ"),facet=c("sex","rx"))
+#'adjustedPlot(fit,xnames=c("rx","sex","differ"),facet=c("sex","rx"),se=TRUE)
 adjustedPlot=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,facet=NULL,se=FALSE,mark.time=FALSE,type="ggplot",...){
      # xnames=c("sex","rx","differ");maxy.lev=5;median=TRUE;facet=c("rx","sex");se=TRUE
      #xnames=c("sex");maxy.lev=5;median=TRUE;facet=NULL;se=TRUE
@@ -69,7 +71,7 @@ adjustedPlot=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,
                                   color="strata"))+
                geom_step()
           if(se==TRUE) {
-               p=p+geom_ribbon(aes_string(ymin="lower",ymax="upper",fill="strata",color=NULL),alpha=0.3)
+               p=p+geom_stepribbon(aes_string(ymin="lower",ymax="upper",fill="strata",color=NULL),alpha=0.3)
 
           }
           if(mark.time) p<-p+geom_point(data=df[df$n.censor!=0,],shape=3)
@@ -77,7 +79,7 @@ adjustedPlot=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,
           p=p+ theme_classic()+
                theme(legend.title=element_blank(),panel.border=element_rect(fill=NA))+
                ylim(c(0,1))
-          p=p+labs(subtitle=label,y="Survival Rate")
+          p=p+labs(subtitle=label,y="Survival Probability",x="Time")
           p
           }
 
@@ -103,7 +105,7 @@ adjustedPlot=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,
                                   color="newstrata"))+
                geom_step()
           if(se==TRUE) {
-               p=p+geom_ribbon(aes_string(ymin="lower",ymax="upper",fill="newstrata",color=NULL),alpha=0.3)
+               p=p+geom_stepribbon(aes_string(ymin="lower",ymax="upper",fill="newstrata",color=NULL),alpha=0.3)
 
           }
           if(mark.time) p<-p+geom_point(data=df[df$n.censor!=0,],shape=3)
@@ -116,7 +118,7 @@ adjustedPlot=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,
                myformula=as.formula(paste0(facet[1],"~",facet[2]))
                p=p+facet_grid(myformula,labeller=label_both)
           }
-          p=p+labs(subtitle=label,y="Survival Rate")
+          p=p+labs(subtitle=label,y="Survival Probability",x="Time")
           p
      }
 }
@@ -125,10 +127,12 @@ adjustedPlot=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,
 #' @param fit An object of class coxph or survfit
 #' @param se logical Whether or not show se
 #' @param mark.time logical Whether or not mark time
+#' @importFrom pammtools geom_stepribbon
 #' @examples
 #' library(survival)
 #' fit=coxph(Surv(time,status)~rx+logWBC,data=anderson)
-#' adjustedPlot2(fit)
+#' plot(survfit(fit),conf.int=TRUE)
+#' adjustedPlot2(fit,se=TRUE)
 #' @return a ggplot
 #' @export
 adjustedPlot2=function(fit,se=FALSE,mark.time=FALSE){
@@ -142,12 +146,13 @@ adjustedPlot2=function(fit,se=FALSE,mark.time=FALSE){
                              color="strata"))+
           geom_step()
      if(se==TRUE) {
-          p=p+geom_ribbon(aes_string(ymin="lower",ymax="upper",fill="strata",color=NULL),alpha=0.3)
+          p=p+geom_stepribbon(aes_string(ymin="lower",ymax="upper",fill="strata",color=NULL),alpha=0.3)
 
      }
      if(mark.time) p<-p+geom_point(data=df[df$n.censor!=0,],shape=3)
      p=p+ theme_classic()+
           theme(legend.title=element_blank(),panel.border=element_rect(fill=NA))+
+          labs(y="Survival Probability",x="Time")+
           guides(color="none",fill="none")+
           ylim(c(0,1))
      p

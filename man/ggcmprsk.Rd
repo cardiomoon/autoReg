@@ -24,5 +24,5 @@ Draw Cumulative Incidence Curves for Competing Risks
 \examples{
 data(melanoma,package="boot")
 melanoma$status1 = ifelse(melanoma$status==1,1,ifelse(melanoma$status==2,0,2))
-ggcmprsk(time/365+status1~1,data=melanoma,id=c("melanoma","other"))
+ggcmprsk(time/365+status1~1,data=melanoma,id=c("melanoma","other"),se=TRUE)
 }
