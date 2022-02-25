@@ -1,3 +1,12 @@
+autoReg 0.2.3
+=============
+(2022-Feb-25)
+
+* add new argument newdata to function adjustedPlot
+* new function addLabelData added
+
+
+
 autoReg 0.2.2
 =============
 (2022-Feb-22)

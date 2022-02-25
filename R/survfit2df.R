@@ -93,6 +93,15 @@ survfit2df=function(fit,labels=NULL){
           res=cbind(df1,df)
           if(!is.null(labels)) {
                res$strata=rep(labels,each=nrow(res)/no)
+               strata=res$strata
+               suppressMessages(temp<-map_dfc(strata,~strsplit(.,", ")))
+               stratalist=list()
+               for(i in 1:nrow(temp)){
+                    x=strsplit(as.character(temp[i,1]),"=")[[1]][1]
+                    stratalist[[x]]=stringr::str_replace(temp[i,],".*=","")
+               }
+               res=cbind(res,as.data.frame(stratalist))
+
           }
           res
 

@@ -8,6 +8,7 @@ adjustedPlot(
   fit,
   xnames = NULL,
   pred.values = list(),
+  newdata = NULL,
   maxy.lev = 5,
   median = TRUE,
   facet = NULL,
@@ -23,6 +24,8 @@ adjustedPlot(
 \item{xnames}{Character Names of explanatory variable to plot}
 
 \item{pred.values}{A list A list of predictor values}
+
+\item{newdata}{A data.frame or NULL}
 
 \item{maxy.lev}{Integer Maximum unique length of a numeric variable to be treated as categorical variables}
 
@@ -56,4 +59,6 @@ adjustedPlot(fit,xnames=c("sex"))
 adjustedPlot(fit,xnames=c("sex"),pred.values=list(age=58,differ=3))
 adjustedPlot(fit,xnames=c("sex","rx"),facet="sex")
 adjustedPlot(fit,xnames=c("rx","sex","differ"),facet=c("sex","rx"),se=TRUE)
+fit <- coxph(Surv(start, stop, event) ~ rx + number + size+ cluster(id), data = bladder2)
+adjustedPlot(fit,xnames=c("rx","number","size"),facet=c("rx","size"),maxy.lev=8)
 }

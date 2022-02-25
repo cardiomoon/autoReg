@@ -2,6 +2,7 @@
 #' @param fit An object of class "coxph" or "survreg"
 #' @param xnames Character Names of explanatory variable to plot
 #' @param pred.values A list A list of predictor values
+#' @param newdata A data.frame or NULL
 #' @param maxy.lev Integer Maximum unique length of a numeric variable to be treated as categorical variables
 #' @param median Logical
 #' @param facet Character Name of facet variable
@@ -27,7 +28,9 @@
 #'adjustedPlot(fit,xnames=c("sex"),pred.values=list(age=58,differ=3))
 #'adjustedPlot(fit,xnames=c("sex","rx"),facet="sex")
 #'adjustedPlot(fit,xnames=c("rx","sex","differ"),facet=c("sex","rx"),se=TRUE)
-adjustedPlot=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,facet=NULL,se=FALSE,mark.time=FALSE,type="ggplot",...){
+#'fit <- coxph(Surv(start, stop, event) ~ rx + number + size+ cluster(id), data = bladder2)
+#'adjustedPlot(fit,xnames=c("rx","number","size"),facet=c("rx","size"),maxy.lev=8)
+adjustedPlot=function(fit,xnames=NULL,pred.values=list(),newdata=NULL,maxy.lev=5,median=TRUE,facet=NULL,se=FALSE,mark.time=FALSE,type="ggplot",...){
      # xnames=c("sex","rx","differ");maxy.lev=5;median=TRUE;facet=c("rx","sex");se=TRUE
      #xnames=c("sex");maxy.lev=5;median=TRUE;facet=NULL;se=TRUE
       # xnames=NULL;pred.values=list();maxy.lev=5;median=TRUE;facet=NULL;se=TRUE;mark.time=FALSE;type="ggplot"
@@ -37,12 +40,21 @@ adjustedPlot=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,
      if(is.null(xnames)) {
           return(adjustedPlot2(fit,se=se,mark.time=mark.time))
      }
-     newdata=fit2newdata(fit,xnames=xnames,pred.values=pred.values,maxy.lev=maxy.lev,median=median)
      data=fit2model(fit)
      xvars = attr(fit$terms, "term.labels")
      if(is.null(xnames)) xnames=xvars[1]
-     labels=attr(newdata,"labels")
-     labels
+
+     if(is.null(newdata)){
+          newdata=fit2newdata(fit,xnames=xnames,pred.values=pred.values,maxy.lev=maxy.lev,median=median)
+          labels=attr(newdata,"labels")
+     } else{
+          labels=attr(newdata,"labels")
+          if(is.null(labels)) {
+               newdata=addLabelData(newdata)
+               labels=attr(newdata,"labels")
+          }
+     }
+
      no=length(labels)
      col=scales::hue_pal()(no)
 
@@ -84,8 +96,12 @@ adjustedPlot=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,
           }
 
      } else{
-          names(fit1$strata)=labels
-          df=survfit2df(fit1)
+          if(!is.null(fit1$strata)){
+              names(fit1$strata)=labels
+              df=survfit2df(fit1)
+          } else{
+              df=survfit2df(fit1,labels=labels)
+          }
           newvar=setdiff(xnames,facet)
 
           suppressMessages(res<-map_dfc(newvar,function(x){

@@ -12,7 +12,7 @@ addLabelData=function(data){
      suppressMessages(df2<-map2_dfc(names(df1),df1,function(x,y){
           paste0(x,"=",y)
      }))
-     labels=apply(df2,1,paste0,collapse=",")
+     labels=apply(df2,1,paste0,collapse=", ")
      attr(newdata,"labels")=labels
      newdata
 }

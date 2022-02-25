@@ -20,7 +20,8 @@ fit2newdata=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,d
 
      # fit=survreg(Surv(time,status)~age+ph.ecog+sex,data=lung,dist="weibull")
      # pred.values=list(ph.ecog=3,sex=2,age=c(20,40,60,80))
-       # xnames=NULL;maxy.lev=5;digits=1;median=TRUE
+       # xnames=NULL;
+       # maxy.lev=5;digits=1;median=TRUE;pred.values=list()
        #fit=coxph(Surv(time,status)~sex*age,data=colon)
      df=fit2model(fit)
      xvars = attr(fit$terms, "term.labels")
@@ -41,7 +42,7 @@ fit2newdata=function(fit,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,d
           if(xnames[i] %in% names(pred.values)){
                   result[[i]]=pred.values[[which(xnames[i] == names(pred.values))]]
           } else if(is.mynumeric(df[[xnames[i]]],maxy.lev=maxy.lev)){
-               result[[i]]=fivenum(df[[xnames[i]]])[c(2,3,4)]
+               result[[i]]=unique(fivenum(df[[xnames[i]]])[c(2,3,4)])
           } else{
                result[[i]]=sort(unique(df[[xnames[i]]]))
 
