@@ -11,10 +11,10 @@ crrFormula(x, data, ...)
 
 \item{data}{data a data.frame}
 
-\item{...}{Further arguments to be passed to \code{\link[cmprsk]{crr}}}
+\item{...}{Further arguments to be passed to \code{\link[tidycmprsk]{crr}}}
 }
 \value{
-An object of class "crr" which is described in \code{\link[cmprsk]{crr}}
+An object of class "tidycrr" which is described in \code{\link[tidycmprsk]{crr}}
 }
 \description{
 Competing Risk Regression with Formula

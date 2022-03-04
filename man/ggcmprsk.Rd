@@ -4,16 +4,22 @@
 \alias{ggcmprsk}
 \title{Draw Cumulative Incidence Curves for Competing Risks}
 \usage{
-ggcmprsk(x, data, id = NULL, se = FALSE)
+ggcmprsk(x, data, id = NULL, se = FALSE, strata = NULL, facet = NULL, ...)
 }
 \arguments{
 \item{x}{A formula as time+status~1}
 
 \item{data}{A data.frame}
 
-\item{id}{character vector}
+\item{id}{character vector label for status}
 
 \item{se}{logical whether or not show confidence interval}
+
+\item{strata}{character vector label for strata}
+
+\item{facet}{numeric if facet is not NULL, draw plot with selected facets}
+
+\item{...}{Further arguments to be passed to tidycmprsk::cuminc}
 }
 \value{
 An object of class "ggplot"
@@ -24,5 +30,12 @@ Draw Cumulative Incidence Curves for Competing Risks
 \examples{
 data(melanoma,package="boot")
 melanoma$status1 = ifelse(melanoma$status==1,1,ifelse(melanoma$status==2,0,2))
-ggcmprsk(time/365+status1~1,data=melanoma,id=c("melanoma","other"),se=TRUE)
+ggcmprsk(time/365+status1~1,data=melanoma)
+ggcmprsk(time/365+status1~1,data=melanoma,id=c("alive","melanoma","other"),se=TRUE)
+ggcmprsk(time/365+status1~sex,data=melanoma)
+ggcmprsk(time/365+status1~sex,data=melanoma,facet=1)
+ggcmprsk(time/365+status1~sex,data=melanoma,
+id=c("alive","melanoma","other"),strata=c("female","male"))
+ggcmprsk(time/365+status1~sex,data=melanoma,
+id=c("alive","melanoma","other"),strata=c("female","male"),facet=1)
 }

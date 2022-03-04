@@ -8,6 +8,7 @@
 \alias{gaze.survreg}
 \alias{gaze.glm}
 \alias{gaze.lm}
+\alias{gaze.tidycrr}
 \title{Produce table for descriptive statistics}
 \usage{
 gaze(x, ...)
@@ -23,6 +24,8 @@ gaze(x, ...)
 \method{gaze}{glm}(x, ...)
 
 \method{gaze}{lm}(x, ...)
+
+\method{gaze}{tidycrr}(x, ...)
 }
 \arguments{
 \item{x}{An R object, formula or data.frame}
@@ -54,6 +57,8 @@ methods were used(t-test, ANOVA, Kruskal-Wallis, chi-squared, Fisher's,...)
 \item \code{glm}: default S3 method
 
 \item \code{lm}: default S3 method
+
+\item \code{tidycrr}: default S3 method
 }}
 
 \examples{
@@ -88,5 +93,9 @@ data(cancer,package="survival")
 fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
 gaze(fit)
 fit=lm(mpg~wt*hp+am+I(wt^2),data=mtcars)
+gaze(fit)
+data(melanoma,package="boot")
+melanoma$status_crr=ifelse(melanoma$status==1,1,ifelse(melanoma$status==2,0,2))
+fit=crrFormula(time+status_crr~age+sex+thickness+ulcer,data=melanoma)
 gaze(fit)
 }

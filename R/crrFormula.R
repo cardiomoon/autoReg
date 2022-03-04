@@ -1,16 +1,17 @@
 #' Competing Risk Regression with Formula
 #' @param x formula time+status~explanatory variables
 #' @param data data a data.frame
-#' @param ... Further arguments to be passed to \code{\link[cmprsk]{crr}}
-#' @importFrom cmprsk crr
-#' @importFrom stats model.matrix
-#' @return An object of class "crr" which is described in \code{\link[cmprsk]{crr}}
+#' @param ... Further arguments to be passed to \code{\link[tidycmprsk]{crr}}
+#' @importFrom tidycmprsk crr
+#' @importFrom survival Surv
+#' @return An object of class "tidycrr" which is described in \code{\link[tidycmprsk]{crr}}
 #' @examples
 #' data(melanoma,package="boot")
 #' melanoma$status_crr=ifelse(melanoma$status==1,1,ifelse(melanoma$status==2,0,2))
 #' crrFormula(time+status_crr~age+sex+thickness+ulcer,data=melanoma)
 #' @export
 crrFormula=function(x,data,...){
+     # x=time+status_crr~age+sex+thickness+ulcer;data=melanoma
      f=x
      myt=terms(f,data=data)
      xvars=attr(myt,"term.labels")
@@ -28,9 +29,13 @@ crrFormula=function(x,data,...){
      }
      timevar=yvars[1]
      statusvar=yvars[2]
-     formula=paste0("~",paste0(xvars,collapse="+"))
-     cov=model.matrix(as.formula(formula),data=data)[,-1]
-     cmprsk::crr(data[[timevar]],data[[statusvar]],cov,...)
+     if(!is.factor(data[[statusvar]])) data[[statusvar]]=factor(data[[statusvar]])
+     # formula=paste0("~",paste0(xvars,collapse="+"))
+     # cov=model.matrix(as.formula(formula),data=data)[,-1]
+     # cmprsk::crr(data[[timevar]],data[[statusvar]],cov,...)
+     formula=paste0("survival::Surv(",timevar,",",statusvar,")~",paste0(xvars,collapse="+"))
+     x=tidycmprsk::crr(as.formula(formula),data=data,...)
+     x
 }
 
 
@@ -45,11 +50,14 @@ crrFormula=function(x,data,...){
 #' @return An object of class "data.frame"
 #' @export
 crr2stats=function(x,digits=2){
+     df=x$tidy
+     HR=exp(df$estimate)
+     lower=exp(df$conf.low)
+     upper=exp(df$conf.high)
+     p=p2character2(df$p.value)
+     id=df$term
+     df=data.frame(HR,lower,upper,p,id)
 
-     df=as.data.frame(cbind(summary(x)$conf.int,summary(x)$coef[,5]))
-     df$id=rownames(df)
-     df=df[-2]
-     names(df)=c("HR","lower","upper","p","id")
      fmt=paste0("%.",digits,"f")
      df$stats=paste0(sprintf(fmt,df$HR)," (",
                      sprintf(fmt,df$lower),"-",

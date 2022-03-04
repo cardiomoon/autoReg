@@ -149,3 +149,32 @@ gaze.lm=function(x,...){
      class(df)=c("autoReg","data.frame")
      myformat(df)
 }
+
+#'@describeIn gaze default S3 method
+#'@export
+#'@examples
+#' data(melanoma,package="boot")
+#' melanoma$status_crr=ifelse(melanoma$status==1,1,ifelse(melanoma$status==2,0,2))
+#' fit=crrFormula(time+status_crr~age+sex+thickness+ulcer,data=melanoma)
+#' gaze(fit)
+gaze.tidycrr=function(x,...){
+
+     df1=x$tidy[,c(1:5)]
+     names(df1)=c("var","coef","se(coef)","z","p")
+     df2=crr2stats(x)
+     df=cbind(df1,df2[,c(1:3)])
+     df
+     df$p=p2character2(df$p,add.p=FALSE)
+     df[]=lapply(df,function(x) {
+          if(is.numeric(x)) {
+               x=round(x,3)
+          }else{
+               x
+          }
+     })
+     df
+     attr(df,"model")="crr"
+     attr(df,"summary")=TRUE
+     class(df)=c("autoReg","data.frame")
+     myformat(df)
+}

@@ -9,7 +9,7 @@
 #'@param xlab A character. The x-axis label
 #'@param label string vector of length 2. Label names
 #'@param plot logical Whether or not print plot
-#'@importFrom cmprsk cuminc
+#'@importFrom tidycmprsk cuminc
 #'@importFrom survival survfit Surv
 #'@importFrom ggplot2 scale_y_continuous sec_axis
 #'@return A list containing the following components:
@@ -29,6 +29,11 @@
 ggcmprsk2=function(x,data,id=c("disease","other"),se=FALSE,
                     xpos=c(2,2),ypos=c(0.25,0.70),
                     ylabs=NULL,xlab=NULL,label=NULL,plot=TRUE){
+     # data(prostateSurvival,package="asaur")
+     # prostateHighRisk <- prostateSurvival %>%filter(grade=="poor" & stage=="T2",ageGroup=="80+")
+     # x=survTime/12+status~1;data=prostateHighRisk;id=c("prostate cancer","other causes")
+     # se=FALSE;xpos=c(2,2);ypos=c(0.25,0.70)
+     # ylabs=NULL;xlab=NULL;label=NULL;plot=TRUE
 
         temp=strsplit(deparse(x),"~")[[1]][1]
         temp=gsub(" ","",temp)
@@ -38,8 +43,9 @@ ggcmprsk2=function(x,data,id=c("disease","other"),se=FALSE,
                 cat("The formula should be : time+status~1\n")
                 return(NULL)
         }
-        time=eval(parse(text=paste0("data$",yvars[1])))
-        status=eval(parse(text=paste0("data$",yvars[2])))
+        timevar=yvars[1]
+        statusvar=yvars[2]
+
 
      if(is.null(ylabs)) ylabs=paste0("Probability of death from ",id)
      if(is.null(xlab)) xlab=paste0("Time from " ,id[1]," diagnosis")
@@ -47,7 +53,8 @@ ggcmprsk2=function(x,data,id=c("disease","other"),se=FALSE,
 
 
      df1=map2_dfr(1:length(id),id,function(x,y){
-          fit=survfit(Surv(time,status==x)~1)
+          myformula=paste0("survival::Surv(",timevar,",",statusvar,"==",x,")~1")
+          fit=survfit(as.formula(myformula),data=data)
           if(x==2){
                est=fit$surv
                se=fit$std.err
@@ -66,28 +73,22 @@ ggcmprsk2=function(x,data,id=c("disease","other"),se=FALSE,
 
      df3=data.frame(label=labels,x=xpos,y=ypos,id=id)
 
-     fit1=cuminc(time,status)
+     formula=paste0("survival::Surv(",timevar,",",statusvar,")~1")
+     formula
+     if(!is.factor(data[[statusvar]])){
+          data[[statusvar]]=factor(data[[statusvar]])
+     }
+     suppressWarnings(fit1<-cuminc(as.formula(formula),data=data))
 
-     df2=map2_dfr(fit1,id,function(x,y){
-          if(y==id[1]){
-               est=x$est
-               se=x$var
-          }else{
-               est=1-x$est
-               se=1-x$var
-          }
-          df=data.frame(time=x$time,
-                        est=est,
-                        se=se) %>%
-               mutate(
-                    lower=est-1.96*se,
-                    upper=est+1.96*se,
-                    id=y,
-                    method="cif")
-          df
-     })
+     df2=fit1$tidy[c(1,3,4,5,6,2)]
+     names(df2)=c("time","est","se","lower","upper","id")
+     df2$est[df2$id!=1]=1-df2$est[df2$id!=1]
+     df2$se[df2$id!=1]=1-df2$se[df2$id!=1]
+     df2$lower[df2$id!=1]=1-df2$lower[df2$id!=1]
+     df2$upper[df2$id!=1]=1-df2$upper[df2$id!=1]
+     df2$id=factor(df2$id,labels=id)
+     df2$method="CIC"
 
-     df2
      df=rbind(df1,df2)
 
 

@@ -1,10 +1,17 @@
+autoReg 0.2.4
+=============
+(2022-Mar-4)
+
+* rewrite ggcmprsk and ggcmprsk2
+* new function gaze.tidycrr added
+
+
 autoReg 0.2.3
 =============
 (2022-Feb-25)
 
 * add new argument newdata to function adjustedPlot
 * new function addLabelData added
-
 
 
 autoReg 0.2.2

@@ -13,7 +13,7 @@
 #' final=fit2final(fit)
 #' df %>% addFitSummary(final,statsname="HR (final)") %>% myft()
 addFitSummary=function(df,fit,statsname=""){
-     if("crr" %in% class(fit)){
+     if("tidycrr" %in% class(fit)){
           result=crr2stats(fit)
           result=result[,c(5,6)]
      } else if("imputedReg" %in% class(fit)){
