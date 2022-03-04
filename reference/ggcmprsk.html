@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">autoReg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +58,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ggcmprsk</span><span class="op">(</span><span class="va">x</span>, <span class="va">data</span>, id <span class="op">=</span> <span class="cn">NULL</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ggcmprsk</span><span class="op">(</span><span class="va">x</span>, <span class="va">data</span>, id <span class="op">=</span> <span class="cn">NULL</span>, se <span class="op">=</span> <span class="cn">FALSE</span>, strata <span class="op">=</span> <span class="cn">NULL</span>, facet <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -68,9 +68,15 @@
 <dt>data</dt>
 <dd><p>A data.frame</p></dd>
 <dt>id</dt>
-<dd><p>character vector</p></dd>
+<dd><p>character vector label for status</p></dd>
 <dt>se</dt>
 <dd><p>logical whether or not show confidence interval</p></dd>
+<dt>strata</dt>
+<dd><p>character vector label for strata</p></dd>
+<dt>facet</dt>
+<dd><p>numeric if facet is not NULL, draw plot with selected facets</p></dd>
+<dt>...</dt>
+<dd><p>Further arguments to be passed to tidycmprsk::cuminc</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -81,8 +87,20 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">melanoma</span>,package<span class="op">=</span><span class="st">"boot"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">melanoma</span><span class="op">$</span><span class="va">status1</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">melanoma</span><span class="op">$</span><span class="va">status</span><span class="op">==</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">melanoma</span><span class="op">$</span><span class="va">status</span><span class="op">==</span><span class="fl">2</span>,<span class="fl">0</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">ggcmprsk</span><span class="op">(</span><span class="va">time</span><span class="op">/</span><span class="fl">365</span><span class="op">+</span><span class="va">status1</span><span class="op">~</span><span class="fl">1</span>,data<span class="op">=</span><span class="va">melanoma</span>,id<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"melanoma"</span>,<span class="st">"other"</span><span class="op">)</span>,se<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">ggcmprsk</span><span class="op">(</span><span class="va">time</span><span class="op">/</span><span class="fl">365</span><span class="op">+</span><span class="va">status1</span><span class="op">~</span><span class="fl">1</span>,data<span class="op">=</span><span class="va">melanoma</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="ggcmprsk-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="fu">ggcmprsk</span><span class="op">(</span><span class="va">time</span><span class="op">/</span><span class="fl">365</span><span class="op">+</span><span class="va">status1</span><span class="op">~</span><span class="fl">1</span>,data<span class="op">=</span><span class="va">melanoma</span>,id<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"alive"</span>,<span class="st">"melanoma"</span>,<span class="st">"other"</span><span class="op">)</span>,se<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="ggcmprsk-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="fu">ggcmprsk</span><span class="op">(</span><span class="va">time</span><span class="op">/</span><span class="fl">365</span><span class="op">+</span><span class="va">status1</span><span class="op">~</span><span class="va">sex</span>,data<span class="op">=</span><span class="va">melanoma</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="ggcmprsk-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="fu">ggcmprsk</span><span class="op">(</span><span class="va">time</span><span class="op">/</span><span class="fl">365</span><span class="op">+</span><span class="va">status1</span><span class="op">~</span><span class="va">sex</span>,data<span class="op">=</span><span class="va">melanoma</span>,facet<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="ggcmprsk-4.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="fu">ggcmprsk</span><span class="op">(</span><span class="va">time</span><span class="op">/</span><span class="fl">365</span><span class="op">+</span><span class="va">status1</span><span class="op">~</span><span class="va">sex</span>,data<span class="op">=</span><span class="va">melanoma</span>,</span>
+<span class="r-in">id<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"alive"</span>,<span class="st">"melanoma"</span>,<span class="st">"other"</span><span class="op">)</span>,strata<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"female"</span>,<span class="st">"male"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="ggcmprsk-5.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="fu">ggcmprsk</span><span class="op">(</span><span class="va">time</span><span class="op">/</span><span class="fl">365</span><span class="op">+</span><span class="va">status1</span><span class="op">~</span><span class="va">sex</span>,data<span class="op">=</span><span class="va">melanoma</span>,</span>
+<span class="r-in">id<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"alive"</span>,<span class="st">"melanoma"</span>,<span class="st">"other"</span><span class="op">)</span>,strata<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"female"</span>,<span class="st">"male"</span><span class="op">)</span>,facet<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span class="r-plt img"><img src="ggcmprsk-6.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

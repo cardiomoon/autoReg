@@ -14,7 +14,7 @@ methods were used(t-test, ANOVA, Kruskal-Wallis, chi-squared, Fisher's,...)"><!-
     
     <a class="navbar-brand me-2" href="../index.html">autoReg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,6 +82,9 @@ methods were used(t-test, ANOVA, Kruskal-Wallis, chi-squared, Fisher's,...)</p>
 <span class="fu">gaze</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="co"># S3 method for lm</span>
+<span class="fu">gaze</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span>
+
+<span class="co"># S3 method for tidycrr</span>
 <span class="fu">gaze</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
 
@@ -109,6 +112,7 @@ with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
 <li><p><code>survreg</code>: default S3 method</p></li>
 <li><p><code>glm</code>: default S3 method</p></li>
 <li><p><code>lm</code>: default S3 method</p></li>
+<li><p><code>tidycrr</code>: default S3 method</p></li>
 </ul></div>
 
     <div class="section level2">
@@ -423,6 +427,18 @@ with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Residual SE: 2.233 on 26 DF, Multiple R^2: 0.8849, Adjusted R^2: 0.8628</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> F-statistic: 39.98 on 5 and 26 DF,  p-value: 2.124e-11 </span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">melanoma</span>,package<span class="op">=</span><span class="st">"boot"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">melanoma</span><span class="op">$</span><span class="va">status_crr</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">melanoma</span><span class="op">$</span><span class="va">status</span><span class="op">==</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">melanoma</span><span class="op">$</span><span class="va">status</span><span class="op">==</span><span class="fl">2</span>,<span class="fl">0</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="crrFormula.html">crrFormula</a></span><span class="op">(</span><span class="va">time</span><span class="op">+</span><span class="va">status_crr</span><span class="op">~</span><span class="va">age</span><span class="op">+</span><span class="va">sex</span><span class="op">+</span><span class="va">thickness</span><span class="op">+</span><span class="va">ulcer</span>,data<span class="op">=</span><span class="va">melanoma</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">gaze</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               coef  se(coef)      z      p     HR  lower  upper </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age          0.006     0.009  0.638   .520  1.006  0.988  1.024 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex          0.405     0.276  1.470   .140  1.499  0.874  2.573 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> thickness    0.090     0.038  2.346   .019  1.094  1.015  1.180 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ulcer        1.129     0.303  3.719  &lt;.001  3.091  1.706  5.603 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

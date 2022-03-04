@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">autoReg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -79,11 +79,11 @@
 <span class="r-in"><span class="va">melanoma</span><span class="op">$</span><span class="va">status_crr</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">melanoma</span><span class="op">$</span><span class="va">status</span><span class="op">==</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">melanoma</span><span class="op">$</span><span class="va">status</span><span class="op">==</span><span class="fl">2</span>,<span class="fl">0</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">x</span><span class="op">=</span><span class="fu"><a href="crrFormula.html">crrFormula</a></span><span class="op">(</span><span class="va">time</span><span class="op">+</span><span class="va">status_crr</span><span class="op">~</span><span class="va">age</span><span class="op">+</span><span class="va">sex</span><span class="op">+</span><span class="va">thickness</span><span class="op">+</span><span class="va">ulcer</span>,data<span class="op">=</span><span class="va">melanoma</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">crr2stats</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 HR     lower    upper      p        id                    stats</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age       1.005945 0.9877942 1.024430 0.5200       age 1.01 (0.99-1.02, p=.520)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex       1.499349 0.8736380 2.573204 0.1400       sex 1.50 (0.87-2.57, p=.140)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> thickness 1.094169 1.0149120 1.179615 0.0190 thickness 1.09 (1.01-1.18, p=.019)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ulcer     3.091416 1.7055657 5.603335 0.0002     ulcer 3.09 (1.71-5.60, p&lt;.001)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         HR     lower    upper      p        id                    stats</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 1.005945 0.9877942 1.024430 p=.520       age 1.01 (0.99-1.02, p=.520)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 1.499349 0.8736380 2.573204 p=.140       sex 1.50 (0.87-2.57, p=.140)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 1.094169 1.0149120 1.179615 p=.019 thickness 1.09 (1.01-1.18, p=.019)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 3.091416 1.7055657 5.603335 p&lt;.001     ulcer 3.09 (1.71-5.60, p&lt;.001)</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
