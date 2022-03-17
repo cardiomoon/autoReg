@@ -30,23 +30,50 @@ gaze.coxph=function(x,...){
 #'@examples
 #' x=survreg(Surv(time, status) ~ rx, data=anderson,dist="exponential")
 #' gaze(x)
-#' x=survreg(Surv(time, status) ~ ph.ecog + age + strata(sex), lung)
+#' x=survreg(Surv(time, status) ~ ph.ecog + age + sex, lung)
 #' gaze(x)
 gaze.survreg=function(x,...){
-     df=as.data.frame(summary(x)$table)
-     df$id=rownames(df)
-     df1=as.data.frame(confint(x))
-     df1$id=rownames(df1)
-     df=left_join(df,df1,by="id")
-     names(df)[6:7]=c("lower","upper")
-     df<-df %>% dplyr::select(.data$id,everything())
-     attr(df,"call")=gsub(" ","",paste0(deparse(x$call),collapse=""))
-     attr(df,"yvars")=attr(attr(x$terms,"dataClasses"),"names")[1]
-     attr(df,"model")="survreg"
-     attr(df,"lik")=fit2lik(x)
-     attr(df,"summary")=TRUE
-     class(df)=c("autoReg","data.frame")
-     myformat(df)
+        df=as.data.frame(summary(x)$table)
+        df$id=rownames(df)
+        df1=as.data.frame(confint(x))
+        df1$id=rownames(df1)
+        df=left_join(df,df1,by="id")
+        names(df)[6:7]=c("lower","upper")
+        df<-df %>% dplyr::select(.data$id,everything())
+        df$ETR=exp(df$Value)
+        df$LB=exp(df$lower)
+        df$UB=exp(df$upper)
+        if(x$dist=="weibull"){
+                df$HR=exp(-df$Value/x$scale[1])
+                df$lower=exp(-df$lower/x$scale[1])
+                df$upper=exp(-df$upper/x$scale[1])
+                if(length(x$scale)>1){
+                        for(i in 2:length(x$scale)){
+                                df$HR[df$id==names(x$scale)[i]]=exp(-df$Value[df$id==names(x$scale)[i]]/x$scale[i])
+                        }
+                }
+        } else if(x$dist=="exponential"){
+                df$HR=exp(-df$Value)
+                df$lower=exp(-df$lower)
+                df$upper=exp(-df$upper)
+        } else if(x$dist=="loglogistic"){
+                df$OR=exp(-df$Value/x$scale)
+                df$lower=exp(-df$lower/x$scale)
+                df$upper=exp(-df$upper/x$scale)
+        }
+        df$temp=df$lower
+        df$lower=df$upper
+        df$upper=df$temp
+        df=df[,c(1:5,8:10,11,6:7)]
+        df
+        attr(df,"call")=gsub(" ","",paste0(deparse(x$call),collapse=""))
+        attr(df,"yvars")=attr(attr(x$terms,"dataClasses"),"names")[1]
+        attr(df,"model")="survreg"
+        attr(df,"lik")=fit2lik(x)
+        attr(df,"summary")=TRUE
+        class(df)=c("autoReg","data.frame")
+        myformat(df)
+
 }
 
 #' extract likelihood information with a coxph object
