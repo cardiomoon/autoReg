@@ -13,6 +13,8 @@
 #' library(survival)
 #' fit=survreg(Surv(time,status)~ph.ecog+sex*age,data=lung,dist="weibull")
 #' showEffect(fit)
+#' fit=survreg(Surv(time,status)~rx+sex+age+obstruct+adhere,data=colon,dist="weibull")
+#' showEffect(fit)
 #' fit=survreg(Surv(time,status)~ph.ecog+sex,data=lung,dist="weibull")
 #' showEffect(fit)
 #' fit=survreg(Surv(time,status)~ph.ecog+age,data=lung,dist="weibull")
@@ -22,7 +24,7 @@
 #' fit=survreg(Surv(time,status)~age,data=lung,dist="weibull")
 #' showEffect(fit)
 showEffect=function(fit,x=NULL,color=NULL,facet=NULL,pred.values=list(),se=TRUE,logy=TRUE){
-     #  x=NULL;color=NULL;facet=NULL;pred.values=list()  ;se=TRUE;logy=TRUE
+          # x=NULL;color=NULL;facet=NULL;pred.values=list()  ;se=TRUE;logy=TRUE
      data=fit2model(fit)
      xvars = attr(fit$terms, "term.labels")
      xvars=xvars[!str_detect(xvars,":")]
@@ -35,7 +37,12 @@ showEffect=function(fit,x=NULL,color=NULL,facet=NULL,pred.values=list(),se=TRUE,
                } else if(is.null(facet)){
                     facet=xvars[i]
                } else{
-                    facet=c(facet,xvars[i])
+                    facet=unique(c(facet,xvars[i]))
+                    facet=setdiff(facet,c(color,x))
+                    if(length(facet)>2){
+                         facet=facet[1:2]
+                    }
+
                }
           }
      }
@@ -71,10 +78,11 @@ showEffect=function(fit,x=NULL,color=NULL,facet=NULL,pred.values=list(),se=TRUE,
                res[[add[i]]]=mean(data[[add[i]]],na.rm=TRUE)
           } else{
                res[[add[i]]]=names(sort(table(data[[add[i]]]),decreasing=TRUE))[1]
+               if(is.numeric(data[[add[i]]])) res[[add[i]]]=as.numeric(res[[add[i]]])
      }
      }
      newdata=expand.grid(res)
-
+     newdata
      result=predict(fit,newdata=newdata,se.fit=TRUE)
      newdata$est=result$fit
      newdata$se=result$se.fit
@@ -117,7 +125,13 @@ showEffect=function(fit,x=NULL,color=NULL,facet=NULL,pred.values=list(),se=TRUE,
                                          position=position_dodge(width=0.2),width=0.1)
           }
      }
-     if(!is.null(myformula)) p=p+facet_wrap(as.formula(myformula))
+     if(!is.null(myformula)) {
+          if(length(facet)==1){
+            p=p+facet_wrap(as.formula(myformula))
+          } else{
+               p=p+facet_grid(as.formula(myformula))
+          }
+     }
      p=p+theme_classic()+
           labs(y="Days")+
           theme(panel.border = element_rect(fill=NA))

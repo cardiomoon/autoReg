@@ -39,6 +39,8 @@ Show effects of covariates
 library(survival)
 fit=survreg(Surv(time,status)~ph.ecog+sex*age,data=lung,dist="weibull")
 showEffect(fit)
+fit=survreg(Surv(time,status)~rx+sex+age+obstruct+adhere,data=colon,dist="weibull")
+showEffect(fit)
 fit=survreg(Surv(time,status)~ph.ecog+sex,data=lung,dist="weibull")
 showEffect(fit)
 fit=survreg(Surv(time,status)~ph.ecog+age,data=lung,dist="weibull")
