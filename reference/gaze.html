@@ -14,7 +14,7 @@ methods were used(t-test, ANOVA, Kruskal-Wallis, chi-squared, Fisher's,...)"><!-
     
     <a class="navbar-brand me-2" href="../index.html">autoReg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -367,33 +367,34 @@ with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rxControl:logWBC    -0.318     0.526  -0.604      .546   0.728  0.260    2.040 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ——————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> n=42, events=30, Likelihood ratio test=47.07 on 3 df (p&lt;.001) </span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="va">x</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html" class="external-link">survreg</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">rx</span>, data<span class="op">=</span><span class="va">anderson</span>,dist<span class="op">=</span><span class="st">"exponential"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">gaze</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 Value  Std. Error       z      p   lower   upper </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)     3.686       0.333  11.058  &lt;.001   3.033   4.339 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rx             -1.527       0.398  -3.832  &lt;.001  -2.307  -0.746 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ——————————————————————————————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 Value  Std. Error       z      p     ETR      LB      UB     HR  lower   upper </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ——————————————————————————————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)     3.686       0.333  11.058  &lt;.001  39.889  20.755  76.663  0.025  0.013   0.048 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rx             -1.527       0.398  -3.832  &lt;.001   0.217   0.100   0.474  4.603  2.108  10.049 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ——————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Exponential distribution </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Loglik(model)= -108.5   Loglik(intercept only)= -116.8 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Chisq= 16.49 on 1 degrees of freedom, p= 4.9e-05 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  n= 42 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
-<span class="r-in"><span class="va">x</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html" class="external-link">survreg</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">ph.ecog</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/strata.html" class="external-link">strata</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span>, <span class="va">lung</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">x</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html" class="external-link">survreg</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">ph.ecog</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">sex</span>, <span class="va">lung</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">gaze</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 Value  Std. Error       z      p   lower   upper </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ————————————————————————————————————————————————————————————————</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)     6.732       0.424  15.880  &lt;.001   5.901   7.563 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ph.ecog        -0.324       0.086  -3.751  &lt;.001  -0.494  -0.155 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age            -0.006       0.007  -0.838   .402  -0.019   0.008 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex=1          -0.244       0.079  -3.082   .002                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex=2          -0.423       0.107  -3.969  &lt;.001                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 Value  Std. Error       z      p      ETR       LB        UB     HR  lower  upper </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)     6.273       0.454  13.831  &lt;.001  530.296  217.988  1290.044  0.000  0.000  0.001 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ph.ecog        -0.340       0.083  -4.069  &lt;.001    0.712    0.605     0.839  1.591  1.272  1.990 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age            -0.007       0.007  -1.105   .269    0.993    0.979     1.006  1.010  0.992  1.029 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex             0.401       0.124   3.242   .001    1.493    1.172     1.903  0.578  0.415  0.805 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Log(scale)     -0.313       0.061  -5.105  &lt;.001    0.731                     1.535               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Weibull distribution </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Loglik(model)= -1137.3   Loglik(intercept only)= -1146.2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 	Chisq= 17.8 on 2 degrees of freedom, p= 0.000137 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Loglik(model)= -1132.4   Loglik(intercept only)= -1147.4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Chisq= 29.98 on 3 degrees of freedom, p= 1.39e-06 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> n=227 (1 observation deleted due to missingness)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cancer</span>,package<span class="op">=</span><span class="st">"survival"</span><span class="op">)</span></span>

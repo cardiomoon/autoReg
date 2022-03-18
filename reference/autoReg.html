@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">autoReg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +48,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Perform univariable and multivariable regression and stepwise backward regression automatically</h1>
-      <small class="dont-index">Source: <a href="https://github.com/cardiomoon/autoReg/blob/HEAD/R/autoReg.R" class="external-link"><code>R/autoReg.R</code></a>, <a href="https://github.com/cardiomoon/autoReg/blob/HEAD/R/autoReg.coxph.R" class="external-link"><code>R/autoReg.coxph.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/cardiomoon/autoReg/blob/HEAD/R/autoReg.R" class="external-link"><code>R/autoReg.R</code></a>, <a href="https://github.com/cardiomoon/autoReg/blob/HEAD/R/autoReg.coxph.R" class="external-link"><code>R/autoReg.coxph.R</code></a>, <a href="https://github.com/cardiomoon/autoReg/blob/HEAD/R/autoReg.survreg.R" class="external-link"><code>R/autoReg.survreg.R</code></a></small>
       <div class="d-none name"><code>autoReg.Rd</code></div>
     </div>
 
@@ -67,6 +67,9 @@
 <span class="fu">autoReg</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span>
 
 <span class="co"># S3 method for coxph</span>
+<span class="fu">autoReg</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span>
+
+<span class="co"># S3 method for survreg</span>
 <span class="fu">autoReg</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
 
@@ -94,6 +97,7 @@ with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
 <ul><li><p><code>lm</code>: S3 method for a class lm</p></li>
 <li><p><code>glm</code>: S3 method for a class glm</p></li>
 <li><p><code>coxph</code>: S3 method for a class coxph</p></li>
+<li><p><code>survreg</code>: S3 method for a class survreg</p></li>
 </ul></div>
 
     <div class="section level2">

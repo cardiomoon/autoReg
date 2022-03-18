@@ -67,6 +67,9 @@
     <loc>https://cardiomoon.github.io/autoReg/reference/autoReg_sub.html</loc>
   </url>
   <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/autoRegsurvreg.html</loc>
+  </url>
+  <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/beNumeric.html</loc>
   </url>
   <url>
@@ -202,6 +205,9 @@
     <loc>https://cardiomoon.github.io/autoReg/reference/myft.html</loc>
   </url>
   <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/mysurvregSimple.html</loc>
+  </url>
+  <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/num2factor.html</loc>
   </url>
   <url>
@@ -260,5 +266,11 @@
   </url>
   <url>
     <loc>https://cardiomoon.github.io/autoReg/reference/survfit2df.html</loc>
+  </url>
+  <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/survreg2final.html</loc>
+  </url>
+  <url>
+    <loc>https://cardiomoon.github.io/autoReg/reference/survreg2multi.html</loc>
   </url>
 </urlset>
