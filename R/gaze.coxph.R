@@ -28,6 +28,7 @@ gaze.coxph=function(x,...){
 #'@describeIn gaze default S3 method
 #'@export
 #'@examples
+#'library(survival)
 #' x=survreg(Surv(time, status) ~ rx, data=anderson,dist="exponential")
 #' gaze(x)
 #' x=survreg(Surv(time, status) ~ ph.ecog + age + sex, lung)
@@ -73,7 +74,6 @@ gaze.survreg=function(x,...){
         attr(df,"summary")=TRUE
         class(df)=c("autoReg","data.frame")
         myformat(df)
-
 }
 
 #' extract likelihood information with a coxph object

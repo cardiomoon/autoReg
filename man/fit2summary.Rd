@@ -4,10 +4,12 @@
 \alias{fit2summary}
 \title{Summarize statistics with a model or model list}
 \usage{
-fit2summary(fit, ...)
+fit2summary(fit, mode = 1, ...)
 }
 \arguments{
 \item{fit}{An object of class "lm" or "glm" or "fitlist" which is a result of \code{\link{fit2list}}}
+
+\item{mode}{integer}
 
 \item{...}{Further argument to be passed to fit2stats}
 }
@@ -24,4 +26,6 @@ fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
 fit2summary(fit)
 fitlist=fit2list(fit)
 fit2summary(fitlist)
+fit=survreg(Surv(time,status)~rx+sex+age+obstruct+nodes,data=colon)
+fit2summary(fit)
 }

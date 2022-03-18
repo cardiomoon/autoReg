@@ -22,7 +22,7 @@
 #' fit=survreg(Surv(time,status)~age,data=lung,dist="weibull")
 #' showEffect(fit)
 showEffect=function(fit,x=NULL,color=NULL,facet=NULL,pred.values=list(),se=TRUE,logy=TRUE){
-     # x=NULL;color=NULL;facet=NULL;pred.values=list()  ;se=TRUE;logy=TRUE
+     #  x=NULL;color=NULL;facet=NULL;pred.values=list()  ;se=TRUE;logy=TRUE
      data=fit2model(fit)
      xvars = attr(fit$terms, "term.labels")
      xvars=xvars[!str_detect(xvars,":")]
@@ -63,7 +63,16 @@ showEffect=function(fit,x=NULL,color=NULL,facet=NULL,pred.values=list(),se=TRUE,
      temp
      res=map(temp,~sort(unique(data[[.]])))
      res[["x"]]=xvalues
+     res
      names(res)=c(color,facet,x)
+     add=setdiff(xvars,c(color,facet,x))
+     for(i in seq_along(add)){
+          if(is.mynumeric(data[[add[i]]])){
+               res[[add[i]]]=mean(data[[add[i]]],na.rm=TRUE)
+          } else{
+               res[[add[i]]]=names(sort(table(data[[add[i]]]),decreasing=TRUE))[1]
+     }
+     }
      newdata=expand.grid(res)
 
      result=predict(fit,newdata=newdata,se.fit=TRUE)
@@ -113,5 +122,13 @@ showEffect=function(fit,x=NULL,color=NULL,facet=NULL,pred.values=list(),se=TRUE,
           labs(y="Days")+
           theme(panel.border = element_rect(fill=NA))
      if(logy) p=p+scale_y_log10()
+     if(length(add)>0){
+          res=map_chr(add,function(x){
+               temp=res[[x]]
+               if(is.numeric(temp)) temp=round(temp,2)
+               paste0(x,"=",temp)
+          })
+          p=p+labs(subtitle=paste0(res,collapse=","))
+     }
      p
 }

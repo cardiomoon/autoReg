@@ -4,14 +4,16 @@
 \alias{fit2stats}
 \title{Summarize statistics with a model}
 \usage{
-fit2stats(fit, method = "default", digits = 2)
+fit2stats(fit, method = "default", digits = 2, mode = 1)
 }
 \arguments{
-\item{fit}{An object of class lm or glm}
+\item{fit}{An object of class lm or glm or coxph or survreg}
 
 \item{method}{character choices are one of the c("likelihood","wald")}
 
 \item{digits}{integer indicating the number of decimal places}
+
+\item{mode}{integer}
 }
 \value{
 An object of class "data.frame"
@@ -25,5 +27,7 @@ data(cancer)
 fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
 fit2stats(fit)
 fit=lm(mpg~wt*hp+am,data=mtcars)
+fit2stats(fit)
+fit=survreg(Surv(time,status)~rx+sex+age+obstruct+nodes,data=colon)
 fit2stats(fit)
 }
