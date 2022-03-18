@@ -11,7 +11,9 @@ showEffect(
   facet = NULL,
   pred.values = list(),
   se = TRUE,
-  logy = TRUE
+  logy = TRUE,
+  collabel = label_both,
+  rowlabel = label_both
 )
 }
 \arguments{
@@ -28,6 +30,10 @@ showEffect(
 \item{se}{logical whether or not show se}
 
 \item{logy}{logical WHether or not draw y-axis on log scale}
+
+\item{collabel}{labeller for column}
+
+\item{rowlabel}{labeller for row}
 }
 \value{
 A ggplot
@@ -37,10 +43,12 @@ Show effects of covariates
 }
 \examples{
 library(survival)
+library(ggplot2)
 fit=survreg(Surv(time,status)~ph.ecog+sex*age,data=lung,dist="weibull")
 showEffect(fit)
 fit=survreg(Surv(time,status)~rx+sex+age+obstruct+adhere,data=colon,dist="weibull")
 showEffect(fit)
+showEffect(fit,rowlabel=label_value)
 fit=survreg(Surv(time,status)~ph.ecog+sex,data=lung,dist="weibull")
 showEffect(fit)
 fit=survreg(Surv(time,status)~ph.ecog+age,data=lung,dist="weibull")
