@@ -14,6 +14,7 @@ adjustedPlot(
   facet = NULL,
   se = FALSE,
   mark.time = FALSE,
+  show.median = FALSE,
   type = "ggplot",
   ...
 )
@@ -37,6 +38,8 @@ adjustedPlot(
 
 \item{mark.time}{logical Whether or not mark time}
 
+\item{show.median}{logical}
+
 \item{type}{Character plot type}
 
 \item{...}{further arguments to be passed to plot.survfit}
@@ -53,6 +56,14 @@ fit=coxph(Surv(time,status)~rx+logWBC,data=anderson)
 adjustedPlot(fit)
 adjustedPlot(fit,xnames="rx",se=TRUE,type="plot")
 adjustedPlot(fit,xnames="rx",se=TRUE)
+anderson$WBCgroup=ifelse(anderson$logWBC<=2.73,0,1)
+anderson$WBCgroup=factor(anderson$WBCgroup,labels=c("low","high"))
+anderson$rx=factor(anderson$rx,labels=c("treatment","control"))
+fit=coxph(Surv(time,status)~rx,data=anderson)
+adjustedPlot(fit,xnames=c("rx"),show.median=TRUE)
+fit=coxph(Surv(time,status)~rx*WBCgroup,data=anderson)
+adjustedPlot(fit,xnames=c("rx","WBCgroup"),show.median=TRUE)
+adjustedPlot(fit,xnames=c("rx","WBCgroup"),facet="WBCgroup",show.median=TRUE)
 data(cancer,package="survival")
 fit=coxph(Surv(time,status)~rx+strata(sex)+age+differ,data =colon)
 adjustedPlot(fit,xnames=c("sex"))
