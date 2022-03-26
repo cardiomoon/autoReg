@@ -29,15 +29,14 @@ fit2final=function(fit,threshold=0.2){
           xvars = attr(fit$term, "term.labels")
           xvars
           add=xvars[which(str_detect(xvars,"strata\\(|cluster\\(|frailty\\("))]
-          xvars=setdiff(xvars,add)
-          xvars=unique(unlist(map(xvars,~unlist(strsplit(.,":")))))
-          xvars2 = c(xvars, timevar, statusvar)
-          temp3 = paste0(dataname, "[", paste0("c('",paste0(xvars2,collapse="','"),"')"), "]")
+          xvars2=setdiff(xvars,add)
+          xvars2=unique(unlist(map(xvars2,~unlist(strsplit(.,":")))))
+          xvars3 = c(xvars, timevar, statusvar)
+          temp3 = paste0(dataname, "[", paste0("c('",paste0(xvars3,collapse="','"),"')"), "]")
           temp3
           data1 = eval(parse(text = temp3))
           data1 = na.omit(data1)
-          if(length(add)>0) xvars=c(xvars,add)
-          xvars
+          #if(length(add)>0) xvars=c(xvars,add)
           temp4 = paste0(temp[1], "(", y, "~", paste0(xvars, collapse = "+"),
                          ",data=data1)")
           temp4
@@ -79,14 +78,14 @@ survreg2final=function(fit,threshold=0.2){
           xvars = attr(fit$term, "term.labels")
           xvars
           add=xvars[which(str_detect(xvars,"strata\\(|cluster\\(|frailty\\("))]
-          xvars=setdiff(xvars,add)
-          xvars=unique(unlist(map(xvars,~unlist(strsplit(.,":")))))
-          xvars2 = c(xvars, timevar, statusvar)
-          temp3 = paste0(dataname, "[", paste0("c('",paste0(xvars2,collapse="','"),"')"), "]")
+          xvars2=setdiff(xvars,add)
+          xvars2=unique(unlist(map(xvars2,~unlist(strsplit(.,":")))))
+          xvars3 = c(xvars2, timevar, statusvar)
+          temp3 = paste0(dataname, "[", paste0("c('",paste0(xvars3,collapse="','"),"')"), "]")
           temp3
           data1 = eval(parse(text = temp3))
           data1 = na.omit(data1)
-          if(length(add)>0) xvars=c(xvars,add)
+          #if(length(add)>0) xvars=c(xvars,add)
           xvars
           temp4 = paste0("survreg(", y, "~", paste0(xvars, collapse = "+"),
                          ",data=data1,dist='",fit$dist,"')")
