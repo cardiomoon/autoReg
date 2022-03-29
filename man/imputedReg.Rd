@@ -4,10 +4,10 @@
 \alias{imputedReg}
 \title{Make a multiple imputed model}
 \usage{
-imputedReg(fit, data = NULL, m = 20, seed = 1234, digits = 2, ...)
+imputedReg(fit, data = NULL, m = 20, seed = 1234, digits = 2, mode = 1, ...)
 }
 \arguments{
-\item{fit}{An object of class lm or glm}
+\item{fit}{An object of class lm, glm, coxph or survreg}
 
 \item{data}{a data.frame}
 
@@ -16,6 +16,8 @@ imputedReg(fit, data = NULL, m = 20, seed = 1234, digits = 2, ...)
 \item{seed}{An integer that is used as argument by the set.seed() for offsetting the random number generator.}
 
 \item{digits}{Integer indicating the number of decimal place}
+
+\item{mode}{integer indicating summary mode of class survreg}
 
 \item{...}{Further argument to be passed to mice}
 }
@@ -33,5 +35,8 @@ imputedReg(fit)
 library(survival)
 fit=coxph(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
 imputedReg(fit)
+fit=survreg(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
+imputedReg(fit)
+imputedReg(fit,mode=2)
 }
 }

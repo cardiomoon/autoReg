@@ -19,7 +19,7 @@ autoReg.coxph=function(x,...){
 #' data(cancer)
 #' fit=coxph(Surv(time,status==2)~log(bili)+age+cluster(edema),data=pbc)
 #' autoReg(fit)
-#' fit=coxph(Surv(time,status)~rx+age+sex+obstruct+perfor,data=colon)
+#' fit=coxph(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
 #' autoReg(fit)
 #' autoReg(fit,uni=TRUE,threshold=1)
 #' autoReg(fit,uni=TRUE,final=TRUE) %>% myft()

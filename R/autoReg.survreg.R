@@ -18,15 +18,17 @@ autoReg.survreg=function(x,...){
 #' require(survival)
 #' require(dplyr)
 #' data(cancer)
-#' fit=survreg(Surv(time,status)~rx+age+sex+obstruct+perfor,data=colon)
+#' fit=survreg(Surv(time,status)~rx+age+sex+nodes+obstruct+perfor,data=colon)
 #' autoReg(fit)
 #' autoReg(fit,uni=TRUE,threshold=1)
 #' autoReg(fit,uni=TRUE,final=TRUE)
 #' autoReg(fit,uni=TRUE,final=TRUE) %>% myft()
 #' autoReg(fit,mode=2)
 #' autoReg(fit,uni=TRUE,threshold=1,,mode=2)
-#' autoReg(fit,uni=TRUE,final=TRUE,,mode=2)
-#' autoReg(fit,uni=TRUE,final=TRUE,,mode=2) %>% myft()
+#' autoReg(fit,uni=TRUE,final=TRUE,mode=2)
+#' autoReg(fit,uni=TRUE,final=TRUE,mode=2) %>% myft()
+#' autoReg(fit,final=TRUE,imputed=TRUE) %>% myft()
+#' autoReg(fit,final=TRUE,imputed=TRUE,mode=2) %>% myft()
 #' @return autoRegsurvreg returns an object of class "autoReg" which inherits from the class "data.frame"
 #' with at least the following attributes:
 #' \describe{
@@ -125,24 +127,27 @@ autoRegsurvreg=function(x,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed
           mylist[[no]]=df
           no=no+1
      }
-     # if(imputed){
-     #      imputed=imputedReg(fit)
-     #
-     #      if(keepstats){
-     #           df=imputed[c("HR","lower","upper","p.value","id","stats")] %>%
-     #                rename("p"=.data$p.value)
-     #           df$mode="imputed"
-     #      } else{
-     #           df=imputed[c("id","stats")]
-     #           if(mode==1){
-     #                df=rename(df,"ETR (imputed)"=.data$stats)
-     #           } else{
-     #                df=rename(df,"HR (imputed)"=.data$stats)
-     #           }
-     #      }
-     #      mylist[[no]]=df
-     #
-     # }
+     if(imputed){
+
+          imputed=imputedReg(fit,mode=mode)
+
+          if(keepstats){
+               df=imputed[c(ifelse(mode==1,"ETR",ifelse(fit$dist=="loglogistic","OR","HR")),"lower","upper","p.value","id","stats")] %>%
+                    rename("p"=.data$p.value)
+               df$mode="imputed"
+          } else{
+               df=imputed[c("id","stats")]
+               if(mode==1){
+                    df=rename(df,"ETR (imputed)"=.data$stats)
+               } else if(fit$dist!="loglogistic"){
+                    df=rename(df,"HR (imputed)"=.data$stats)
+               } else{
+                    df=rename(df,"OR (imputed)"=.data$stats)
+               }
+          }
+          mylist[[no]]=df
+
+     }
      if(keepstats){
 
           Final=reduce(mylist[-1],bind_rows)

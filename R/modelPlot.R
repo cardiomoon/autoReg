@@ -43,9 +43,10 @@
 #' modelPlot(fit,uni=TRUE,multi=TRUE)
 #' modelPlot(fit,uni=TRUE,multi=TRUE,threshold=1,show.ref=FALSE)
 #' library(survival)
-#' fit=coxph(Surv(time,status)~age+sex+obstruct+perfor,data=colon)
+#' fit=coxph(Surv(time,status)~rx+age+sex+obstruct+perfor,data=colon)
 #' modelPlot(fit)
 #' modelPlot(fit,uni=TRUE,threshold=1)
+#' modelPlot(fit,multi=FALSE,final=TRUE,threshold=1)
 #' fit=coxph(Surv(time,status)~age.factor+sex.factor+obstruct.factor+perfor.factor,data=colon_s)
 #' modelPlot(fit)
 #' modelPlot(fit,uni=TRUE,threshold=1)
@@ -57,14 +58,14 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,show.ref=T
                    legend.position="top",...){
            # fit=lm(Sepal.Width~Sepal.Length+Species,data=iris)
            # fit=lm(NTAV~age*sex+I(age^2)*sex,data=radial)
-             # widths=NULL;change.pointsize=TRUE;uni=FALSE;multi=TRUE;imputed=FALSE;show.OR=TRUE;
-             # show.ref=TRUE;bw=TRUE;legend.position="top"
+              # widths=NULL;change.pointsize=TRUE;uni=FALSE;multi=FALSE;final=TRUE;;imputed=FALSE;show.OR=TRUE;
+              # show.ref=TRUE;bw=TRUE;legend.position="top"
 
      if(is.null(widths)) {
         if(show.OR) {
-          widths=c(1.2,1,2,3.5)
+          widths=c(1.2,1,2.2,3.5)
         } else{
-          widths=c(1.2,1,2,3.5)
+          widths=c(1.2,1,2.2,3.5)
         }
      }
 
@@ -137,12 +138,15 @@ modelPlot=function(fit,widths=NULL,change.pointsize=TRUE,show.OR=TRUE,show.ref=T
      fit
      df2=autoReg(fit,keepstats=TRUE,...)
                  # df2= autoReg(fit,keepstats=TRUE)
+                 #df2= autoReg(fit,uni=FALSE,multi=FALSE,final=TRUE,keepstats=TRUE)
 
      df2=df2%>% dplyr::filter(.data$id!="(Intercept)")
 
      df2
      df=dplyr::full_join(df1,df2,by="id")
      df
+     del=which(is.na(df$stats) & (df$desc==""))
+     if(length(del)>0) df=df[-del,]
      df$mode[is.na(df$stats)]="Reference"
      df$stats[is.na(df$stats)]="Reference"
 
