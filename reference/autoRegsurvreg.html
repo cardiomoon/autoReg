@@ -109,55 +109,58 @@ with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cancer</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html" class="external-link">survreg</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">sex</span><span class="op">+</span><span class="va">obstruct</span><span class="op">+</span><span class="va">perfor</span>,data<span class="op">=</span><span class="va">colon</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html" class="external-link">survreg</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">sex</span><span class="op">+</span><span class="va">nodes</span><span class="op">+</span><span class="va">obstruct</span><span class="op">+</span><span class="va">perfor</span>,data<span class="op">=</span><span class="va">colon</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)                     stats       ETR (multivariable) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rx                                     Obs  630 (33.9%)                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  1.04 (0.86-1.25, p=.693) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  1.78 (1.45-2.19, p&lt;.001) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (0.99-1.01, p=.719) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  1.04 (0.89-1.23, p=.599) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                         Mean ± SD    0.2 ± 0.4  0.77 (0.63-0.94, p=.011) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perfor                           Mean ± SD    0.0 ± 0.2  0.77 (0.49-1.20, p=.240) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  1.10 (0.91-1.31, p=.323) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  1.78 (1.46-2.18, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (0.99-1.00, p=.499) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  1.09 (0.93-1.27, p=.289) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> nodes                            Mean ± SD    3.7 ± 3.6  0.89 (0.88-0.91, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                         Mean ± SD    0.2 ± 0.4  0.77 (0.63-0.93, p=.007) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> perfor                           Mean ± SD    0.0 ± 0.2  0.74 (0.49-1.14, p=.171) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,threshold<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)                     stats         ETR (univariable)       ETR (multivariable) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rx                                     Obs  630 (33.9%)                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  1.04 (0.86-1.25, p=.683)  1.04 (0.86-1.25, p=.693) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  1.79 (1.46-2.20, p&lt;.001)  1.78 (1.45-2.19, p&lt;.001) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (1.00-1.01, p=.394)  1.00 (0.99-1.01, p=.719) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  1.03 (0.88-1.21, p=.701)  1.04 (0.89-1.23, p=.599) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                         Mean ± SD    0.2 ± 0.4  0.74 (0.61-0.90, p=.003)  0.77 (0.63-0.94, p=.011) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perfor                           Mean ± SD    0.0 ± 0.2  0.71 (0.45-1.10, p=.124)  0.77 (0.49-1.20, p=.240) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  1.04 (0.86-1.25, p=.683)  1.10 (0.91-1.31, p=.323) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  1.79 (1.46-2.20, p&lt;.001)  1.78 (1.46-2.18, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (1.00-1.01, p=.394)  1.00 (0.99-1.00, p=.499) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  1.03 (0.88-1.21, p=.701)  1.09 (0.93-1.27, p=.289) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> nodes                            Mean ± SD    3.7 ± 3.6  0.89 (0.88-0.91, p&lt;.001)  0.89 (0.88-0.91, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                         Mean ± SD    0.2 ± 0.4  0.74 (0.61-0.90, p=.003)  0.77 (0.63-0.93, p=.007) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> perfor                           Mean ± SD    0.0 ± 0.2  0.71 (0.45-1.10, p=.124)  0.74 (0.49-1.14, p=.171) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,final<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)                     stats         ETR (univariable)       ETR (multivariable)               ETR (final) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rx                                     Obs  630 (33.9%)                                                                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  1.04 (0.86-1.25, p=.683)  1.04 (0.86-1.25, p=.675)  1.04 (0.86-1.25, p=.691) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  1.79 (1.46-2.20, p&lt;.001)  1.78 (1.45-2.18, p&lt;.001)  1.77 (1.45-2.18, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  1.04 (0.86-1.25, p=.683)  1.10 (0.92-1.32, p=.304)  1.10 (0.91-1.31, p=.324) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  1.79 (1.46-2.20, p&lt;.001)  1.78 (1.45-2.17, p&lt;.001)  1.77 (1.45-2.17, p&lt;.001) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (1.00-1.01, p=.394)                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  1.03 (0.88-1.21, p=.701)                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                         Mean ± SD    0.2 ± 0.4  0.74 (0.61-0.90, p=.003)  0.77 (0.63-0.94, p=.009)  0.76 (0.62-0.92, p=.005) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perfor                           Mean ± SD    0.0 ± 0.2  0.71 (0.45-1.10, p=.124)  0.77 (0.49-1.20, p=.245)                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> nodes                            Mean ± SD    3.7 ± 3.6  0.89 (0.88-0.91, p&lt;.001)  0.90 (0.88-0.91, p&lt;.001)  0.90 (0.88-0.91, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                         Mean ± SD    0.2 ± 0.4  0.74 (0.61-0.90, p=.003)  0.77 (0.63-0.93, p=.007)  0.76 (0.62-0.92, p=.004) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> perfor                           Mean ± SD    0.0 ± 0.2  0.71 (0.45-1.10, p=.124)  0.76 (0.50-1.16, p=.196)                           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,final<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a flextable object.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> col_keys: `Dependent: Surv(time, status)`, ` `, `stats`, `ETR (univariable)`, `ETR (multivariable)`, `ETR (final)` </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> header has 1 row(s) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> body has 7 row(s) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> body has 8 row(s) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> original dataset sample: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)                     stats         ETR (univariable)       ETR (multivariable)               ETR (final) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rx                                     Obs  630 (33.9%)                                                                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  1.04 (0.86-1.25, p=.683)  1.04 (0.86-1.25, p=.675)  1.04 (0.86-1.25, p=.691) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  1.79 (1.46-2.20, p&lt;.001)  1.78 (1.45-2.18, p&lt;.001)  1.77 (1.45-2.18, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  1.04 (0.86-1.25, p=.683)  1.10 (0.92-1.32, p=.304)  1.10 (0.91-1.31, p=.324) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  1.79 (1.46-2.20, p&lt;.001)  1.78 (1.45-2.17, p&lt;.001)  1.77 (1.45-2.17, p&lt;.001) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (1.00-1.01, p=.394)                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  1.03 (0.88-1.21, p=.701)                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
@@ -166,51 +169,84 @@ with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)                     stats        HR (multivariable) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rx                                     Obs  630 (33.9%)                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  0.97 (0.83-1.13, p=.693) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  0.63 (0.53-0.74, p&lt;.001) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (0.99-1.00, p=.719) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  0.97 (0.85-1.10, p=.599) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                         Mean ± SD    0.2 ± 0.4  1.23 (1.05-1.45, p=.011) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perfor                           Mean ± SD    0.0 ± 0.2  1.24 (0.87-1.77, p=.240) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  0.93 (0.80-1.08, p=.323) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  0.61 (0.52-0.73, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (1.00-1.01, p=.499) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  0.93 (0.82-1.06, p=.289) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> nodes                            Mean ± SD    3.7 ± 3.6  1.10 (1.08-1.11, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                         Mean ± SD    0.2 ± 0.4  1.25 (1.06-1.47, p=.007) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> perfor                           Mean ± SD    0.0 ± 0.2  1.28 (0.90-1.83, p=.171) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,threshold<span class="op">=</span><span class="fl">1</span>,,mode<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)                     stats          HR (univariable)        HR (multivariable) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rx                                     Obs  630 (33.9%)                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  0.97 (0.83-1.13, p=.683)  0.97 (0.83-1.13, p=.693) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  0.63 (0.53-0.74, p&lt;.001)  0.63 (0.53-0.74, p&lt;.001) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (0.99-1.00, p=.394)  1.00 (0.99-1.00, p=.719) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  0.97 (0.86-1.11, p=.701)  0.97 (0.85-1.10, p=.599) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                         Mean ± SD    0.2 ± 0.4  1.27 (1.08-1.49, p=.003)  1.23 (1.05-1.45, p=.011) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perfor                           Mean ± SD    0.0 ± 0.2  1.32 (0.93-1.88, p=.124)  1.24 (0.87-1.77, p=.240) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  0.97 (0.83-1.13, p=.683)  0.93 (0.80-1.08, p=.323) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  0.63 (0.53-0.74, p&lt;.001)  0.61 (0.52-0.73, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (0.99-1.00, p=.394)  1.00 (1.00-1.01, p=.499) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  0.97 (0.86-1.11, p=.701)  0.93 (0.82-1.06, p=.289) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> nodes                            Mean ± SD    3.7 ± 3.6  1.10 (1.08-1.11, p&lt;.001)  1.10 (1.08-1.11, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                         Mean ± SD    0.2 ± 0.4  1.27 (1.08-1.49, p=.003)  1.25 (1.06-1.47, p=.007) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> perfor                           Mean ± SD    0.0 ± 0.2  1.32 (0.93-1.88, p=.124)  1.28 (0.90-1.83, p=.171) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,final<span class="op">=</span><span class="cn">TRUE</span>,,mode<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,final<span class="op">=</span><span class="cn">TRUE</span>,mode<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)                     stats          HR (univariable)        HR (multivariable)                HR (final) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rx                                     Obs  630 (33.9%)                                                                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  0.97 (0.83-1.13, p=.683)  0.97 (0.83-1.13, p=.675)  0.97 (0.83-1.13, p=.691) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  0.63 (0.53-0.74, p&lt;.001)  0.63 (0.53-0.74, p&lt;.001)  0.63 (0.53-0.74, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  0.97 (0.83-1.13, p=.683)  0.92 (0.79-1.07, p=.304)  0.93 (0.80-1.08, p=.324) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  0.63 (0.53-0.74, p&lt;.001)  0.62 (0.52-0.73, p&lt;.001)  0.62 (0.52-0.73, p&lt;.001) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (0.99-1.00, p=.394)                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  0.97 (0.86-1.11, p=.701)                                                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                         Mean ± SD    0.2 ± 0.4  1.27 (1.08-1.49, p=.003)  1.24 (1.05-1.45, p=.009)  1.25 (1.07-1.47, p=.005) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> perfor                           Mean ± SD    0.0 ± 0.2  1.32 (0.93-1.88, p=.124)  1.24 (0.86-1.76, p=.245)                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> nodes                            Mean ± SD    3.7 ± 3.6  1.10 (1.08-1.11, p&lt;.001)  1.10 (1.08-1.11, p&lt;.001)  1.10 (1.08-1.11, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                         Mean ± SD    0.2 ± 0.4  1.27 (1.08-1.49, p=.003)  1.25 (1.06-1.47, p=.007)  1.27 (1.08-1.49, p=.004) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> perfor                           Mean ± SD    0.0 ± 0.2  1.32 (0.93-1.88, p=.124)  1.26 (0.89-1.81, p=.196)                           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,final<span class="op">=</span><span class="cn">TRUE</span>,,mode<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,final<span class="op">=</span><span class="cn">TRUE</span>,mode<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a flextable object.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> col_keys: `Dependent: Surv(time, status)`, ` `, `stats`, `HR (univariable)`, `HR (multivariable)`, `HR (final)` </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> header has 1 row(s) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> body has 7 row(s) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> body has 8 row(s) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> original dataset sample: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)                     stats          HR (univariable)        HR (multivariable)                HR (final) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> rx                                     Obs  630 (33.9%)                                                                               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  0.97 (0.83-1.13, p=.683)  0.97 (0.83-1.13, p=.675)  0.97 (0.83-1.13, p=.691) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  0.63 (0.53-0.74, p&lt;.001)  0.63 (0.53-0.74, p&lt;.001)  0.63 (0.53-0.74, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  0.97 (0.83-1.13, p=.683)  0.92 (0.79-1.07, p=.304)  0.93 (0.80-1.08, p=.324) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  0.63 (0.53-0.74, p&lt;.001)  0.62 (0.52-0.73, p&lt;.001)  0.62 (0.52-0.73, p&lt;.001) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (0.99-1.00, p=.394)                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  0.97 (0.86-1.11, p=.701)                                                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
+<span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,final<span class="op">=</span><span class="cn">TRUE</span>,imputed<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> a flextable object.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> col_keys: `Dependent: Surv(time, status)`, ` `, `stats`, `ETR (multivariable)`, `ETR (final)`, `ETR (imputed)` </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> header has 1 row(s) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> body has 8 row(s) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> original dataset sample: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)                     stats       ETR (multivariable)               ETR (final)             ETR (imputed) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rx                                     Obs  630 (33.9%)                                                                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  1.10 (0.91-1.31, p=.323)  1.10 (0.91-1.31, p=.324)  1.07 (0.90-1.28, p=.447) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  1.78 (1.46-2.18, p&lt;.001)  1.77 (1.45-2.17, p&lt;.001)  1.75 (1.43-2.13, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (0.99-1.00, p=.499)                            1.00 (0.99-1.00, p=.529) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  1.09 (0.93-1.27, p=.289)                            1.07 (0.92-1.26, p=.363) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
+<span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,final<span class="op">=</span><span class="cn">TRUE</span>,imputed<span class="op">=</span><span class="cn">TRUE</span>,mode<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> a flextable object.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> col_keys: `Dependent: Surv(time, status)`, ` `, `stats`, `HR (multivariable)`, `HR (final)`, `HR (imputed)` </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> header has 1 row(s) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> body has 8 row(s) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> original dataset sample: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)                     stats        HR (multivariable)                HR (final)              HR (imputed) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rx                                     Obs  630 (33.9%)                                                                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        Lev  620 (33.4%)  0.93 (0.80-1.08, p=.323)  0.93 (0.80-1.08, p=.324)  0.94 (1.10-0.81, p=.447) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    Lev+5FU  608 (32.7%)  0.61 (0.52-0.73, p&lt;.001)  0.62 (0.52-0.73, p&lt;.001)  0.62 (0.74-0.53, p&lt;.001) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (1.00-1.01, p=.499)                            1.00 (1.01-1.00, p=.529) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  0.93 (0.82-1.06, p=.289)                            0.94 (1.07-0.83, p=.363) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 </code></pre></div>
     </div>

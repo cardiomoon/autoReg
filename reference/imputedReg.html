@@ -58,13 +58,13 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">imputedReg</span><span class="op">(</span><span class="va">fit</span>, data <span class="op">=</span> <span class="cn">NULL</span>, m <span class="op">=</span> <span class="fl">20</span>, seed <span class="op">=</span> <span class="fl">1234</span>, digits <span class="op">=</span> <span class="fl">2</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">imputedReg</span><span class="op">(</span><span class="va">fit</span>, data <span class="op">=</span> <span class="cn">NULL</span>, m <span class="op">=</span> <span class="fl">20</span>, seed <span class="op">=</span> <span class="fl">1234</span>, digits <span class="op">=</span> <span class="fl">2</span>, mode <span class="op">=</span> <span class="fl">1</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>fit</dt>
-<dd><p>An object of class lm or glm</p></dd>
+<dd><p>An object of class lm, glm, coxph or survreg</p></dd>
 <dt>data</dt>
 <dd><p>a data.frame</p></dd>
 <dt>m</dt>
@@ -73,6 +73,8 @@
 <dd><p>An integer that is used as argument by the set.seed() for offsetting the random number generator.</p></dd>
 <dt>digits</dt>
 <dd><p>Integer indicating the number of decimal place</p></dd>
+<dt>mode</dt>
+<dd><p>integer indicating summary mode of class survreg</p></dd>
 <dt>...</dt>
 <dd><p>Further argument to be passed to mice</p></dd>
 </dl></div>
@@ -139,6 +141,69 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 1.09 (1.08-1.10, p&lt;.001)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 1.27 (1.09-1.49, p=.003)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 1.23 (0.86-1.76, p=.247)</span>
+<span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html" class="external-link">survreg</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">sex</span><span class="op">+</span><span class="va">nodes</span><span class="op">+</span><span class="va">obstruct</span><span class="op">+</span><span class="va">perfor</span>,data<span class="op">=</span><span class="va">colon</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">imputedReg</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            id    estimate   std.error   statistic       df      p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 (Intercept)  8.50461911 0.222671708  38.1935325 1841.598 0.000000e+00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       rxLev  0.06988118 0.091912834   0.7602984 1843.989 4.471735e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   rxLev+5FU  0.55888983 0.100834060   5.5426691 1843.323 3.408684e-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4         age -0.00209593 0.003326308  -0.6301070 1842.304 5.287027e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5         sex  0.07209732 0.079204503   0.9102680 1844.358 3.628001e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6       nodes -0.11186792 0.007733528 -14.4653137 1771.476 0.000000e+00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    obstruct -0.28273306 0.097359527  -2.9040102 1845.818 3.727954e-03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8      perfor -0.27592907 0.216732569  -1.2731315 1846.817 2.031316e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  Log(scale)  0.17496747 0.029384771   5.9543586 1845.528 3.118156e-09</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          2.5 %      97.5 %          ETR        lower        upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  8.067903559  8.94133466 4937.5232060 3190.4063153 7641.3889017</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -0.110382988  0.25014535    1.0723808    0.8954911    1.2842121</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  0.361128851  0.75665081    1.7487300    1.4349483    2.1311267</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 -0.008619661  0.00442780    0.9979063    0.9914174    1.0044376</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 -0.083242592  0.22743724    1.0747599    0.9201279    1.2553786</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 -0.127035716 -0.09670012    0.8941624    0.8807022    0.9078282</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 -0.473679431 -0.09178668    0.7537210    0.6227068    0.9122997</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8 -0.700995671  0.14913754    0.7588668    0.4960911    1.1608326</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  0.117336576  0.23259836    1.1912075    1.1244978    1.2618746</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                               stats</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 4937.52 (3190.41-7641.39, p&lt;.001)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2          1.07 (0.90-1.28, p=.447)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3          1.75 (1.43-2.13, p&lt;.001)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4          1.00 (0.99-1.00, p=.529)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5          1.07 (0.92-1.26, p=.363)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6          0.89 (0.88-0.91, p&lt;.001)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7          0.75 (0.62-0.91, p=.004)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8          0.76 (0.50-1.16, p=.203)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9          1.19 (1.12-1.26, p&lt;.001)</span>
+<span class="r-in"><span class="fu">imputedReg</span><span class="op">(</span><span class="va">fit</span>,mode<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            id    estimate   std.error   statistic       df      p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 (Intercept)  8.50461911 0.222671708  38.1935325 1841.598 0.000000e+00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       rxLev  0.06988118 0.091912834   0.7602984 1843.989 4.471735e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   rxLev+5FU  0.55888983 0.100834060   5.5426691 1843.323 3.408684e-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4         age -0.00209593 0.003326308  -0.6301070 1842.304 5.287027e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5         sex  0.07209732 0.079204503   0.9102680 1844.358 3.628001e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6       nodes -0.11186792 0.007733528 -14.4653137 1771.476 0.000000e+00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    obstruct -0.28273306 0.097359527  -2.9040102 1845.818 3.727954e-03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8      perfor -0.27592907 0.216732569  -1.2731315 1846.817 2.031316e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  Log(scale)  0.17496747 0.029384771   5.9543586 1845.528 3.118156e-09</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          2.5 %      97.5 %           HR       lower        upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  8.067903559  8.94133466 0.0007737485 0.001117819 0.0005355848</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 -0.110382988  0.25014535 0.9428315172 1.097446670 0.8099995149</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  0.361128851  0.75665081 0.6244981035 0.737703146 0.5286650646</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 -0.008619661  0.00442780 1.0017671644 1.007287600 0.9962769831</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 -0.083242592  0.22743724 0.9410730124 1.072640419 0.8256433367</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 -0.127035716 -0.09670012 1.0988203229 1.112950366 1.0848696748</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 -0.473679431 -0.09178668 1.2689292220 1.490372401 1.0803886129</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8 -0.700995671  0.14913754 1.2616769555 1.804920394 0.8819384752</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  0.117336576  0.23259836 0.8629556087 0.905884058 0.8220614725</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                      stats</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.00 (0.00-0.00, p&lt;.001)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 0.94 (1.10-0.81, p=.447)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 0.62 (0.74-0.53, p&lt;.001)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 1.00 (1.01-1.00, p=.529)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 0.94 (1.07-0.83, p=.363)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 1.10 (1.11-1.08, p&lt;.001)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 1.27 (1.49-1.08, p=.004)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8 1.26 (1.80-0.88, p=.203)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9 0.86 (0.91-0.82, p&lt;.001)</span>
 <span class="r-in"><span class="co"># }</span></span>
 </code></pre></div>
     </div>
