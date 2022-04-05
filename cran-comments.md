@@ -1,4 +1,4 @@
-This is a updated submission of the package 'autoReg'.
+This is an updated submission of the package 'autoReg'.
 
 ## Test environments
 * local OS X install, R 4.1.3
