@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">autoReg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,22 +99,18 @@
 <span class="r-plt img"><img src="adjustedPlot.survreg-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="fu"><a href="adjustedPlot.html">adjustedPlot</a></span><span class="op">(</span><span class="va">x</span>,addCox<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="adjustedPlot.survreg-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="va">x</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html" class="external-link">survreg</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">sex</span>, data<span class="op">=</span><span class="va">lung</span>,dist<span class="op">=</span><span class="st">"weibull"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="adjustedPlot.html">adjustedPlot</a></span><span class="op">(</span><span class="va">x</span>,addCox<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="adjustedPlot.survreg-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="va">x</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html" class="external-link">survreg</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">rx</span>, data<span class="op">=</span><span class="va">anderson</span>,dist<span class="op">=</span><span class="st">"exponential"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="adjustedPlot.html">adjustedPlot</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="adjustedPlot.survreg-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="va">x</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html" class="external-link">survreg</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>, <span class="va">status</span><span class="op">)</span> <span class="op">~</span> <span class="va">ph.ecog</span> <span class="op">+</span> <span class="va">age</span> <span class="op">+</span> <span class="va">sex</span>, data<span class="op">=</span><span class="va">lung</span>, dist<span class="op">=</span><span class="st">"weibull"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="adjustedPlot.html">adjustedPlot</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="adjustedPlot.survreg-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="fu"><a href="adjustedPlot.html">adjustedPlot</a></span><span class="op">(</span><span class="va">x</span>,addCox<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="adjustedPlot.survreg-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="fu"><a href="adjustedPlot.html">adjustedPlot</a></span><span class="op">(</span><span class="va">x</span>,pred.values<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>age<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">40</span>,<span class="fl">60</span>,<span class="fl">80</span><span class="op">)</span>,sex<span class="op">=</span><span class="fl">2</span>,ph.ecog<span class="op">=</span><span class="fl">3</span><span class="op">)</span>,addCox<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="adjustedPlot.survreg-7.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="va">newdata</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>ph.ecog<span class="op">=</span><span class="fl">0</span><span class="op">:</span><span class="fl">3</span>,sex<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span>,age<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">40</span>,<span class="fl">60</span>,<span class="fl">80</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="adjustedPlot.html">adjustedPlot</a></span><span class="op">(</span><span class="va">x</span>,newdata<span class="op">=</span><span class="va">newdata</span>,addCox<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="adjustedPlot.survreg-8.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
