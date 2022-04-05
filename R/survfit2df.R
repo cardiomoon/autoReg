@@ -9,6 +9,7 @@
 #'data(cancer,package="survival")
 #'fit=survfit(coxph(Surv(time,status)~sex+age+strata(rx),data=colon))
 #'survfit2df(fit)
+#'\dontrun{
 #'fit=coxph(Surv(time,status)~sex+age+strata(rx),data=colon)
 #'fit=survfit(as.formula(deparse(fit$terms)),data=fit2model(fit))
 #'survfit2df(fit)
@@ -16,6 +17,7 @@
 #'survfit2df(fit)
 #'fit=survfit(Surv(time,status)~1,data=colon)
 #'survfit2df(fit)
+#'}
 survfit2df=function(fit,labels=NULL){
      if(!is.null(fit$strata)){
           if(!is.null(labels)) {
@@ -31,13 +33,21 @@ survfit2df=function(fit,labels=NULL){
                strata=c(strata,rep(names(x),x))
           }
           res$strata=strata
-          suppressMessages(temp<-map_dfc(strata,~strsplit(.,", ")))
-          stratalist=list()
-          for(i in 1:nrow(temp)){
-               x=strsplit(as.character(temp[i,1]),"=")[[1]][1]
-               stratalist[[x]]=stringr::str_replace(temp[i,],".*=","")
-          }
-          res=cbind(res,as.data.frame(stratalist))
+
+          temp=strata2df(strata)
+
+          # suppressMessages(temp<-map_dfc(strata,~strsplit(.,", ")))
+          # temp=strsplit(strata,", ")
+          # count=length(temp[[1]])
+          # temp=data.frame(matrix(unlist(temp),ncol=count,byrow=TRUE))
+          #
+          # stratalist=list()
+          # for(i in 1:nrow(temp)){
+          #      x=strsplit(as.character(temp[i,1]),"=")[[1]][1]
+          #      stratalist[[x]]=stringr::str_replace(temp[i,],".*=","")
+          # }
+          # res=cbind(res,as.data.frame(stratalist))
+          res=cbind(res,temp)
 
           start=1
           for(i in seq_along(fit$strata)){
@@ -94,13 +104,16 @@ survfit2df=function(fit,labels=NULL){
           if(!is.null(labels)) {
                res$strata=rep(labels,each=nrow(res)/no)
                strata=res$strata
-               suppressMessages(temp<-map_dfc(strata,~strsplit(.,", ")))
-               stratalist=list()
-               for(i in 1:nrow(temp)){
-                    x=strsplit(as.character(temp[i,1]),"=")[[1]][1]
-                    stratalist[[x]]=stringr::str_replace(temp[i,],".*=","")
-               }
-               res=cbind(res,as.data.frame(stratalist))
+               temp=strata2df(strata)
+               res=cbind(res,temp)
+
+               # suppressMessages(temp<-map_dfc(strata,~strsplit(.,", ")))
+               # stratalist=list()
+               # for(i in 1:nrow(temp)){
+               #      x=strsplit(as.character(temp[i,1]),"=")[[1]][1]
+               #      stratalist[[x]]=stringr::str_replace(temp[i,],".*=","")
+               # }
+               # res=cbind(res,as.data.frame(stratalist))
 
           }
           res

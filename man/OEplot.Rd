@@ -29,8 +29,10 @@ data(cancer,package="survival")
 fit=coxph(Surv(time,status)~rx+age+sex,data=colon)
 OEplot(fit)
 OEplot(fit,xnames="sex")
+\dontrun{
 fit=coxph(Surv(time,status)~age,data=colon)
 OEplot(fit)
 fit=coxph(Surv(time,status)~logWBC,data=anderson)
 OEplot(fit)
+}
 }

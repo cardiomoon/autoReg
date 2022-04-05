@@ -22,6 +22,7 @@ library(survival)
 data(cancer,package="survival")
 fit=survfit(coxph(Surv(time,status)~sex+age+strata(rx),data=colon))
 survfit2df(fit)
+\dontrun{
 fit=coxph(Surv(time,status)~sex+age+strata(rx),data=colon)
 fit=survfit(as.formula(deparse(fit$terms)),data=fit2model(fit))
 survfit2df(fit)
@@ -29,4 +30,5 @@ fit=survfit(Surv(time,status)~rx+sex+age,data=colon)
 survfit2df(fit)
 fit=survfit(Surv(time,status)~1,data=colon)
 survfit2df(fit)
+}
 }

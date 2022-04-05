@@ -13,6 +13,7 @@
 #' x=survreg(Surv(time, status) ~ rx, data=anderson,dist="exponential")
 #' adjustedPlot(x)
 #' adjustedPlot(x,addCox=TRUE)
+#' \dontrun{
 #' x=survreg(Surv(time, status) ~ sex, data=lung,dist="weibull")
 #' adjustedPlot(x,addCox=TRUE)
 #' x=survreg(Surv(time, status) ~ rx, data=anderson,dist="exponential")
@@ -23,6 +24,7 @@
 #' adjustedPlot(x,pred.values=list(age=c(20,40,60,80),sex=2,ph.ecog=3),addCox=TRUE)
 #' newdata=data.frame(ph.ecog=0:3,sex=c(1,2,2,2),age=c(20,40,60,80))
 #' adjustedPlot(x,newdata=newdata,addCox=TRUE)
+#' }
 adjustedPlot.survreg=function(x,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,
                               newdata=NULL,addCox=FALSE){
 

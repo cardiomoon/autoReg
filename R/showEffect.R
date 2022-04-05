@@ -28,28 +28,32 @@
 #' fit=survreg(Surv(time,status)~age,data=lung,dist="weibull")
 #' showEffect(fit)
 showEffect=function(fit,x=NULL,color=NULL,facet=NULL,pred.values=list(),se=TRUE,logy=TRUE,collabel=label_both,rowlabel=label_both){
-          # x=NULL;color=NULL;facet=NULL;pred.values=list()  ;se=TRUE;logy=TRUE
+           # x=NULL;color=NULL;facet=NULL;pred.values=list()  ;se=TRUE;logy=TRUE;collabel=label_both;rowlabel=label_both
      data=fit2model(fit)
      xvars = attr(fit$terms, "term.labels")
      xvars=xvars[!str_detect(xvars,":")]
+     x2<-color2<-facet2<-NULL
      for(i in seq_along(xvars)){
           if(is.mynumeric(data[[xvars[i]]])){
-               if(is.null(x)) x=xvars[i]
+               if(is.null(x2)) x2=xvars[i]
           } else{
                if(is.null(color)) {
-                    color=xvars[i]
+                    color2=xvars[i]
                } else if(is.null(facet)){
-                    facet=xvars[i]
+                    facet2=xvars[i]
                } else{
-                    facet=unique(c(facet,xvars[i]))
-                    facet=setdiff(facet,c(color,x))
-                    if(length(facet)>2){
-                         facet=facet[1:2]
+                    facet2=unique(c(facet2,xvars[i]))
+                    facet2=setdiff(facet2,c(color2,x2))
+                    if(length(facet2)>2){
+                         facet2=facet2[1:2]
                     }
 
                }
           }
      }
+     if(is.null(x)) { x<-x2}
+     if(is.null(color)) { color<-color2}
+     if(is.null(facet)) { facet<-facet2}
      x;color;facet;
      if(is.null(x)){
           if(!is.null(color)) {
@@ -131,7 +135,8 @@ showEffect=function(fit,x=NULL,color=NULL,facet=NULL,pred.values=list(),se=TRUE,
      }
      if(!is.null(myformula)) {
           if(length(facet)==1){
-            p=p+facet_wrap(as.formula(myformula))
+            p=p+facet_wrap(as.formula(myformula),
+                           labeller="label_both")
           } else{
                p=p+facet_grid(as.formula(myformula),
                               labeller=labeller(.rows=rowlabel,.cols=collabel))

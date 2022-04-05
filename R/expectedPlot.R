@@ -24,7 +24,7 @@
 #' fit=coxph(Surv(time,status)~rx+logWBC,data=anderson)
 #' expectedPlot(fit,xname="logWBC",no=3)
 expectedPlot=function(fit,xname=NULL,no=2,maxy.lev=5,median=TRUE,mark.time=FALSE,se=FALSE,type="ggplot",...){
-     # xname=c("logWBC");maxy.lev=5;median=TRUE;se=TRUE;no=3
+     #  xname=c("age");maxy.lev=5;median=TRUE;se=TRUE;no=3;mark.time=TRUE;type="ggplot"
      newdata=fit2newdata(fit,xnames=xname,maxy.lev=maxy.lev,median=median)
      newdata
      data=fit2model(fit)

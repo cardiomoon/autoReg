@@ -56,6 +56,7 @@ fit=coxph(Surv(time,status)~rx+logWBC,data=anderson)
 adjustedPlot(fit)
 adjustedPlot(fit,xnames="rx",se=TRUE,type="plot")
 adjustedPlot(fit,xnames="rx",se=TRUE)
+\dontrun{
 anderson$WBCgroup=ifelse(anderson$logWBC<=2.73,0,1)
 anderson$WBCgroup=factor(anderson$WBCgroup,labels=c("low","high"))
 anderson$rx=factor(anderson$rx,labels=c("treatment","control"))
@@ -72,4 +73,5 @@ adjustedPlot(fit,xnames=c("sex","rx"),facet="sex")
 adjustedPlot(fit,xnames=c("rx","sex","differ"),facet=c("sex","rx"),se=TRUE)
 fit <- coxph(Surv(start, stop, event) ~ rx + number + size+ cluster(id), data = bladder2)
 adjustedPlot(fit,xnames=c("rx","number","size"),facet=c("rx","size"),maxy.lev=8)
+}
 }
