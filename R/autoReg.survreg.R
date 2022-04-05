@@ -23,12 +23,14 @@ autoReg.survreg=function(x,...){
 #' autoReg(fit,uni=TRUE,threshold=1)
 #' autoReg(fit,uni=TRUE,final=TRUE)
 #' autoReg(fit,uni=TRUE,final=TRUE) %>% myft()
+#' \dontrun{
 #' autoReg(fit,mode=2)
 #' autoReg(fit,uni=TRUE,threshold=1,,mode=2)
 #' autoReg(fit,uni=TRUE,final=TRUE,mode=2)
 #' autoReg(fit,uni=TRUE,final=TRUE,mode=2) %>% myft()
 #' autoReg(fit,final=TRUE,imputed=TRUE) %>% myft()
 #' autoReg(fit,final=TRUE,imputed=TRUE,mode=2) %>% myft()
+#' }
 #' @return autoRegsurvreg returns an object of class "autoReg" which inherits from the class "data.frame"
 #' with at least the following attributes:
 #' \describe{

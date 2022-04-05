@@ -28,6 +28,7 @@
 #'residualPlot(fit,"partial")
 #'fit=coxph(Surv(time,status)~rx+sex+logWBC,data=anderson)
 #'residualPlot(fit,ncol=3)
+#'\dontrun{
 #'data(pharmacoSmoking,package="asaur")
 #'fit=coxph(Surv(ttr,relapse)~grp+employment+age,data=pharmacoSmoking)
 #'residualPlot(fit)
@@ -44,6 +45,7 @@
 #'fit=survreg(Surv(time,status)~ph.ecog+sex*age,data=lung,dist="weibull")
 #'residualPlot(fit,"dfbeta")
 #'residualPlot(fit,"deviance")
+#'}
 residualPlot=function(fit,type="martingale",vars=NULL,ncol=2,show.point=TRUE,se=TRUE,topn=5,labelsize=4){
        # type="partial"
      #type="deviance";vars=NULL;show.point=TRUE;se=TRUE;topn=5;labelsize=4
