@@ -3,6 +3,7 @@
 #' @param x character name of x-axis variable
 #' @param color character name of color variable
 #' @param facet character name of facet variable
+#' @param autovar logical Whether or not select color and facet variable automatically
 #' @param pred.values list list of values of predictor variables
 #' @param se logical whether or not show se
 #' @param logy logical WHether or not draw y-axis on log scale
@@ -27,7 +28,7 @@
 #' showEffect(fit)
 #' fit=survreg(Surv(time,status)~age,data=lung,dist="weibull")
 #' showEffect(fit)
-showEffect=function(fit,x=NULL,color=NULL,facet=NULL,pred.values=list(),se=TRUE,logy=TRUE,collabel=label_both,rowlabel=label_both){
+showEffect=function(fit,x=NULL,color=NULL,facet=NULL,autovar=TRUE,pred.values=list(),se=TRUE,logy=TRUE,collabel=label_both,rowlabel=label_both){
            # x=NULL;color=NULL;facet=NULL;pred.values=list()  ;se=TRUE;logy=TRUE;collabel=label_both;rowlabel=label_both
      data=fit2model(fit)
      xvars = attr(fit$terms, "term.labels")
@@ -52,8 +53,10 @@ showEffect=function(fit,x=NULL,color=NULL,facet=NULL,pred.values=list(),se=TRUE,
           }
      }
      if(is.null(x)) { x<-x2}
+     if(autovar){
      if(is.null(color)) { color<-color2}
      if(is.null(facet)) { facet<-facet2}
+     }
      x;color;facet;
      if(is.null(x)){
           if(!is.null(color)) {

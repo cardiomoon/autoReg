@@ -9,6 +9,7 @@ showEffect(
   x = NULL,
   color = NULL,
   facet = NULL,
+  autovar = TRUE,
   pred.values = list(),
   se = TRUE,
   logy = TRUE,
@@ -24,6 +25,8 @@ showEffect(
 \item{color}{character name of color variable}
 
 \item{facet}{character name of facet variable}
+
+\item{autovar}{logical Whether or not select color and facet variable automatically}
 
 \item{pred.values}{list list of values of predictor variables}
 
