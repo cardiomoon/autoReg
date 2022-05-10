@@ -90,7 +90,7 @@ gaze.formula_sub=function(x,data,missing=FALSE,...){
      del=str_detect(xvars,"strata\\(|cluster\\(|frailty\\(")
      if(any(del)) xvars=xvars[-which(del)]
      others=c()
-      others=setdiff(xvars,names(data))
+      others=setdiff(xvars,union(names(data),paste0("`",names(data),"`")))
       if(length(others)>0) xvars=setdiff(xvars,others)
 
 
@@ -99,12 +99,13 @@ gaze.formula_sub=function(x,data,missing=FALSE,...){
      yvars=strsplit(temp,"+",fixed=TRUE)[[1]]
      yvars
      xvars
+     xvars=gsub("$`|`?","",xvars)
      names(data)=gsub(" ","",names(data))
      # cat("yvars=",yvars,"\n")
      # cat("xvars=",xvars,"\n")
      if(length(yvars)==0){
          df=map_dfr(xvars, function(x){gaze_sub(data,x,origData=data,...)})%>%select(-.data$type)
-           # df=map_dfr(xvars, function(x){gaze_sub(data,x,origData=data)})%>%select(-.data$type)
+            # df=map_dfr(xvars, function(x){gaze_sub(data,x,origData=data)})%>%select(-.data$type)
 
      } else if(length(yvars)==1){
 

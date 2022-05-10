@@ -215,8 +215,10 @@ gazeCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE
 
      # data=acs[acs$Dx=="Unstable Angina",];x="Dx";y="sex";
         # data=iris;x="Species";y="Sepal.Length"
-        # max.ylev=5;digits=2;origData=NULL;show.total=FALSE;show.p=TRUE;catMethod=2
-        # show.n=FALSE;show.missing=FALSE;show.stats=TRUE;origData=NULL;show.p=FALSE;method=1;catMethod=2
+         # data=mtcars;x="test";y=NULL
+         # max.ylev=5;digits=2;origData=NULL;show.total=FALSE;show.p=TRUE;catMethod=2
+         # show.n=FALSE;show.missing=FALSE;show.stats=TRUE;origData=NULL;show.p=FALSE;method=1;catMethod=2
+     #maxCatLevel=20
      #  origData=acs
      # cat("nrow(data)=",nrow(data),"\n")
      # cat("nrow(origData)=",nrow(origData),"\n")
@@ -232,7 +234,14 @@ gazeCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE
                      id=xname
                      res=data.frame(name=name,desc=desc,stats=stats,id=id,stringsAsFactors = FALSE)
                      if(show.n) res$n=length(x)
-             } else{
+             } else if(sum(is.na(x))==length(x)){
+                  name=xname
+                  desc="all missing"
+                  stats=""
+                  id=xname
+                  res=data.frame(name=name,desc=desc,stats=stats,id=id,stringsAsFactors = FALSE)
+                  if(show.n) res$n=length(x)
+             }else{
      res=as.data.frame(table(x))
           res %>%
           mutate(

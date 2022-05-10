@@ -1,3 +1,10 @@
+autoReg 0.2.7
+=============
+(2022-May-10)
+
+* gaze.data.frame can handle columns with all NA values
+
+
 autoReg 0.2.6
 =============
 (2022-Apr-6)
