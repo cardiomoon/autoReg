@@ -11,7 +11,10 @@ adjustedPlot.survreg(
   maxy.lev = 5,
   median = TRUE,
   newdata = NULL,
-  addCox = FALSE
+  addCox = FALSE,
+  legend.position = "topright",
+  xlim = NULL,
+  ylim = NULL
 )
 }
 \arguments{
@@ -28,6 +31,12 @@ adjustedPlot.survreg(
 \item{newdata}{A data.frame or NULL}
 
 \item{addCox}{logical Whether or not add KM}
+
+\item{legend.position}{Character Default value is "topright"}
+
+\item{xlim}{numeric}
+
+\item{ylim}{numeric}
 }
 \value{
 No return value, called for side effects

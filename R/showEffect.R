@@ -29,7 +29,7 @@
 #' fit=survreg(Surv(time,status)~age,data=lung,dist="weibull")
 #' showEffect(fit)
 showEffect=function(fit,x=NULL,color=NULL,facet=NULL,autovar=TRUE,pred.values=list(),se=TRUE,logy=TRUE,collabel=label_both,rowlabel=label_both){
-           # x=NULL;color=NULL;facet=NULL;pred.values=list()  ;se=TRUE;logy=TRUE;collabel=label_both;rowlabel=label_both
+              # x=NULL;color=NULL;facet=NULL;pred.values=list()  ;se=TRUE;logy=TRUE;collabel=label_both;rowlabel=label_both;autovar=TRUE
      data=fit2model(fit)
      xvars = attr(fit$terms, "term.labels")
      xvars=xvars[!str_detect(xvars,":")]

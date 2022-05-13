@@ -7,6 +7,9 @@
 #' @param median Logical
 #' @param newdata A data.frame or NULL
 #' @param addCox  logical Whether or not add KM
+#' @param legend.position Character Default value is "topright"
+#' @param xlim numeric
+#' @param ylim numeric
 #' @return No return value, called for side effects
 #' @examples
 #' library(survival)
@@ -26,7 +29,8 @@
 #' adjustedPlot(x,newdata=newdata,addCox=TRUE)
 #' }
 adjustedPlot.survreg=function(x,xnames=NULL,pred.values=list(),maxy.lev=5,median=TRUE,
-                              newdata=NULL,addCox=FALSE){
+                              newdata=NULL,addCox=FALSE,legend.position="topright",
+                              xlim=NULL,ylim=NULL){
 
      # xnames=NULL;pred.values=list();maxy.lev=5;median=TRUE;addCox=TRUE
      # newdata=NULL;addCox=FALSE
@@ -110,7 +114,9 @@ adjustedPlot.survreg=function(x,xnames=NULL,pred.values=list(),maxy.lev=5,median
      df1
 
      if(addCox){
-          plot(fit1,col=col,lty=2,xlab="Survival Time",ylab="Survival Probability",conf.int=FALSE,sub=label)
+          plot(fit1,col=col,lty=2,xlab="Survival Time",ylab="Survival Probability",
+               xlim=xlim,ylim=ylim,
+               conf.int=FALSE,sub=label)
 
 
           for(i in 1:no){lines(df1[,i+1],y,col=col[i]) }
@@ -122,7 +128,7 @@ adjustedPlot.survreg=function(x,xnames=NULL,pred.values=list(),maxy.lev=5,median
           }
           lty=c(rep(1,no),rep(2,no))
 
-          legend(x = "topright",
+          legend(x = legend.position,
                  legend = legends,
                  lty=c(rep(1,no),rep(2,no)),
                  col = rep(col,no),
@@ -132,11 +138,12 @@ adjustedPlot.survreg=function(x,xnames=NULL,pred.values=list(),maxy.lev=5,median
      } else{
           df1
           plot(df1[,2],y,col=col[1],type="l",
-               xlab="Survival Time",ylab="Survival Probability",sub=label)
+               xlab="Survival Time",ylab="Survival Probability",sub=label,
+               xlim=xlim,ylim=ylim)
 
           if(no>1) for(i in 2:no){lines(df1[,i+1],y,col=col[i]) }
           if(no==1) labels=fit$dist
-          legend(x = "topright",
+          legend(x = legend.position,
                  legend = labels,
                  lwd=1,
                  col = col,
