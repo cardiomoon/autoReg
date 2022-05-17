@@ -32,9 +32,10 @@ adjustedPlot.survreg=function(x,xnames=NULL,pred.values=list(),maxy.lev=5,median
                               newdata=NULL,addCox=FALSE,legend.position="topright",
                               xlim=NULL,ylim=NULL){
 
-     # xnames=NULL;pred.values=list();maxy.lev=5;median=TRUE;addCox=TRUE
-     # newdata=NULL;addCox=FALSE
-     # pred.values=list(age=c(20,40,60,80),sex=2,ph.ecog=3)
+       # xnames=NULL;pred.values=list();maxy.lev=5;median=TRUE;addCox=TRUE;xlim=NULL;ylim=NULL
+      # newdata=NULL;addCox=FALSE
+       # addCox=TRUE;legend.position="topright"
+      # pred.values=list(age=c(20,40,60,80),sex=2,ph.ecog=3)
      fit=x
      xvars = attr(fit$terms, "term.labels")
      if(length(xvars)>0){

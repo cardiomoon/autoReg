@@ -47,7 +47,11 @@ adjustedPlot=function(fit,xnames=NULL,pred.values=list(),newdata=NULL,maxy.lev=5
        #  xnames=c("rx","WBCgroup");facet="WBCgroup";show.median=TRUE
        # pred.values=list();newdata=NULL;maxy.lev=5;median=TRUE;facet=NULL;se=TRUE;mark.time=FALSE;type="ggplot"
      if("survreg" %in% class(fit)) {
-          return(adjustedPlot.survreg(x=fit,xnames=xnames,pred.values=pred.values,maxy.lev=maxy.lev,...))
+          if(type=="ggplot"){
+          return(adjustedPlot2.survreg(x=fit,xnames=xnames,pred.values=pred.values,maxy.lev=maxy.lev,newdata=newdata,facet=facet,...))
+          } else{
+               return(adjustedPlot.survreg(x=fit,xnames=xnames,pred.values=pred.values,maxy.lev=maxy.lev,...))
+          }
      }
      if(is.null(xnames)) {
           return(adjustedPlot2(fit,se=se,mark.time=mark.time))

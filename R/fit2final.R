@@ -31,7 +31,7 @@ fit2final=function(fit,threshold=0.2){
           add=xvars[which(str_detect(xvars,"strata\\(|cluster\\(|frailty\\("))]
           xvars2=setdiff(xvars,add)
           xvars2=unique(unlist(map(xvars2,~unlist(strsplit(.,":")))))
-          xvars3 = c(xvars, timevar, statusvar)
+          xvars3 = c(xvars2, timevar, statusvar)
           temp3 = paste0(dataname, "[", paste0("c('",paste0(xvars3,collapse="','"),"')"), "]")
           temp3
           data1 = eval(parse(text = temp3))

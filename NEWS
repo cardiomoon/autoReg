@@ -1,3 +1,11 @@
+autoReg 0.2.8
+=============
+(2022-May-17)
+
+* new function adjustedPlot2.survreg added
+* bug-fixed in function autoReg.coxph
+
+
 autoReg 0.2.7
 =============
 (2022-May-10)
