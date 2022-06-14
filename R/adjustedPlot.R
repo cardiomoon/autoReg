@@ -80,7 +80,11 @@ adjustedPlot=function(fit,xnames=NULL,pred.values=list(),newdata=NULL,maxy.lev=5
           paste0(x,"=",y)
      })
      label=paste0(label,collapse=", ")
-     fit1=survfit(fit,newdata=newdata)
+     if("survfit" %in% class(fit)){
+          fit1=fit
+     } else{
+        fit1=survfit(fit,newdata=newdata)
+     }
 
      if(is.null(facet)){
           if(type=="plot"){

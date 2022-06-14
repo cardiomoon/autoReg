@@ -4,6 +4,7 @@ autoReg 0.2.9
 
 * bug-fixed in function shorten
 * new argument autoCat is added to gaze_sub()
+* adjustedPlot can handle an object of class "survfit"
 
 
 autoReg 0.2.8
