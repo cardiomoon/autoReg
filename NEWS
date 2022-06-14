@@ -1,3 +1,11 @@
+autoReg 0.2.9
+=============
+(2022-Jun-14)
+
+* bug-fixed in function shorten
+* new argument autoCat is added to gaze_sub()
+
+
 autoReg 0.2.8
 =============
 (2022-May-17)

@@ -4,7 +4,7 @@
 \alias{gaze_sub}
 \title{Summary function for categorical/continuous variable}
 \usage{
-gaze_sub(data, xname, y = NULL, max.ylev = 5, ...)
+gaze_sub(data, xname, y = NULL, max.ylev = 5, autoCat = FALSE, ...)
 }
 \arguments{
 \item{data}{A data.frame}
@@ -15,6 +15,8 @@ gaze_sub(data, xname, y = NULL, max.ylev = 5, ...)
 
 \item{max.ylev}{max.ylev An integer indicating the maximum number of levels of grouping variable ('y').
 If a column have unique values less than max.ylev it is treated as a categorical variable. Default value is 5.}
+
+\item{autoCat}{logical Whether or not use is.mynumeric() to determine whether a variable is numeric or not}
 
 \item{...}{Further arguments to be passed to gazeCont() or gazeCat()}
 }
@@ -35,4 +37,6 @@ gaze_sub(acs,"sex","EF")
 gaze_sub(acs,"age","Dx")
 gaze_sub(acs,"sex","Dx")
 gaze_sub(iris,"Species","Sepal.Length")
+gaze_sub(mtcars,"am")
+gaze_sub(mtcars,"am",autoCat=TRUE)
 }

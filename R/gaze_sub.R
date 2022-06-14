@@ -350,6 +350,7 @@ gazeCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE
 #' @param y A name of vector, either continuous or categorical
 #' @param max.ylev max.ylev An integer indicating the maximum number of levels of grouping variable ('y').
 #'  If a column have unique values less than max.ylev it is treated as a categorical variable. Default value is 5.
+#' @param autoCat logical Whether or not use is.mynumeric() to determine whether a variable is numeric or not
 #' @param ... Further arguments to be passed to gazeCont() or gazeCat()
 #' @importFrom stringr str_replace
 #' @examples
@@ -363,9 +364,11 @@ gazeCat=function(data,x,y=NULL,max.ylev=5,digits=1,show.total=FALSE,show.n=FALSE
 #' gaze_sub(acs,"age","Dx")
 #' gaze_sub(acs,"sex","Dx")
 #' gaze_sub(iris,"Species","Sepal.Length")
+#' gaze_sub(mtcars,"am")
+#' gaze_sub(mtcars,"am",autoCat=TRUE)
 #' @return An object of class "data.frame" or "tibble"
 #' @export
-gaze_sub=function(data,xname,y=NULL,max.ylev=5,...){
+gaze_sub=function(data,xname,y=NULL,max.ylev=5,autoCat=FALSE,...){
 
          # data=acs;xname="I(age^2)";y=NULL;max.ylev=5
      x=xname
@@ -378,11 +381,20 @@ gaze_sub=function(data,xname,y=NULL,max.ylev=5,...){
         x=str_replace(x,"\\^[0-9]*","")
      }
      myx=data[[x]]
-     if(is.numeric(myx)) {
+     if(autoCat){
+     if(is.mynumeric(myx,maxy.lev=max.ylev)) {
           df=gazeCont(data,xname,y,max.ylev,...)
               # gazeCont(data,xname,y,max.ylev)
      } else{
           df=gazeCat(data,xname,y,max.ylev,...)
+     }
+     } else{
+          if(is.numeric(myx)) {
+               df=gazeCont(data,xname,y,max.ylev,...)
+               # gazeCont(data,xname,y,max.ylev)
+          } else{
+               df=gazeCat(data,xname,y,max.ylev,...)
+          }
      }
      if(!is.null(attr(data[[xname]],"label"))){
           df$name[df$name==xname]=attr(data[[xname]],"label")

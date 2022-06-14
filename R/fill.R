@@ -92,6 +92,7 @@ filldown=function(x,what=c("",NA)){
 shorten=function(x,xname=NULL,ref=1){
      if(is.null(xname)) xname=names(x)[1]
      x[[xname]]=filldown(x[[xname]])
+     if("p" %in% names(x)) x$p=filldown(x$p)
      pos=which(find1stDup(x[[xname]]))
      if(ref==2) pos=pos+1
      result=c()
@@ -100,6 +101,7 @@ shorten=function(x,xname=NULL,ref=1){
      }
      x=x[-result,]
      x[[xname]]=removeDup(x[[xname]])
+     if("p" %in% names(x)) x$p[x[[xname]]==""]=""
      x
 }
 
