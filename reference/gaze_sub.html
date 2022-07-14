@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">autoReg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +58,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">data</span>, <span class="va">xname</span>, y <span class="op">=</span> <span class="cn">NULL</span>, max.ylev <span class="op">=</span> <span class="fl">5</span>, autoCat <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">data</span>, <span class="va">xname</span>, y <span class="op">=</span> <span class="cn">NULL</span>, max.ylev <span class="op">=</span> <span class="fl">5</span>, autoCat <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -97,53 +97,53 @@ If a column have unique values less than max.ylev it is treated as a categorical
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cardiomoon/moonBook" class="external-link">moonBook</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">acs</span>,<span class="st">"age"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/cardiomoon/moonBook" class="external-link">moonBook</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">acs</span>,<span class="st">"age"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name      desc       stats       type  id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  age Mean ± SD 63.3 ± 11.7 continuous age</span>
-<span class="r-in"><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">acs</span>,<span class="st">"log(age)"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">acs</span>,<span class="st">"log(age)"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       name      desc     stats       type       id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 log(age) Mean ± SD 4.1 ± 0.2 continuous log(age)</span>
-<span class="r-in"><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">acs</span>,<span class="st">"I(age^2)"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">acs</span>,<span class="st">"I(age^2)"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       name      desc       stats       type       id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 I(age^2) Mean ± SD 63.3 ± 11.7 continuous I(age^2)</span>
-<span class="r-in"><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">acs</span>,<span class="st">"sex"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">acs</span>,<span class="st">"sex"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name   desc       stats        id        type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  sex Female 287 (33.5%) sexFemale categorical</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2        Male 570 (66.5%)   sexMale categorical</span>
-<span class="r-in"><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">acs</span>,<span class="st">"age"</span>,<span class="st">"EF"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">acs</span>,<span class="st">"age"</span>,<span class="st">"EF"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name    desc      unit       value       type  id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  age [28,91] Mean ± SD 63.3 ± 11.7 continuous age</span>
-<span class="r-in"><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">acs</span>,<span class="st">"sex"</span>,<span class="st">"EF"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">acs</span>,<span class="st">"sex"</span>,<span class="st">"EF"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name  desc           unit      value       id        type       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">"</span>sex<span style="color: #949494;">"</span> Female (N=287) Mean ± SD 56.3 ± 10.1 sexFemale categorical</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">""</span>    Male   (N=570) Mean ± SD 55.6 ± 9.4  sexMale   categorical</span>
-<span class="r-in"><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">acs</span>,<span class="st">"age"</span>,<span class="st">"Dx"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">acs</span>,<span class="st">"age"</span>,<span class="st">"Dx"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name  desc      `NSTEMI (N=153)` `STEMI (N=304)` `Unstable Angin…` p     type </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> age   Mean ± SD 64.3 ± 12.3      62.1 ± 12.1     63.8 ± 11.0       .073  cont…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 1 more variable: id &lt;chr&gt;</span></span>
-<span class="r-in"><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">acs</span>,<span class="st">"sex"</span>,<span class="st">"Dx"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">acs</span>,<span class="st">"sex"</span>,<span class="st">"Dx"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 8</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name  desc   `NSTEMI (N=153)` `STEMI (N=304)` `Unstable Angina (…` id    p    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">"</span>sex<span style="color: #949494;">"</span> Female 50 (32.7%)       84 (27.6%)      153 (38.2%)          sexF… <span style="color: #949494;">"</span>.01…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">""</span>    Male   103 (67.3%)      220 (72.4%)     247 (61.8%)          sexM… <span style="color: #949494;">""</span>   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 1 more variable: type &lt;chr&gt;</span></span>
-<span class="r-in"><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">iris</span>,<span class="st">"Species"</span>,<span class="st">"Sepal.Length"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">iris</span>,<span class="st">"Species"</span>,<span class="st">"Sepal.Length"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 6</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name      desc              unit      value     id                type       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #949494;">"</span>Species<span style="color: #949494;">"</span> setosa     (N=50) Mean ± SD 5.0 ± 0.4 Speciessetosa     categorical</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> <span style="color: #949494;">""</span>        versicolor (N=50) Mean ± SD 5.9 ± 0.5 Speciesversicolor categorical</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> <span style="color: #949494;">""</span>        virginica  (N=50) Mean ± SD 6.6 ± 0.6 Speciesvirginica  categorical</span>
-<span class="r-in"><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">mtcars</span>,<span class="st">"am"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">mtcars</span>,<span class="st">"am"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name      desc     stats       type id</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   am Mean ± SD 0.4 ± 0.5 continuous am</span>
-<span class="r-in"><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">mtcars</span>,<span class="st">"am"</span>,autoCat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">gaze_sub</span><span class="op">(</span><span class="va">mtcars</span>,<span class="st">"am"</span>,autoCat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   name desc      stats  id        type</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   am    0 19 (59.4%) am0 categorical</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2         1 13 (40.6%) am1 categorical</span>
@@ -158,7 +158,7 @@ If a column have unique values less than max.ylev it is treated as a categorical
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

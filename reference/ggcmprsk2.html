@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">autoReg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,18 +58,18 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">ggcmprsk2</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">data</span>,
-  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"disease"</span>, <span class="st">"other"</span><span class="op">)</span>,
-  se <span class="op">=</span> <span class="cn">FALSE</span>,
-  xpos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,
-  ypos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.7</span><span class="op">)</span>,
-  ylabs <span class="op">=</span> <span class="cn">NULL</span>,
-  xlab <span class="op">=</span> <span class="cn">NULL</span>,
-  label <span class="op">=</span> <span class="cn">NULL</span>,
-  plot <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ggcmprsk2</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">data</span>,</span>
+<span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"disease"</span>, <span class="st">"other"</span><span class="op">)</span>,</span>
+<span>  se <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  xpos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  ypos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.7</span><span class="op">)</span>,</span>
+<span>  ylabs <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  xlab <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  label <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  plot <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -132,12 +132,12 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">prostateSurvival</span>,package<span class="op">=</span><span class="st">"asaur"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">prostateHighRisk</span> <span class="op">&lt;-</span> <span class="va">prostateSurvival</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">grade</span><span class="op">==</span><span class="st">"poor"</span> <span class="op">&amp;</span> <span class="va">stage</span><span class="op">==</span><span class="st">"T2"</span>,<span class="va">ageGroup</span><span class="op">==</span><span class="st">"80+"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">ggcmprsk2</span><span class="op">(</span><span class="va">survTime</span><span class="op">/</span><span class="fl">12</span><span class="op">+</span><span class="va">status</span><span class="op">~</span><span class="fl">1</span>,data<span class="op">=</span><span class="va">prostateHighRisk</span>,</span>
-<span class="r-in">  id<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"prostate cancer"</span>,<span class="st">"other causes"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">prostateSurvival</span>,package<span class="op">=</span><span class="st">"asaur"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">prostateHighRisk</span> <span class="op">&lt;-</span> <span class="va">prostateSurvival</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">grade</span><span class="op">==</span><span class="st">"poor"</span> <span class="op">&amp;</span> <span class="va">stage</span><span class="op">==</span><span class="st">"T2"</span>,<span class="va">ageGroup</span><span class="op">==</span><span class="st">"80+"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">ggcmprsk2</span><span class="op">(</span><span class="va">survTime</span><span class="op">/</span><span class="fl">12</span><span class="op">+</span><span class="va">status</span><span class="op">~</span><span class="fl">1</span>,data<span class="op">=</span><span class="va">prostateHighRisk</span>,</span></span>
+<span class="r-in"><span>  id<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"prostate cancer"</span>,<span class="st">"other causes"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="ggcmprsk2-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -150,7 +150,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>

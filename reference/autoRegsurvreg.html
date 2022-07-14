@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">autoReg</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,17 +58,17 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">autoRegsurvreg</span><span class="op">(</span>
-  <span class="va">x</span>,
-  threshold <span class="op">=</span> <span class="fl">0.2</span>,
-  uni <span class="op">=</span> <span class="cn">FALSE</span>,
-  multi <span class="op">=</span> <span class="cn">TRUE</span>,
-  final <span class="op">=</span> <span class="cn">FALSE</span>,
-  imputed <span class="op">=</span> <span class="cn">FALSE</span>,
-  keepstats <span class="op">=</span> <span class="cn">FALSE</span>,
-  mode <span class="op">=</span> <span class="fl">1</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">autoRegsurvreg</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  threshold <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  uni <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  multi <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  final <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  imputed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  keepstats <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  mode <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -125,11 +125,11 @@ with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cancer</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html" class="external-link">survreg</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">sex</span><span class="op">+</span><span class="va">nodes</span><span class="op">+</span><span class="va">obstruct</span><span class="op">+</span><span class="va">perfor</span>,data<span class="op">=</span><span class="va">colon</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival" class="external-link">survival</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">cancer</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit</span><span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/survreg.html" class="external-link">survreg</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">time</span>,<span class="va">status</span><span class="op">)</span><span class="op">~</span><span class="va">rx</span><span class="op">+</span><span class="va">age</span><span class="op">+</span><span class="va">sex</span><span class="op">+</span><span class="va">nodes</span><span class="op">+</span><span class="va">obstruct</span><span class="op">+</span><span class="va">perfor</span>,data<span class="op">=</span><span class="va">colon</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)                     stats       ETR (multivariable) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————</span>
@@ -142,7 +142,7 @@ with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
 <span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                         Mean ± SD    0.2 ± 0.4  0.77 (0.63-0.93, p=.007) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> perfor                           Mean ± SD    0.0 ± 0.2  0.74 (0.49-1.14, p=.171) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,threshold<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,threshold<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)                     stats         ETR (univariable)       ETR (multivariable) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
@@ -155,7 +155,7 @@ with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
 <span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                         Mean ± SD    0.2 ± 0.4  0.74 (0.61-0.90, p=.003)  0.77 (0.63-0.93, p=.007) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> perfor                           Mean ± SD    0.0 ± 0.2  0.71 (0.45-1.10, p=.124)  0.74 (0.49-1.14, p=.171) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ———————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,final<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,final<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dependent: Surv(time, status)                     stats         ETR (univariable)       ETR (multivariable)               ETR (final) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
@@ -168,7 +168,7 @@ with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
 <span class="r-out co"><span class="r-pr">#&gt;</span> obstruct                         Mean ± SD    0.2 ± 0.4  0.74 (0.61-0.90, p=.003)  0.77 (0.63-0.93, p=.007)  0.76 (0.62-0.92, p=.004) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> perfor                           Mean ± SD    0.0 ± 0.2  0.71 (0.45-1.10, p=.124)  0.76 (0.50-1.16, p=.196)                           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,final<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,final<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a flextable object.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> col_keys: `Dependent: Surv(time, status)`, ` `, `stats`, `ETR (univariable)`, `ETR (multivariable)`, `ETR (final)` </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> header has 1 row(s) </span>
@@ -183,14 +183,14 @@ with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
 <span class="r-out co"><span class="r-pr">#&gt;</span> age                              Mean ± SD  59.8 ± 11.9  1.00 (1.00-1.01, p=.394)                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sex                              Mean ± SD    0.5 ± 0.5  1.03 (0.88-1.21, p=.701)                                                     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> —————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————————</span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,mode<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,threshold<span class="op">=</span><span class="fl">1</span>,,mode<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,final<span class="op">=</span><span class="cn">TRUE</span>,mode<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,final<span class="op">=</span><span class="cn">TRUE</span>,mode<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,final<span class="op">=</span><span class="cn">TRUE</span>,imputed<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,final<span class="op">=</span><span class="cn">TRUE</span>,imputed<span class="op">=</span><span class="cn">TRUE</span>,mode<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,mode<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,threshold<span class="op">=</span><span class="fl">1</span>,,mode<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,final<span class="op">=</span><span class="cn">TRUE</span>,mode<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,uni<span class="op">=</span><span class="cn">TRUE</span>,final<span class="op">=</span><span class="cn">TRUE</span>,mode<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,final<span class="op">=</span><span class="cn">TRUE</span>,imputed<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="autoReg.html">autoReg</a></span><span class="op">(</span><span class="va">fit</span>,final<span class="op">=</span><span class="cn">TRUE</span>,imputed<span class="op">=</span><span class="cn">TRUE</span>,mode<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="myft.html">myft</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -202,7 +202,7 @@ with at least the following attributes:</p><dl><dt>attr(*,"yvars)</dt>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>
