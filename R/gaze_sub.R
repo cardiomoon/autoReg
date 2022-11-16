@@ -446,7 +446,7 @@ my.t.test2=function(y,x,method=1,all=FALSE){
           }
           out1=try(var.test(x~y))
 
-          if(class(out1)!="htest") {
+          if(!inherits(out1,"htest")) {
                p=c(NA,NA,NA)
           } else{
                suppressWarnings(out5<-wilcox.test(x~y))

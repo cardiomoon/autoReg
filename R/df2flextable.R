@@ -22,6 +22,7 @@
 #' @importFrom flextable flextable regulartable set_formatter_type set_header_df theme_zebra vline vline_left align autofit padding hline hline_top hline_bottom border_remove font fontsize color
 #' @importFrom officer fp_border
 #' @importFrom dplyr "%>%"
+#' @export
 #' @return An object of class "flextable" which is described in \code{\link[flextable]{flextable}}
 df2flextable=function(df,vanilla=FALSE,fontname=NULL,fontsize=12,
                       add.rownames=FALSE,

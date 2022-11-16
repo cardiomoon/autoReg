@@ -5,7 +5,7 @@
 #' @param digits integer indicating the position of decimal place
 #' @param showid logical if TRUE, show id
 #' @param ... Further arguments to be passed to df2flextable()
-#' @importFrom flextable align autofit hline hline_top footnote as_paragraph merge_at
+#' @importFrom flextable align autofit hline hline_top add_footer_lines as_paragraph merge_at
 #' @importFrom officer fp_border
 #' @importFrom purrr map_chr
 #' @examples
@@ -26,7 +26,7 @@
 #' @return An object of class \code{\link[flextable]{flextable}}
 #' @export
 myft=function(x,vanilla=TRUE,fontsize=10,digits,showid=FALSE,...){
-      # vanilla=TRUE;fontsize=10;digits=2;showid=FALSE
+     #  vanilla=TRUE;fontsize=10;digits=2;showid=FALSE
      if("imputedReg" %in% class(x)){
           if(missing(digits)) digits=c(1,4,4,4,2,4,4,4,4,4,4,1)
      } else if("autoReg" %in% class(x)) {
@@ -76,6 +76,7 @@ myft=function(x,vanilla=TRUE,fontsize=10,digits,showid=FALSE,...){
      }
      vanilla=TRUE
      ft<-x %>% df2flextable(vanilla=vanilla,fontsize=fontsize,digits=digits,...)
+     #ft<-x %>% df2flextable(vanilla=vanilla,fontsize=fontsize,digits=digits)
 
 
      if(length(yvars)>1){
@@ -104,7 +105,9 @@ myft=function(x,vanilla=TRUE,fontsize=10,digits,showid=FALSE,...){
              temp=c(attr(x,"lik"),attr(x,"dev"),attr(x,"add"))
              temp=paste(temp,collapse="\n")
 
-          ft=footnote(ft,i=1,j=1:2,value=as_paragraph(temp),ref_symbols="",part="body")
+          # ft=footnote(ft,i=1,j=1:2,value=as_paragraph(temp),ref_symbols="",part="body")
+          # footnote(ft,i=1,j=1:2,value=as_paragraph(temp),ref_symbols="",part="body")
+          ft=add_footer_lines(ft,values=as_paragraph(temp))
           if(!is.null(attr(x,"model"))){
                  if(attr(x,"model")=="coxph") {
                       if(is.null(attr(x,"summary"))) ft=merge_at(ft,i=1,j=1:2,part="header")

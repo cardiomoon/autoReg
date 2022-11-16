@@ -46,21 +46,21 @@ methods were used(t-test, ANOVA, Kruskal-Wallis, chi-squared, Fisher's,...)
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{formula}: S3 method for formula
+\item \code{gaze(formula)}: S3 method for formula
 
-\item \code{data.frame}: default S3 method
+\item \code{gaze(data.frame)}: default S3 method
 
-\item \code{coxph}: default S3 method
+\item \code{gaze(coxph)}: default S3 method
 
-\item \code{survreg}: default S3 method
+\item \code{gaze(survreg)}: default S3 method
 
-\item \code{glm}: default S3 method
+\item \code{gaze(glm)}: default S3 method
 
-\item \code{lm}: default S3 method
+\item \code{gaze(lm)}: default S3 method
 
-\item \code{tidycrr}: default S3 method
+\item \code{gaze(tidycrr)}: default S3 method
+
 }}
-
 \examples{
 library(moonBook)
 library(dplyr)

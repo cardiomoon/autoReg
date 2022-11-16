@@ -37,15 +37,15 @@ Perform univariable and multivariable regression and stepwise backward regressio
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{lm}: S3 method for a class lm
+\item \code{autoReg(lm)}: S3 method for a class lm
 
-\item \code{glm}: S3 method for a class glm
+\item \code{autoReg(glm)}: S3 method for a class glm
 
-\item \code{coxph}: S3 method for a class coxph
+\item \code{autoReg(coxph)}: S3 method for a class coxph
 
-\item \code{survreg}: S3 method for a class survreg
+\item \code{autoReg(survreg)}: S3 method for a class survreg
+
 }}
-
 \examples{
 data(cancer,package="survival")
 fit=glm(status~rx+sex+age+obstruct+nodes,data=colon,family="binomial")
