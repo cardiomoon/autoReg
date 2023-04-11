@@ -183,7 +183,8 @@ You can estimate cumulative incidence functions from competing risk data.
 
 ```{r}
 library(cmprsk) # for use of cuminc()
-fit=cuminc(melanoma$time/365,melanoma$status1)
+melanoma$years=melanoma$time/365
+fit=cuminc(melanoma$years,melanoma$status1)
 fit
 ```
 
@@ -192,10 +193,10 @@ At 5 years, cumulative death incidence due to melanoma is 22.3% and cumulative d
 You can plot this with the following R code.
 
 ```{r,fig.width=8, fig.height=5}
-ggcmprsk(time/365+status1~1,data=melanoma,id=c("alive","melanoma","others"),se=TRUE)
+ggcmprsk(years+status1~1,data=melanoma,id=c("alive","melanoma","others"),se=TRUE)
 ```
 ```{r,fig.width=8, fig.height=5}
-ggcmprsk(time/365+status1~sex,data=melanoma,id=c("alive","melanoma","others"),
+ggcmprsk(years+status1~sex,data=melanoma,id=c("alive","melanoma","others"),
          strata=c("female","male"))
 ```
 

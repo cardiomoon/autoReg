@@ -24,7 +24,8 @@
 #'data(prostateSurvival,package="asaur")
 #'prostateHighRisk <- prostateSurvival %>%
 #'   filter(grade=="poor" & stage=="T2",ageGroup=="80+")
-#'ggcmprsk2(survTime/12+status~1,data=prostateHighRisk,
+#'prostateHighRisk$years=prostateHighRisk$survTime/12
+#'ggcmprsk2(years+status~1,data=prostateHighRisk,
 #'   id=c("prostate cancer","other causes"))
 ggcmprsk2=function(x,data,id=c("disease","other"),se=FALSE,
                     xpos=c(2,2),ypos=c(0.25,0.70),

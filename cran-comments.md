@@ -1,7 +1,7 @@
 This is an updated submission of the package 'autoReg'.
 
 ## Test environments
-* local OS X install, R 4.1.3
+* local OS X install, R 4.2.3
 * win-builder (devel and release)
 * rhub
 

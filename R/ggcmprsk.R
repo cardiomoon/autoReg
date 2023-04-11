@@ -13,19 +13,22 @@
 #'@examples
 #'data(melanoma,package="boot")
 #'melanoma$status1 = ifelse(melanoma$status==1,1,ifelse(melanoma$status==2,0,2))
-#'ggcmprsk(time/365+status1~1,data=melanoma)
-#'ggcmprsk(time/365+status1~1,data=melanoma,id=c("alive","melanoma","other"),se=TRUE)
-#'ggcmprsk(time/365+status1~sex,data=melanoma)
-#'ggcmprsk(time/365+status1~sex,data=melanoma,facet=1)
-#'ggcmprsk(time/365+status1~sex,data=melanoma,
+#'melanoma$years=melanoma$time/365
+#'\donttest{
+#'ggcmprsk(years+status1~1,data=melanoma)
+#'ggcmprsk(years+status1~1,data=melanoma,id=c("alive","melanoma","other"),se=TRUE)
+#'ggcmprsk(years+status1~sex,data=melanoma)
+#'ggcmprsk(years+status1~sex,data=melanoma,facet=1)
+#'ggcmprsk(years+status1~sex,data=melanoma,
 #'id=c("alive","melanoma","other"),strata=c("female","male"))
-#'ggcmprsk(time/365+status1~sex,data=melanoma,
+#'ggcmprsk(years+status1~sex,data=melanoma,
 #'id=c("alive","melanoma","other"),strata=c("female","male"),facet=1)
+#'}
 #'@return An object of class "ggplot"
 #'@export
 ggcmprsk=function(x,data,id=NULL,se=FALSE,strata=NULL,facet=NULL,...){
-         # x=time/365+status1~sex;data=melanoma;id=NULL;se=FALSE;facet=NULL;strata=NULL
-       # strata=c("female","male")
+     #     x=time/365+status1~sex;data=melanoma;id=NULL;se=FALSE;facet=NULL;strata=NULL
+     #   strata=c("female","male")
      temp=strsplit(deparse(x),"~")[[1]][1]
      temp=gsub(" ","",temp)
      myt=terms(x,data=data)
@@ -49,7 +52,7 @@ ggcmprsk=function(x,data,id=NULL,se=FALSE,strata=NULL,facet=NULL,...){
           }
      }
      formula=paste0("survival::Surv(",timevar,",",statusvar,")~",paste0(xvars,collapse="+"))
-         # suppressWarnings(x<-cuminc(as.formula(formula),data=data))
+     #     suppressWarnings(x<-cuminc(as.formula(formula),data=data))
      suppressWarnings(x<-cuminc(as.formula(formula),data=data,...))
      df=x$tidy
      if(!is.null(facet)){

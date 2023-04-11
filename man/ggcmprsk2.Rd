@@ -54,6 +54,7 @@ require(dplyr)
 data(prostateSurvival,package="asaur")
 prostateHighRisk <- prostateSurvival \%>\%
   filter(grade=="poor" & stage=="T2",ageGroup=="80+")
-ggcmprsk2(survTime/12+status~1,data=prostateHighRisk,
+prostateHighRisk$years=prostateHighRisk$survTime/12
+ggcmprsk2(years+status~1,data=prostateHighRisk,
   id=c("prostate cancer","other causes"))
 }

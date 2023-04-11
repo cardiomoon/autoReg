@@ -1,19 +1,26 @@
-autoReg 0.3.1
-=============
+# autoReg 0.3.2
+===============
+(2023-Apr-11)
+
+* rewrite examples in functions ggcmprsk and ggcmprsk2
+
+
+# autoReg 0.3.1
+===============
 (2022-Nov-16)
 
 * remove warnings from myft() ... compatible with flextable 0.8.3
 
 
-autoReg 0.3.0
-=============
+# autoReg 0.3.0
+===============
 (2022-July-14)
 
 * bug-fixed in function showEffect
 
 
-autoReg 0.2.9
-=============
+# autoReg 0.2.9
+===============
 (2022-Jun-14)
 
 * bug-fixed in function shorten
@@ -21,82 +28,82 @@ autoReg 0.2.9
 * adjustedPlot can handle an object of class "survfit"
 
 
-autoReg 0.2.8
-=============
+# autoReg 0.2.8
+===============
 (2022-May-17)
 
 * new function adjustedPlot2.survreg added
 * bug-fixed in function autoReg.coxph
 
 
-autoReg 0.2.7
-=============
+# autoReg 0.2.7
+===============
 (2022-May-10)
 
 * gaze.data.frame can handle columns with all NA values
 
 
-autoReg 0.2.6
-=============
+# autoReg 0.2.6
+===============
 (2022-Apr-6)
 
 * new function strata2df added
 
 
-autoReg 0.2.5
-=============
+# autoReg 0.2.5
+===============
 (2022-Mar-18)
 
 * new function autoReg.survreg added
 
 
-autoReg 0.2.4
-=============
+# autoReg 0.2.4
+===============
 (2022-Mar-4)
 
 * rewrite ggcmprsk and ggcmprsk2
 * new function gaze.tidycrr added
 
 
-autoReg 0.2.3
-=============
+# autoReg 0.2.3
+===============
 (2022-Feb-25)
 
 * add new argument newdata to function adjustedPlot
 * new function addLabelData added
 
 
-autoReg 0.2.2
-=============
+# autoReg 0.2.2
+===============
 (2022-Feb-22)
 
 * New function adjustedPlot2 added
 
 
-autoReg 0.2.1
-=============
+# autoReg 0.2.1
+===============
 (2022-Feb-16)
 
 * New function gaze.survreg adjustedPlot.survreg added
 
 
-autoReg 0.2.0
-=============
+# autoReg 0.2.0
+===============
 (2022-Feb-15)
 
 * New function residualNull added
 * rewrite the function residualPlot
 
 
-autoReg 0.1.9
-=============
+# autoReg 0.1.9
+===============
 (2022-Feb-13)
 
 * New function num2factor added
 
 
-autoReg 0.1.8
-=============
+# autoReg 0.1.8
+===============
 (2022-Feb-10)
 
 * New function coxzphplot added
@@ -104,56 +111,56 @@ autoReg 0.1.8
 * change the function name of expected2Plot to expectedPlot
 
 
-autoReg 0.1.7
-=============
+# autoReg 0.1.7
+===============
 (2022-Feb-8)
 
 * New function highlight2 added
 
 
-autoReg 0.1.6
-=============
+# autoReg 0.1.6
+===============
 (2022-Feb-6)
 
 * New function gaze.coxph, gaze,glm, gaze.lm added
 * New function modelsSummary and modelsSummmaryTable added
 
 
-autoReg 0.1.5
-=============
+# autoReg 0.1.5
+===============
 (2022-Feb-3)
 
 * New function expectedPlot2 added
 * delete function bootCompare
 
-autoReg 0.1.4
-=============
+# autoReg 0.1.4
+===============
 (2022-Jan-30)
 
 * New function expectedPlot added
 
 
-autoReg 0.1.3
-=============
+# autoReg 0.1.3
+===============
 (2022-Jan-13)
 
 * New function bootCompare added
 
-autoReg 0.1.2
-=============
+# autoReg 0.1.2
+===============
 (2022-Jan-12)
 
 * New function loglogplot, OEplot, fit2newdata added
 * Rewrite function residualPlot
 
-autoReg 0.1.1
-=============
+# autoReg 0.1.1
+===============
 (2022-Jan-10)
 
 *bug-fixed in findDup()
 
-autoReg 0.1.0
-=============
+# autoReg 0.1.0
+===============
 (2022-Jan-8)
 
 * New function gaze(), autoReg() and modelPlot() added
