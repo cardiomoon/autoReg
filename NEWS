@@ -1,3 +1,10 @@
+# autoReg 0.3.3
+===============
+(2023-Nov-10)
+
+* using plotmath to plot Greek letter '≤' in plots.
+
+
 # autoReg 0.3.2
 ===============
 (2023-Apr-11)

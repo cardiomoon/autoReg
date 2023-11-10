@@ -24,7 +24,7 @@
 #' fit=coxph(Surv(time,status)~rx+logWBC,data=anderson)
 #' expectedPlot(fit,xname="logWBC",no=3)
 expectedPlot=function(fit,xname=NULL,no=2,maxy.lev=5,median=TRUE,mark.time=FALSE,se=FALSE,type="ggplot",...){
-     #  xname=c("age");maxy.lev=5;median=TRUE;se=TRUE;no=3;mark.time=TRUE;type="ggplot"
+           # xname=c("age");no=2;maxy.lev=5;median=TRUE;se=FALSE;mark.time=FALSE;type="ggplot"
      newdata=fit2newdata(fit,xnames=xname,maxy.lev=maxy.lev,median=median)
      newdata
      data=fit2model(fit)
@@ -74,10 +74,13 @@ expectedPlot=function(fit,xname=NULL,no=2,maxy.lev=5,median=TRUE,mark.time=FALSE
      } else{
           df=survfit2df(fit1,labels=labels)
 
-          df$strata=factor(df$strata, levels = labs)
+          #df$strata=factor(df$strata, levels = labs)
+          #table(df$strata)
+          df$strata=gsub("\U2264","<=",df$strata)
           p= ggplot(df,aes_string(x="time",y="surv",group="strata",
                                   color="strata"))+
-               geom_step()
+               geom_step()+scale_color_discrete(label=label_parse)
+
           if(se==TRUE) {
                p=p+geom_stepribbon(aes_string(ymin="lower",ymax="upper",fill="strata",color=NULL),alpha=0.3)
 
@@ -90,6 +93,13 @@ expectedPlot=function(fit,xname=NULL,no=2,maxy.lev=5,median=TRUE,mark.time=FALSE
           p=p+labs(subtitle=label,y="Survival Rate",title=paste0("Expected plot by ",xname))
           p
      }
+}
+
+#' takes the breaks as input and returns labels as output
+#' @param breaks character
+#' @return a character vector
+label_parse <- function(breaks) {
+     parse(text = breaks)
 }
 
 #' Convert a numeric column in a data.frame to a factor

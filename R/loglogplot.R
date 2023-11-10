@@ -26,6 +26,7 @@
 #'loglogplot(fit)
 #'fit=survfit(Surv(time,status)~logWBC,data=anderson)
 #'loglogplot(fit)
+#'loglogplot(fit,no=2)
 #'fit=survfit(Surv(time,status)~logWBC+rx,data=anderson)
 #'loglogplot(fit,no=2)
 #'fit=survfit(Surv(time,status)~rx,data=anderson)
@@ -36,7 +37,8 @@
 loglogplot=function(fit,xnames=NULL,main=NULL,labels=NULL,no=3,
                     add.loess=FALSE,add.lm=TRUE,type="l",se=TRUE,what="surv",
                     legend.position=NULL,...){
-     #xnames=NULL;main=NULL;labels=NULL;no=2
+       # xnames=NULL;main=NULL;labels=NULL;no=2
+       # add.loess=FALSE;add.lm=TRUE;type="l";se=TRUE;what="surv";legend.position=NULL
      data=fit2model(fit)
      if("coxph" %in% class(fit)){
          fit=survfit(fit$terms,data=data)
@@ -115,8 +117,11 @@ loglogplot=function(fit,xnames=NULL,main=NULL,labels=NULL,no=3,
                ylab="Failure Odds"
           }
           df$x=log(df$time)
+          df
+          df$strata=gsub("\U2264","<=",df$strata)
+
           p=ggplot(df,aes_string(x="x",y="y",color="strata"))+
-               geom_point()
+               geom_point()+scale_color_discrete(label=label_parse)
           if(add.loess) p=p+stat_smooth(aes_string(fill="strata"),method="loess",formula=y~x,se=se,alpha=0.2)
           if(add.lm) p=p+stat_smooth(aes_string(fill="strata"),method="lm",formula=y~x,se=se,alpha=0.2)
           p=p+ labs(x="log survival time",y=ylab)+
