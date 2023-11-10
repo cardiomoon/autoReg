@@ -3,7 +3,7 @@ This is an updated submission of the package 'autoReg'.
 This update using plotmath to plot Greek letter '≤' in plots. 
 
 ## Test environments
-* local OS X install, R 4.3.1
+* local OS X install, R 4.3.2
 * win-builder (devel and release)
 * rhub
 
