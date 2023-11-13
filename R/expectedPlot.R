@@ -76,7 +76,7 @@ expectedPlot=function(fit,xname=NULL,no=2,maxy.lev=5,median=TRUE,mark.time=FALSE
 
           #df$strata=factor(df$strata, levels = labs)
           #table(df$strata)
-          df$strata=gsub("\U2264","<=",df$strata)
+          #df$strata=gsub("\U2264","<=",df$strata)
           p= ggplot(df,aes_string(x="time",y="surv",group="strata",
                                   color="strata"))+
                geom_step()+scale_color_discrete(label=label_parse)
@@ -129,7 +129,8 @@ num2factor=function(data,call,name,no=3){
           cutpoint = mstat$estimate
           data$temp = ifelse(data[[name]] <= cutpoint, 0, 1)
 
-          labs = paste(name,c("\U2264", ">"), cutpoint)
+          #labs = paste(name,c("\U2264", ">"), cutpoint)
+          labs = paste(name,c("<=", ">"), cutpoint)
           data$temp = factor(data$temp, levels = c(0, 1), labels = labs)
      } else{
           data$temp=rank2group(data[[name]],no)

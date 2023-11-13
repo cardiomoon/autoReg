@@ -118,7 +118,7 @@ loglogplot=function(fit,xnames=NULL,main=NULL,labels=NULL,no=3,
           }
           df$x=log(df$time)
           df
-          df$strata=gsub("\U2264","<=",df$strata)
+          #df$strata=gsub("\U2264","<=",df$strata)
 
           p=ggplot(df,aes_string(x="x",y="y",color="strata"))+
                geom_point()+scale_color_discrete(label=label_parse)
