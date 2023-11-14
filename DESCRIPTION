@@ -49,4 +49,4 @@ Suggests:
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 Depends: 
-    R (>= 2.10)
+    R (>= 2.10) 
