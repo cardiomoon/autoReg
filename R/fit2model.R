@@ -55,7 +55,7 @@ fit2model=function(fit){
           y
 
           if(str_detect(y,"==")) {
-               dataname = as.character(fit$call)[3]
+               dataname = as.character(fit$call)[length(as.character(fit$call))]
                data=eval(parse(text=dataname))
                f = fit$formula
                y = as.character(f)[2]
@@ -82,7 +82,9 @@ fit2model=function(fit){
                fit0=lm(myformula,data=data)
                modelData=fit0$model
           } else{
-               modelData=fit$model
+               #modelData=fit$model
+               dataname = as.character(fit$call)[length(as.character(fit$call))]
+               modelData=eval(parse(text=dataname))
           }
           data=modelData
      } else{

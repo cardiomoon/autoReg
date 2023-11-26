@@ -57,11 +57,11 @@ autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=
           # fit=lm(mpg~wt*hp+am+disp,data=mtcars)
           # fit=lm(Sepal.Length~Sepal.Width*Species,data=iris)
       # fit=glm(cens~horTh*progrec+pnodes,data=GBSG2,family="binomial")
-                                 # threshold=0.2;uni=FALSE;multi=TRUE;final=FALSE;imputed=TRUE;keepstats=TRUE
+     #                             threshold=0.2;uni=FALSE;multi=TRUE;final=FALSE;imputed=FALSE;keepstats=FALSE;showstats=TRUE
      xvars = attr(fit$terms, "term.labels")
      yvar = as.character(attr(fit$terms, "variables"))[2]
-     # xvars
-     # yvar
+      xvars
+      yvar
      data1=fit2model(fit)
      data1
      mode=1
@@ -70,7 +70,13 @@ autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=
           family = fit$family$family
      }
      if(uni==FALSE) threshold=1
+     if(length(xvars)<=1) {
+          uni=TRUE
+          multi=FALSE
+          threshold=1
+     }
      result=getSigVars(fit,threshold=threshold,final=final)
+     #if(length(xvars<=1)) result$finalVars=xvars
      result
      xvars
      others=setdiff(xvars,names(data1))
@@ -180,7 +186,7 @@ autoReg_sub=function(fit,threshold=0.2,uni=FALSE,multi=TRUE,final=FALSE,imputed=
              dflist[["imputed"]]=df4
           }
      }
-     if(final) {
+     if(final & (length(result$finalVars)>0)) {
           formula3=paste0(yvar,"~",paste0(result$finalVars,collapse="+"))
           if(mode==1){
                fit3=lm(as.formula(formula3),data=data1)
