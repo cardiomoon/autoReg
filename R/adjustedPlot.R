@@ -110,6 +110,7 @@ adjustedPlot=function(fit,xnames=NULL,pred.values=list(),newdata=NULL,maxy.lev=5
 
           p=p+ theme_classic()+
                theme(legend.title=element_blank(),panel.border=element_rect(fill=NA))+
+               guides(fill="none")+
                ylim(c(0,1))
           p=p+labs(subtitle=label,y="Survival Probability",x="Time")
           if(show.median){
@@ -165,6 +166,7 @@ adjustedPlot=function(fit,xnames=NULL,pred.values=list(),newdata=NULL,maxy.lev=5
           if(mark.time) p<-p+geom_point(data=df[df$n.censor!=0,],shape=3)
           p=p+ theme_classic()+
                theme(legend.title=element_blank(),panel.border=element_rect(fill=NA))+
+               guides(fill="none")+
                ylim(c(0,1))
 
           if(show.median){
@@ -225,14 +227,16 @@ adjustedPlot2=function(fit,se=FALSE,mark.time=FALSE){
                              color="strata"))+
           geom_step()
      if(se==TRUE) {
-          p=p+geom_stepribbon(aes_string(ymin="lower",ymax="upper",fill="strata",color=NULL),alpha=0.3)
+          p=p+geom_stepribbon(aes_string(ymin="lower",ymax="upper",fill="strata",color=NULL),alpha=0.3)+
+               guides(fill="none")
 
      }
      if(mark.time) p<-p+geom_point(data=df[df$n.censor!=0,],shape=3)
      p=p+ theme_classic()+
           theme(legend.title=element_blank(),panel.border=element_rect(fill=NA))+
           labs(y="Survival Probability",x="Time")+
-          guides(color="none",fill="none")+
+          guides(fill="none")+
           ylim(c(0,1))
+     if(length(unique(df$strata))==1) p<-p+guides(color="none",fill="none")
      p
 }
