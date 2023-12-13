@@ -181,8 +181,9 @@ gaze.formula_sub=function(x,data,missing=FALSE,...){
          df=bind_rows(df,temp)
        }
      }
-     attr(df,"yvars")=yvars
-     class(df)=c("gaze","data.frame","tibble")
+     df <- as_tibble(df)
+     attr(df, "yvars") <- yvars
+     class(df) <- c("gaze", class(df))
      df
 }
 
