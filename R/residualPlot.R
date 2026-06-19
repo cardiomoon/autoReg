@@ -22,13 +22,13 @@
 #'data(cancer)
 #'fit=coxph(Surv(time,status==2)~log(bili)+age+cluster(edema),data=pbc)
 #'residualPlot(fit)
+#'\donttest{
 #'residualPlot(fit,vars="age")
 #'fit=coxph(Surv(time,status==2)~age,data=pbc)
 #'residualPlot(fit)
 #'residualPlot(fit,"partial")
 #'fit=coxph(Surv(time,status)~rx+sex+logWBC,data=anderson)
 #'residualPlot(fit,ncol=3)
-#'\dontrun{
 #'data(pharmacoSmoking,package="asaur")
 #'fit=coxph(Surv(ttr,relapse)~grp+employment+age,data=pharmacoSmoking)
 #'residualPlot(fit)

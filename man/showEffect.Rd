@@ -49,6 +49,7 @@ library(survival)
 library(ggplot2)
 fit=survreg(Surv(time,status)~ph.ecog+sex*age,data=lung,dist="weibull")
 showEffect(fit)
+\donttest{
 fit=survreg(Surv(time,status)~rx+sex+age+obstruct+adhere,data=colon,dist="weibull")
 showEffect(fit)
 showEffect(fit,rowlabel=label_value)
@@ -62,4 +63,5 @@ showEffect(fit,pred.values=list(age=c(50,60,70),ph.ecog=c(0,3),sex=c(1,2)),
   x="ph.ecog",color="sex",facet="age",autovar=FALSE)
 fit=survreg(Surv(time,status)~age,data=lung,dist="weibull")
 showEffect(fit)
+}
 }

@@ -17,6 +17,7 @@
 #' library(ggplot2)
 #' fit=survreg(Surv(time,status)~ph.ecog+sex*age,data=lung,dist="weibull")
 #' showEffect(fit)
+#' \donttest{
 #' fit=survreg(Surv(time,status)~rx+sex+age+obstruct+adhere,data=colon,dist="weibull")
 #' showEffect(fit)
 #' showEffect(fit,rowlabel=label_value)
@@ -30,6 +31,7 @@
 #'   x="ph.ecog",color="sex",facet="age",autovar=FALSE)
 #' fit=survreg(Surv(time,status)~age,data=lung,dist="weibull")
 #' showEffect(fit)
+#' }
 showEffect=function(fit,x=NULL,color=NULL,facet=NULL,autovar=TRUE,pred.values=list(),se=TRUE,logy=TRUE,collabel=label_both,rowlabel=label_both){
               # x=NULL;color=NULL;facet=NULL;pred.values=list()  ;se=TRUE;logy=TRUE;collabel=label_both;rowlabel=label_both;autovar=TRUE
         # pred.values=list(Age=c(50,60,70),Gender=c(1,2));

@@ -8,8 +8,8 @@
 #' @param legend.position legend position default value is 'top'
 #' @param ... Further arguments to be passed to autoReg()
 #' @importFrom ggplot2 ggplot geom_vline geom_point geom_errorbar labs scale_y_discrete position_dodge
-#' guides theme_bw theme element_text element_blank geom_text ggtitle aes xlab ylab aes_string
-#' scale_fill_grey scale_color_grey
+#' @importFrom ggplot2 guides theme_bw theme element_text element_blank geom_text ggtitle aes xlab ylab aes_string
+#' @importFrom ggplot2 scale_fill_grey scale_color_grey
 #' @importFrom patchwork plot_layout
 #' @importFrom stats reorder
 #' @importFrom dplyr full_join
